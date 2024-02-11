@@ -10,7 +10,7 @@
         "build:mobile": "webpack --env mode=production --env platform=mobile",
         "build:desktop": "webpack --env mode=production --env platform=desktop",
         "prettier": "prettier",
-        "predeploy": "npm run build:prod",
+        "predeploy": "npm run build:dev",
         "deploy": "gh-pages -d build",
         "lint:fix": "eslint . --ext .ts --fix",
         "lint:check": "eslint . --ext .ts --ext .tsx",
