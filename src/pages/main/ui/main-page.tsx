@@ -1,5 +1,7 @@
+import { NavLink } from 'react-router-dom'
+
 const MainPage = () => {
-    return <div>MainasdPage</div>
+    return <NavLink to={'/history'}>MainasdPage</NavLink>
 }
 
 export default MainPage
