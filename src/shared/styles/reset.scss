@@ -1,0 +1,22 @@
+a:active,
+a:hover,
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input {
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  padding-block: 0;
+  padding-inline: 0;
+}

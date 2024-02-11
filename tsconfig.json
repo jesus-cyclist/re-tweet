@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "module": "ESNext",
+        "target": "es5",
+        "jsx": "react-jsx", //дабы избежать импортов React
+        "allowJs": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        // esModuleInterop позволяет работать с пакетами, которые используют
+        // common js как с обычными пакета с помощью import (require() module.export) = common js
+        // import Moment from 'moment';
+        // без флага esModuleInterop результат undefined
+        // console.log(Moment);
+        // c флагом результат [object Object]
+        // console.log(Moment);
+        "allowSyntheticDefaultImports": true,
+        // Если какая-либо библиотека не имеет default import,
+        // лоадеры вроде ts-loader или babel-loader автоматически создают их
+        // вместо такого импорта
+        // import * as React from 'react';
+        // можно писать такой
+        // import React from 'react';
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@shared*": ["./src/shared*"],
+            "@assets*": ["./src/shared/ui/assets*"]
+        }
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS"
+        }
+    },
+    "exclude": ["node_modules", "node_modules/chokidar/types/index.d.ts"]
+}
