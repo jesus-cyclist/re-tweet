@@ -19,7 +19,7 @@ jobs:
             - name: install modules
               run: npm install
             - name: build project
-              run: npm run build:prod
+              run: npm run build:dev
             # - name: unit test
             #   run: npm run unit:check
             # - name: e2e test
