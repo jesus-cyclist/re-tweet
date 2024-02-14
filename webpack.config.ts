@@ -12,7 +12,8 @@ export default (env: TEnvVariables) => {
         html: path.resolve(__dirname, 'public', 'index.html'),
         public: path.resolve(__dirname, 'public'),
         src: path.resolve(__dirname, 'src'),
-        linter: path.resolve(__dirname, '.eslintrc')
+        linter: path.resolve(__dirname, '.eslintrc'),
+        base: path.resolve(__dirname)
     }
 
     const config: webpack.Configuration = buildWebpack({

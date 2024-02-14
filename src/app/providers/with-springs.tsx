@@ -23,7 +23,7 @@ export const WithSprings = () => {
             opacity: 0,
             transform: 'translateX(-100%) rotate(45deg)'
         },
-        config: { tension: 150, friction: 20 }
+        config: { tension: 100, friction: 20 }
     })
 
     useEffect(() => {

@@ -7,8 +7,6 @@
         "start": "webpack serve --env mode=development --env port=5000 ",
         "build:dev": "webpack --env mode=development",
         "build:prod": "webpack --env mode=production",
-        "build:mobile": "webpack --env mode=production --env platform=mobile",
-        "build:desktop": "webpack --env mode=production --env platform=desktop",
         "prettier": "prettier",
         "predeploy": "npm run build:dev",
         "deploy": "gh-pages -d build",

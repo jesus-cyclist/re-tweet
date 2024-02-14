@@ -69,10 +69,10 @@ export const SignupForm = () => {
                         name='password'
                         rules={[
                             {
-                                pattern:
-                                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                                min: 8,
-                                max: 16,
+                                // pattern:
+                                //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                                // min: 8,
+                                // max: 16,
                                 required: true,
                                 message:
                                     'Must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, and 1 digit'

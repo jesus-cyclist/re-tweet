@@ -6,7 +6,6 @@ declare module '*.module.scss' {
     export = classNames
 }
 
-declare module 'rc-animate'
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.jpeg'

@@ -7,13 +7,18 @@ import type { TBuildOptions } from './types/types'
 import TerserPlugin from 'terser-webpack-plugin'
 import ESLintPlugin from 'eslint-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
-import Dotenv from 'dotenv-webpack'
+import webpack from 'webpack'
+import dotenv from 'dotenv'
 import path from 'path'
 
 export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
     const { mode, paths, platform } = options
     const isDev = mode === 'development'
     const isProd = mode === 'production'
+
+    dotenv.config({
+        path: path.resolve(paths.base, './.env')
+    })
 
     const plugins: Configuration['plugins'] = [
         new HtmlWebpackPlugin({
@@ -26,7 +31,29 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
         }),
 
         new ForkTsCheckerWebpackPlugin(),
-        new Dotenv()
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify({
+                REACT_APP_FIREBASE_API_KEY:
+                    process.env.REACT_APP_FIREBASE_API_KEY,
+                REACT_APP_FIREBASE_AUTH_DOMAIN:
+                    process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+                REACT_APP_FIREBASE_PROJECT_ID:
+                    process.env.REACT_APP_FIREBASE_PROJECT_ID,
+                REACT_APP_FIREBASE_STORAGE_BUCKET:
+                    process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+                REACT_APP_FIREBASE_MESSAGE_SENDER_ID:
+                    process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
+                REACT_APP_FIREBASE_APP_ID: process.env.REACT_APP_FIREBASE_APP_ID
+            })
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(paths.base, '_redirects'),
+                    to: path.resolve(paths.output)
+                }
+            ]
+        })
     ]
 
     if (isDev) {
