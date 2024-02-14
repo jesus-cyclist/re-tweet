@@ -1,9 +1,9 @@
 // eslint-disable-next-line
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server'
-import { buildWebpack } from './config/build/buildWebpack'
 import { type TBuildOptions as TEnvVariables } from './config/build/types/types'
-import path from 'path'
+import { buildWebpack } from './config/build/buildWebpack'
 import webpack from 'webpack'
+import path from 'path'
 
 export default (env: TEnvVariables) => {
     const paths = {

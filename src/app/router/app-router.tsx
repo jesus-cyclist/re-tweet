@@ -1,6 +1,7 @@
+import { ProtectedRoute } from '@/features/protected-route'
+import { Route, Routes } from 'react-router-dom'
 import { ClientRoutes } from '@/shared'
 import { lazy } from 'react'
-import { Route, Routes } from 'react-router-dom'
 
 const FavoritesPageLazy = lazy(
     () => import('@/pages/favorites/ui/favorites-page')
@@ -14,26 +15,59 @@ const SignupPageLazy = lazy(() => import('@/pages/signup/ui/signup-page'))
 export const AppRouter = () => {
     return (
         <Routes>
-            <Route path={ClientRoutes.MAIN_PATH} element={<MainPageLazy />} />
+            <Route
+                path={ClientRoutes.MAIN_PATH}
+                element={
+                    <ProtectedRoute
+                        isAuthOnly={true}
+                        component={<MainPageLazy />}
+                    />
+                }
+            />
             <Route
                 path={ClientRoutes.HISTORY_PATH}
-                element={<HistoryPageLazy />}
+                element={
+                    <ProtectedRoute
+                        isAuthOnly={true}
+                        component={<HistoryPageLazy />}
+                    />
+                }
             />
             <Route
                 path={ClientRoutes.SEARCH_PATH}
-                element={<SearchPageLazy />}
+                element={
+                    <ProtectedRoute
+                        isAuthOnly={true}
+                        component={<SearchPageLazy />}
+                    />
+                }
             />
             <Route
                 path={ClientRoutes.SIGNIN_PATH}
-                element={<SighinPageLazy />}
+                element={
+                    <ProtectedRoute
+                        isAuthOnly={false}
+                        component={<SighinPageLazy />}
+                    />
+                }
             />
             <Route
                 path={ClientRoutes.SIGNUP_PATH}
-                element={<SignupPageLazy />}
+                element={
+                    <ProtectedRoute
+                        isAuthOnly={false}
+                        component={<SignupPageLazy />}
+                    />
+                }
             />
             <Route
                 path={ClientRoutes.FAVORITES_PATH}
-                element={<FavoritesPageLazy />}
+                element={
+                    <ProtectedRoute
+                        isAuthOnly={true}
+                        component={<FavoritesPageLazy />}
+                    />
+                }
             />
             <Route path='*' element={<div>not found</div>} />
         </Routes>

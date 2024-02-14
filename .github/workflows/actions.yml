@@ -5,7 +5,7 @@ on:
     pull_request:
         branches: [main]
 jobs:
-    test:
+    test-action:
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -20,8 +20,8 @@ jobs:
               run: npm install
             - name: build project
               run: npm run build:dev
-            # - name: unit test
-            #   run: npm run unit:check
+            - name: unit test
+              run: npm run unit:check
             # - name: e2e test
             #   run: npm run e2e:check
             - name: lint code

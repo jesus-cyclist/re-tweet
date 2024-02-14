@@ -1,5 +1,7 @@
+import { SignupForm } from '@/features'
+
 const SignupPage = () => {
-    return <div></div>
+    return <SignupForm />
 }
 
 export default SignupPage

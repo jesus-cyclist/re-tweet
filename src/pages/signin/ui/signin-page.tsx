@@ -1,5 +1,7 @@
-const SighinPage = () => {
-    return <div>SearchPage</div>
+import { SigninForm } from '@/features'
+
+const SigninPage = () => {
+    return <SigninForm />
 }
 
-export default SighinPage
+export default SigninPage

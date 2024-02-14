@@ -1,14 +1,14 @@
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import path from 'path'
 import { Configuration, DefinePlugin } from 'webpack'
-// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import type { TBuildOptions } from './types/types'
 import TerserPlugin from 'terser-webpack-plugin'
-import CopyPlugin from 'copy-webpack-plugin'
 import ESLintPlugin from 'eslint-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+import Dotenv from 'dotenv-webpack'
+import path from 'path'
 
 export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
     const { mode, paths, platform } = options
@@ -24,8 +24,9 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
             __PLATFORM__: JSON.stringify(platform),
             __ENV__: JSON.stringify(mode)
         }),
-        /** Выносит проверку типов в отдельный процесс: не нагружая сборку */
-        new ForkTsCheckerWebpackPlugin()
+
+        new ForkTsCheckerWebpackPlugin(),
+        new Dotenv()
     ]
 
     if (isDev) {
@@ -40,7 +41,7 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
                 chunkFilename: 'css/[name].[contenthash:8].css'
             })
         )
-        // plugins.push(new BundleAnalyzerPlugin()) //размер чанок
+
         plugins.push(
             new CopyPlugin({
                 patterns: [
@@ -51,7 +52,7 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
                 ]
             })
         )
-        plugins.push(new TerserPlugin()) //удаление комментариев
+        plugins.push(new TerserPlugin())
     }
 
     return plugins
