@@ -1,24 +1,3 @@
-// import { FirebaseAuth, useAppDispatch } from '@/shared'
-// import { accountAction } from '@/features'
-// import { WithAntd } from './with-antd'
-// import { User } from 'firebase/auth'
-// import { useEffect } from 'react'
-
-// export const WithAuth = () => {
-//     const dispatch = useAppDispatch()
-
-//     useEffect(() => {
-//         FirebaseAuth.authState((user: User) => {
-//             if (user) {
-//                 const { email, uid } = user
-//                 dispatch(accountAction.setAccount({ email, uid }))
-//             }
-//         })
-//     }, [])
-
-//     return <WithAntd />
-// }
-
 import { FirebaseAuth, useAppDispatch } from '@/shared'
 import { useEffect, useState } from 'react'
 import { accountAction } from '@/features'
