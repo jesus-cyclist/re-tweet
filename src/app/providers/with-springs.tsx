@@ -1,7 +1,7 @@
 import { animated, useSpringRef, useTransition } from '@react-spring/web'
-import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AppRouter } from '../router'
+import { useEffect } from 'react'
 
 export const WithSprings = () => {
     const location = useLocation()
@@ -10,16 +10,22 @@ export const WithSprings = () => {
     const transitions = useTransition(location, {
         ref: transRef,
         keys: null,
+        exitBeforeEnter: true,
         from: {
-            opacity: 0
+            opacity: 0,
+            transform: 'translateX(100%) rotate(-45deg)'
         },
         enter: {
-            opacity: 1
+            opacity: 1,
+            transform: 'translateX(0%) rotate(0deg)'
         },
         leave: {
-            opacity: 0
-        }
+            opacity: 0,
+            transform: 'translateX(-100%) rotate(45deg)'
+        },
+        config: { tension: 100, friction: 20 }
     })
+
     useEffect(() => {
         transRef.start()
     }, [location])

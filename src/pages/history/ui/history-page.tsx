@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 const HistoryPage = () => {
     return (
         <div>
-            <NavLink to={'/favorites'}>favorites</NavLink>
+            <NavLink to={'/signin'}>favorites</NavLink>
         </div>
     )
 }

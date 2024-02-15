@@ -1,5 +1,5 @@
-import { type TBuildOptions } from '../types/types'
 import { removeDataTestIdBabelPlugin } from './removeDataTestIdBabelPlugin'
+import { type TBuildOptions } from '../types/types'
 
 export function buildBabelLoader({ mode }: TBuildOptions) {
     const isDev = mode === 'development'

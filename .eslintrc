@@ -29,12 +29,16 @@
             "error",
             { "argsIgnorePattern": "^_" }
         ],
-        "no-console": 2,
+
+        "no-console": "error",
         "no-var": "error",
+        "import/prefer-default-export": "off",
+        "react/jsx-no-useless-fragment": "error",
         "prefer-const": "warn",
         "no-unused-vars": "error",
         "react/prop-types": "off",
-        "indent": ["error", 4],
+        "no-unused-expressions": "error",
+        "indent": "off",
         "prettier/prettier": [
             "warn",
             {
