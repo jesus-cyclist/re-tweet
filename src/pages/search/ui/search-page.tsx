@@ -1,5 +1,7 @@
+import { SearchList } from '@/widgets/search-list'
+
 const SearchPage = () => {
-    return <div>SearchPage</div>
+    return <SearchList />
 }
 
 export default SearchPage

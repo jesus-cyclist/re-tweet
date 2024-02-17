@@ -4,31 +4,45 @@
 @import './global.scss';
 
 @font-face {
-    font-family: 'Blomberg';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/shared/assets/fonts/Blomberg-8MKKZ.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'Nunito';
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 300;
-    src: url('@/shared/assets/fonts/Nunito-ExtraLight.ttf') format('truetype');
+    src: url('@/shared/assets/fonts/Roboto-Light.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Nunito';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/shared/assets/fonts/Nunito-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Nunito';
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
-    src: url('@/shared/assets/fonts/Nunito-Bold.ttf') format('truetype');
+    src: url('@/shared/assets/fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/shared/assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 300;
+    src: url('@/shared/assets/fonts/Montserrat-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: url('@/shared/assets/fonts/Montserrat-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/shared/assets/fonts/Montserrat-Regular.ttf') format('truetype');
 }
 
 html,
@@ -45,14 +59,12 @@ html {
 }
 
 body {
-    font-size: 1rem;
+    line-height: 1.2;
     overflow: hidden;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    color: var(--content-color);
 
-    @include tablet {
-    }
-
-    @include desktop {
-    }
+    @include responsive-font-size(1rem);
 }
 
 body > div {

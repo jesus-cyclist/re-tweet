@@ -1,0 +1,64 @@
+@import '@/shared/styles/mixins.scss';
+
+.block {
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-row-gap: 0.5rem;
+    padding: 1rem;
+    background: var(--accent-color);
+    border-radius: 0.5rem;
+
+    @include desktop {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, auto);
+        grid-row-gap: 0.5rem;
+    }
+}
+
+.blockFirst {
+    @include desktop {
+        grid-template-columns: repeat(3, auto);
+        grid-template-rows: auto;
+        grid-column-gap: 0.5rem;
+        grid-row-gap: 0;
+    }
+}
+
+.blockSecond {
+    @include desktop {
+        grid-template-columns: repeat(2, calc(50% - 0.25rem));
+        grid-template-rows: repeat(2, auto);
+        grid-column-gap: 0.5rem;
+        grid-row-gap: 0.5rem;
+    }
+}
+
+.blockSecond > :first-child {
+    grid-column: auto;
+
+    @include desktop {
+        grid-column: span 2;
+    }
+}
+
+.blockThird {
+    height: 100%;
+
+    @include desktop {
+        grid-template-columns: repeat(2, calc(50% - 0.25rem));
+        grid-template-rows: repeat(2, calc(50% - 0.25rem));
+        grid-column-gap: 0.5rem;
+        grid-row-gap: 0.5rem;
+    }
+}
+
+.blockThird > :first-child {
+    grid-row: auto;
+
+    @include desktop {
+        grid-row: span 2;
+    }
+}

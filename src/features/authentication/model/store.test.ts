@@ -8,13 +8,13 @@ describe('test account store', () => {
         isAuth: false
     }
 
-    it('should return initial value', () => {
+    test('should return initial value', () => {
         expect(accountReducer(undefined, { type: 'some action' })).toEqual(
             initialState
         )
     })
 
-    it('should set account', () => {
+    test('should set account', () => {
         expect(
             accountReducer(
                 undefined,
@@ -27,7 +27,7 @@ describe('test account store', () => {
         })
     })
 
-    it('should unset account', () => {
+    test('should unset account', () => {
         expect(accountReducer(undefined, accountAction.unsetAccount())).toEqual(
             initialState
         )

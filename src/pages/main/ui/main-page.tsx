@@ -1,24 +1,14 @@
-import { useAppDispatch, useAppSelector } from '@/shared/lib'
-import { accountAction, authSelectors } from '@/features'
-import { NavLink } from 'react-router-dom'
-import { FirebaseAuth } from '@/shared'
+import { Header } from '@/widgets/header/ui/header'
+import { Outlet } from 'react-router-dom'
+import { LayoutUI } from '@/shared'
 
 const MainPage = () => {
-    const isAuth = useAppSelector(authSelectors.selectAccountIsAuth)
-    const dispatch = useAppDispatch()
-
     return (
-        <>
-            <NavLink to={'/signin'}>ITS MAIN PAGE. GO TO SIGNIN</NavLink>
-            <button
-                onClick={() => {
-                    FirebaseAuth.signOut()
-                    dispatch(accountAction.unsetAccount())
-                }}
-            >
-                {isAuth ? 'выйти' : 'зайти'}
-            </button>
-        </>
+        <LayoutUI
+            header={<Header />}
+            content={<Outlet />}
+            footer={<h1>footer</h1>}
+        />
     )
 }
 export default MainPage
