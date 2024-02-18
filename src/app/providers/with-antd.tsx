@@ -6,6 +6,7 @@ export const WithAntd = () => {
         components: {},
         token: {}
     }
+
     return (
         <ConfigProvider theme={config}>
             <WithSprings />

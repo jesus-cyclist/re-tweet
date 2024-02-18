@@ -6,6 +6,8 @@ declare module '*.module.scss' {
     export = classNames
 }
 
+// declare module 'react-window'
+// declare module 'react-window-infinite-loader'
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.jpeg'

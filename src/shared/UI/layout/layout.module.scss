@@ -1,0 +1,27 @@
+@import '../../styles/mixins.scss';
+
+.layout {
+    max-height: 100%;
+    height: 100%;
+    @include responsive-padding(0.5rem, 0.5rem, 0.5rem, 0.5rem);
+}
+
+.content,
+.footer,
+.header {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+    margin: 0 auto;
+}

@@ -11,6 +11,7 @@ const MainPageLazy = lazy(() => import('@/pages/main/ui/main-page'))
 const SearchPageLazy = lazy(() => import('@/pages/search/ui/search-page'))
 const SighinPageLazy = lazy(() => import('@/pages/signin/ui/signin-page'))
 const SignupPageLazy = lazy(() => import('@/pages/signup/ui/signup-page'))
+const NewsPageLazy = lazy(() => import('@/pages/news/ui/news-page'))
 
 export const AppRouter = () => {
     return (
@@ -23,7 +24,26 @@ export const AppRouter = () => {
                         component={<MainPageLazy />}
                     />
                 }
-            />
+            >
+                <Route
+                    path={ClientRoutes.CURRENTS_NEWS}
+                    element={
+                        <ProtectedRoute
+                            isAuthOnly={true}
+                            component={<NewsPageLazy />}
+                        />
+                    }
+                />
+                <Route
+                    path={ClientRoutes.SEARCH_PATH}
+                    element={
+                        <ProtectedRoute
+                            isAuthOnly={true}
+                            component={<SearchPageLazy />}
+                        />
+                    }
+                />
+            </Route>
             <Route
                 path={ClientRoutes.HISTORY_PATH}
                 element={
