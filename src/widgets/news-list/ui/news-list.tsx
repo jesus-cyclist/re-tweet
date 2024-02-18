@@ -16,7 +16,7 @@ type TNewList = Array<TSpaceFlightArticleItemResponse>
 
 export const NewsList = () => {
     const [page, setPage] = useState<number>(1)
-    const [offset, setOffset] = useState(1)
+    const [offset, setOffset] = useState(0)
     const [list, setList] = useState<Array<TNewList>>([])
     const { data, isLoading, isError, isSuccess } =
         spaceFlightApi.useGetArticlesQuery({
@@ -31,16 +31,13 @@ export const NewsList = () => {
         }
     }, [data])
 
-    useEffect(() => {
+    const handleChangePage = (page: number) => {
+        setPage(page)
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         })
-        setOffset(page * 9)
-    }, [page])
-
-    const handleChangePage = (page: number) => {
-        setPage(page)
+        setOffset(prev => prev + 9)
     }
 
     const getTotalPage = useMemo(() => {
