@@ -80,6 +80,7 @@
             align-items: center;
 
             svg {
+                fill: transparent;
                 height: 100%;
                 width: 100%;
                 cursor: pointer;
@@ -92,20 +93,27 @@
     @include desktop {
         display: grid;
         grid-template-columns: auto;
-        grid-template-rows: 66% auto;
-        grid-row-gap: 0.5rem;
+        grid-template-rows: 75% auto;
         .card__text {
             bottom: 0;
             height: 100%;
             position: relative;
             background: var(--content-color);
             color: var(--highlight-color);
-            gap: 1rem;
+            gap: 0.5rem;
 
             @include responsive-padding(0.5rem, 0.5rem, 0.5rem, 0.5rem);
 
             .card__date {
                 color: var(--highlight-color);
+            }
+
+            .card__bookmark {
+                color: var(--highlight-color);
+
+                svg {
+                    color: var(--highlight-color);
+                }
             }
         }
     }

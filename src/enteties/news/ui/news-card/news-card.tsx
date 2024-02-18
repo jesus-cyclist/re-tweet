@@ -75,6 +75,9 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                         </NavLink>
                         <h3 className={s.card__title}>{title}</h3>
                         <span className={s.card__date}>{date}</span>
+                        <div className={s.card__bookmark}>
+                            <Bookmark />
+                        </div>
                     </div>
                 </div>
             )

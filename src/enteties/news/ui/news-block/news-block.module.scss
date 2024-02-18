@@ -49,6 +49,7 @@
 
     @include desktop {
         grid-template-columns: repeat(2, calc(50% - 0.25rem));
+        grid-template-columns: calc(66.666% - 0.25rem) 1fr;
         grid-template-rows: repeat(2, calc(50% - 0.25rem));
         grid-column-gap: 0.5rem;
         grid-row-gap: 0.5rem;
