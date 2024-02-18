@@ -53,47 +53,47 @@ export const NewsList = () => {
             <LoaderUI isLoading={isLoading} />
 
             {isSuccess && (
-                // <Scrollbars
-                //     className={s.scrollbar}
-                //     autoHide
-                //     autoHideTimeout={1000}
-                //     autoHideDuration={200}
-                //     renderTrackVertical={({ ...props }) => (
-                //         <div {...props} className={s.scrollbar__track} />
-                //     )}
-                //     renderThumbVertical={props => (
-                //         <div {...props} className={s.scrollbar__thumb} />
-                //     )}
-                //     renderView={props => <div {...props} className='view' />}
-                // >
-                <div className={s.list}>
-                    <div className={s.list__content}>
-                        {list.map(listItem => {
-                            const type = getRandomInteger(3, 1) as 1 | 2 | 3
-                            const key = listItem.reduce(
-                                (acc, item) => (acc += item.id),
-                                ''
-                            )
-                            return (
-                                <NewsBlock
-                                    key={key}
-                                    type={type}
-                                    data={listItem}
-                                />
-                            )
-                        })}
+                <Scrollbars
+                    className={s.scrollbar}
+                    autoHide
+                    autoHideTimeout={1000}
+                    autoHideDuration={200}
+                    renderTrackVertical={({ ...props }) => (
+                        <div {...props} className={s.scrollbar__track} />
+                    )}
+                    renderThumbVertical={props => (
+                        <div {...props} className={s.scrollbar__thumb} />
+                    )}
+                    renderView={props => <div {...props} className='view' />}
+                >
+                    <div className={s.list}>
+                        <div className={s.list__content}>
+                            {list.map(listItem => {
+                                const type = getRandomInteger(3, 1) as 1 | 2 | 3
+                                const key = listItem.reduce(
+                                    (acc, item) => (acc += item.id),
+                                    ''
+                                )
+                                return (
+                                    <NewsBlock
+                                        key={key}
+                                        type={type}
+                                        data={listItem}
+                                    />
+                                )
+                            })}
+                        </div>
+                        <div className={s.pagination}>
+                            <Pagination
+                                showLessItems={true}
+                                showSizeChanger={false}
+                                onChange={handleChangePage}
+                                defaultCurrent={page}
+                                total={getTotalPage}
+                            />
+                        </div>
                     </div>
-                    <div className={s.pagination}>
-                        <Pagination
-                            showLessItems={true}
-                            showSizeChanger={false}
-                            onChange={handleChangePage}
-                            defaultCurrent={page}
-                            total={getTotalPage}
-                        />
-                    </div>
-                </div>
-                // </Scrollbars>
+                </Scrollbars>
             )}
         </div>
     )
