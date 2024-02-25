@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { renderHook } from '@testing-library/react'
+import { renderHook, act } from '@testing-library/react'
 import { useDebounce } from './use-debounce'
 
 describe('test useDebounce hook', () => {
@@ -11,21 +11,20 @@ describe('test useDebounce hook', () => {
 
     test('call function after delay', () => {
         const callback = jest.fn()
-        const dependencie = 1
-        const { rerender } = renderHook(useDebounce, {
-            initialProps: {
-                cb: callback,
-                delay: 1000,
-                dependencies: [dependencie]
-            }
-        })
+
+        const { result } = renderHook(() =>
+            useDebounce({ callback, delay: 1000 })
+        )
 
         expect(callback).not.toHaveBeenCalled()
-        rerender({ cb: callback, delay: 1000, dependencies: [2] })
-        rerender({ cb: callback, delay: 3000, dependencies: [3] })
-        rerender({ cb: callback, delay: 3000, dependencies: [4] })
-        rerender({ cb: callback, delay: 3000, dependencies: [5] })
-        jest.runAllTimers()
+        act(() => {
+            result.current()
+            result.current()
+            result.current()
+        })
+        act(() => {
+            jest.advanceTimersByTime(1000)
+        })
         expect(callback).toHaveBeenCalled()
         expect(callback).toHaveBeenCalledTimes(1)
     })

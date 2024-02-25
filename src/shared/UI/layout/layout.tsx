@@ -14,9 +14,7 @@ export const LayoutUI = (props: TLayoutUIProps): JSX.Element => {
     const { header, content, footer } = props
     return (
         <Layout className={s.layout}>
-            <Header style={{ background: 'transparent' }} className={s.header}>
-                {header}
-            </Header>
+            <Header className={s.header}>{header}</Header>
             <Content className={s.content}>{content}</Content>
             <Footer className={s.footer}>{footer}</Footer>
         </Layout>

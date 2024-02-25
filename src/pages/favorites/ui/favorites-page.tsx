@@ -1,11 +1,7 @@
-import { NavLink } from 'react-router-dom'
+import { FavouritesList } from '@/widgets/favourites-list'
 
 const FavoritesPage = () => {
-    return (
-        <div>
-            <NavLink to={'/history'}>history</NavLink>
-        </div>
-    )
+    return <FavouritesList />
 }
 
 export default FavoritesPage

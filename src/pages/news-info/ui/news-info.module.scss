@@ -1,0 +1,84 @@
+@import '@/shared/styles/mixins.scss';
+
+.container {
+    min-height: 100%;
+    height: 80vh;
+    max-height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--content-color);
+    margin: 0 auto;
+    border-radius: 10px;
+    max-height: 90vh;
+    height: 100%;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    color: var(--highlight-color);
+
+    @include desktop {
+        max-width: none;
+        height: 100%;
+    }
+
+    .card__image {
+        width: 100%;
+        object-fit: cover;
+
+        @include desktop {
+            max-height: 400px;
+        }
+    }
+
+    .test {
+        max-height: 400px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .card__text {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        @include responsive-padding(0.5rem, 0.5rem, 0.5rem, 0.5rem);
+
+        .card__news {
+            @include responsive-font-size(0.8rem);
+            text-transform: uppercase;
+            color: var(--link-color);
+            font-weight: 700;
+            display: block;
+            width: fit-content;
+        }
+
+        .card__title {
+            font-family: Montserrat;
+            font-weight: 700;
+            display: block;
+        }
+
+        .card__footer {
+            opacity: 0.5;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+            .card__date,
+            .card__link {
+                display: block;
+                @include responsive-font-size(0.8rem);
+            }
+        }
+    }
+}

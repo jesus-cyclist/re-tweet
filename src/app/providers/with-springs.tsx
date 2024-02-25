@@ -12,18 +12,18 @@ export const WithSprings = () => {
         keys: null,
         exitBeforeEnter: true,
         from: {
-            opacity: 0,
-            transform: 'translateX(100%) rotate(-45deg)'
+            // opacity: 0
+            // transform: 'translateX(100%) rotate(-45deg)'
         },
         enter: {
-            opacity: 1,
-            transform: 'translateX(0%) rotate(0deg)'
+            // opacity: 1
+            // transform: 'translateX(0%) rotate(0deg)'
         },
         leave: {
-            opacity: 0,
-            transform: 'translateX(-100%) rotate(45deg)'
+            // opacity: 0
+            // transform: 'translateX(-100%) rotate(45deg)'
         },
-        config: { tension: 150, friction: 20 }
+        config: { tension: 500, friction: 50 }
     })
 
     useEffect(() => {

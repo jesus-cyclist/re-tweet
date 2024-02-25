@@ -1,0 +1,119 @@
+@import '@/shared/styles/mixins.scss';
+
+.container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include responsive-padding(0rem, 0.5rem, 0.5rem, 0rem);
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    background: var(--content-color);
+    border-radius: 50%;
+    z-index: 1;
+
+    span {
+        justify-content: end;
+        svg {
+            margin: 0 auto;
+            color: var(--highlight-color);
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
+
+.button:hover {
+    svg {
+        animation: rotate 1s linear infinite;
+    }
+}
+
+.panel {
+    height: fit-content;
+    position: absolute;
+    display: flex;
+    flex-direction: row-reverse;
+    background: var(--content-color);
+    gap: 0.5rem;
+    border-radius: 40px 0px 0 40px;
+    left: -4.5rem;
+    top: 0;
+    bottom: 0;
+    padding: 0.2rem 1.2rem 0.2rem 0.2rem;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.panelEnter {
+    opacity: 0;
+    transform: scaleX(0);
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.panelEnterDone {
+    opacity: 1;
+    transform: scaleX(1);
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.panel__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        color: var(--highlight-color);
+        transition: color 0.05s ease;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+}
+
+.panel__icon:active {
+    svg {
+        color: var(--link-color);
+        transition: color 0.05s ease;
+    }
+}
+
+.bookmark {
+    svg {
+        color: var(--highlight-color);
+        transition: color 0.2s ease;
+    }
+}
+
+.bookmarkActive {
+    svg {
+        color: var(--link-color);
+        transition: color 0.2s ease;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

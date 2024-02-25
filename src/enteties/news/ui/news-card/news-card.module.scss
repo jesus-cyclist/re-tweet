@@ -3,6 +3,7 @@
 .card {
     position: relative;
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,15 +13,16 @@
     max-width: 500px;
     overflow: hidden;
     border-radius: 10px;
+    filter: none;
+    transition: filter 0.5s ease;
+    max-height: 250px;
+    height: 250px;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
 
     @include desktop {
         max-width: none;
-    }
-
-    .cardImage {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
+        max-height: none;
+        height: auto;
     }
 
     .card__text {
@@ -54,6 +56,7 @@
             color: var(--link-color);
             font-weight: 700;
             display: block;
+            width: fit-content;
         }
 
         .card__title {
@@ -68,32 +71,19 @@
             opacity: 0.5;
             @include responsive-font-size(0.8rem);
         }
-
-        .card__bookmark {
-            width: 1rem;
-            height: 1rem;
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            svg {
-                fill: transparent;
-                height: 100%;
-                width: 100%;
-                cursor: pointer;
-            }
-        }
     }
+}
+
+.card:hover {
+    filter: brightness(85%);
+    transition: filter 0.5s ease;
 }
 
 .columnCard {
     @include desktop {
         display: grid;
         grid-template-columns: auto;
-        grid-template-rows: 75% auto;
+        grid-template-rows: 70% auto;
         .card__text {
             bottom: 0;
             height: 100%;
@@ -107,13 +97,34 @@
             .card__date {
                 color: var(--highlight-color);
             }
+        }
+    }
+}
 
-            .card__bookmark {
+.rowCard {
+    height: 100%;
+    @include desktop {
+        max-height: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 40% 1fr;
+        grid-template-rows: 100%;
+
+        .card__text {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            bottom: 0;
+            height: 100%;
+            position: relative;
+            background: var(--content-color);
+            color: var(--highlight-color);
+            gap: 0.5rem;
+
+            @include responsive-padding(0.5rem, 0.5rem, 0.5rem, 0.5rem);
+
+            .card__date {
                 color: var(--highlight-color);
-
-                svg {
-                    color: var(--highlight-color);
-                }
             }
         }
     }

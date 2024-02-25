@@ -1,2 +1,5 @@
 export * from './header'
 export * from './news-list'
+export * from './search-list'
+export * from './favourites-list'
+export * from './footer'

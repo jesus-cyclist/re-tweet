@@ -1,3 +1,6 @@
 export * from './layout'
 export * from './loader'
 export * from './error'
+export * from './scrollbar-wrapper'
+export * from './modal'
+export * from './link'

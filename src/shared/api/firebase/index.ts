@@ -1,3 +1,6 @@
 export * from './config'
 export { FirebaseAuth } from './auth-service'
 export { FirebaseErrorHandler } from './error-handler'
+export { FirebaseFavourites } from './favourite-service'
+export type { TFavourite, TSearch } from './types'
+export { FirebaseSearch } from './search-service'

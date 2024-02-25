@@ -9,16 +9,17 @@ import {
     useState
 } from 'react'
 import {
-    SpaceFlightKeyConverter,
-    TSpaceFlightArticleItemResponse,
+    LoaderUI,
+    TSpaceFlightCard,
     spaceFlightApi,
     useDebounce
 } from '@/shared'
 import InfiniteLoader from 'react-window-infinite-loader'
+import { useLocation } from 'react-router-dom'
 import { FixedSizeList } from 'react-window'
-import { NewsSearchCard } from '@/enteties'
 import s from './search-list.module.scss'
-import { Flex, Input, Spin } from 'antd'
+import Search from 'antd/es/input/Search'
+import { NewsCard } from '@/enteties'
 
 type TItemProps = {
     index: number
@@ -33,17 +34,24 @@ export const SearchList = () => {
     const [hasNextPage, setHasNextPage] = useState(false)
     const [listParams, setListParams] = useState({
         height: 0,
-        itemSize: 76,
+        itemSize: 260,
         width: 0
     })
     const listRef = useRef<null | HTMLDivElement>(null)
     const [searchValue, setSearchValue] = useState<string>('')
-    const [searchList, setSearchList] = useState<
-        Array<TSpaceFlightArticleItemResponse>
-    >([])
-    const [fetch, { data }] = spaceFlightApi.useLazyGetArticlesBySearchQuery()
+    const [searchList, setSearchList] = useState<Array<TSpaceFlightCard>>([])
+    const [fetch, { data, isFetching }] =
+        spaceFlightApi.useLazyGetArticlesBySearchQuery()
+    const location = useLocation()
 
-    const fetchSearch = async () => {
+    useEffect(() => {
+        if (location.state?.search) {
+            setSearchValue(location.state.search)
+            window.history.replaceState(null, '')
+        }
+    }, [])
+
+    const fetchSearch = useCallback(async () => {
         if (searchValue) {
             await fetch({
                 phrase: searchValue,
@@ -51,18 +59,18 @@ export const SearchList = () => {
                 offset: page * limit
             }).then(res => setSearchList(res.data.results))
         }
-    }
 
-    useDebounce({ cb: fetchSearch, delay: 2000, dependencies: [searchValue] })
+        if (!searchValue) {
+            setPage(1)
+        }
+    }, [searchValue, fetch, page, setSearchList])
+
+    const debouncedFetch = useDebounce({ callback: fetchSearch, delay: 2000 })
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setPage(1)
         setSearchValue(e.target.value)
     }
-    useEffect(() => {
-        if (!searchValue) {
-            setSearchList([])
-        }
-    }, [searchValue])
 
     useEffect(() => {
         if (data) {
@@ -73,12 +81,14 @@ export const SearchList = () => {
     }, [data])
 
     useEffect(() => {
-        fetch({
-            phrase: searchValue,
-            limit: limit,
-            offset: page * limit
-        }).then(res => setSearchList(prev => [...prev, ...res.data.results]))
-    }, [page])
+        if (!searchValue) {
+            setSearchList([])
+        }
+
+        if (searchValue) {
+            debouncedFetch()
+        }
+    }, [page, searchValue])
 
     const loadNextPage = async () => {
         setIsNextPageLoading(true)
@@ -108,21 +118,15 @@ export const SearchList = () => {
     const Item = memo(({ index, style }: TItemProps) => {
         let content
         if (!isItemLoaded(index)) {
-            content = (
-                <Flex
-                    style={{ width: '100%', height: '100%' }}
-                    align='center'
-                    justify='center'
-                    gap='middle'
-                >
-                    <Spin size='large' />
-                </Flex>
-            )
+            content = <LoaderUI isLoading />
         } else {
             const element = searchList[index]
-            const data = SpaceFlightKeyConverter.article(element)
 
-            content = <NewsSearchCard key={data.id} data={data} />
+            content = (
+                <div className={s.wrapperCard}>
+                    <NewsCard type={'row'} data={element} />
+                </div>
+            )
         }
 
         return <div style={style}>{content}</div>
@@ -132,11 +136,12 @@ export const SearchList = () => {
 
     return (
         <div className={s.container}>
-            <Input
-                allowClear
+            <Search
                 value={searchValue}
                 placeholder='input search loading default'
                 onChange={handleSearchChange}
+                allowClear
+                loading={isFetching}
             />
 
             <div className={s.list} ref={listRef}>
@@ -148,7 +153,7 @@ export const SearchList = () => {
                     >
                         {({ onItemsRendered, ref }) => (
                             <FixedSizeList
-                                className={s.test}
+                                className={s.fixedSizeList}
                                 height={listParams.height}
                                 itemCount={itemCount}
                                 itemSize={listParams.itemSize}
