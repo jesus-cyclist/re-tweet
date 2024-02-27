@@ -1,8 +1,8 @@
-import { TSpaceFlightCard } from '../space-flight'
+import { TNews } from '../space-flight'
 
 export type TFavourite = {
     timestamp: string
-    data: TSpaceFlightCard
+    data: TNews
 }
 
 export type TSearch = {

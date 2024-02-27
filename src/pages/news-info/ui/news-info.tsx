@@ -2,11 +2,11 @@ import {
     LinkUI,
     LoaderUI,
     ScrollbarWrapper,
-    SpaceFlightKeyConverter,
-    TSpaceFlightCard,
+    TNews,
     spaceFlightApi
 } from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
+import { converDateIsoToSince } from '@/shared/lib/converDate'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import s from './news-info.module.scss'
@@ -14,7 +14,7 @@ import { Image } from 'antd'
 
 const NewsInfo = () => {
     const params = useParams()
-    const [newsData, setNewsData] = useState<TSpaceFlightCard>(null)
+    const [newsData, setNewsData] = useState<TNews>(null)
     const { data } = spaceFlightApi.useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
@@ -23,7 +23,7 @@ const NewsInfo = () => {
         if (data) {
             setNewsData({
                 ...data,
-                date: SpaceFlightKeyConverter.convertPublishDate(data.date)
+                date: converDateIsoToSince(data.date)
             })
         }
     }, [data])

@@ -1,4 +1,5 @@
 import s from './layout.module.scss'
+import PropTypes from 'prop-types'
 import { ReactNode } from 'react'
 import { Layout } from 'antd'
 
@@ -19,4 +20,10 @@ export const LayoutUI = (props: TLayoutUIProps): JSX.Element => {
             <Footer className={s.footer}>{footer}</Footer>
         </Layout>
     )
+}
+
+LayoutUI.propsTypes = {
+    header: PropTypes.element.isRequired,
+    content: PropTypes.element.isRequired,
+    footer: PropTypes.element.isRequired
 }

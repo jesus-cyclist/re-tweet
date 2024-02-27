@@ -1,14 +1,15 @@
-import { SpaceFlightKeyConverter, TSpaceFlightCard } from '@/shared'
 import { NewsCard } from '../../../../enteties/news/ui/news-card'
 import { NewsSkeleton } from '@/enteties/news/ui/news-skeleton'
+import { converDateIsoToSince } from '@/shared/lib/converDate'
 import { NewsControlPanel } from '@/features'
 import s from './news-block.module.scss'
 import classNames from 'classnames'
+import { TNews } from '@/shared'
 
 type TNewsBlockProps = {
     isLoading: boolean
     type: 1 | 2 | 3
-    data: Array<TSpaceFlightCard>
+    data: Array<TNews>
 }
 
 export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
@@ -20,15 +21,16 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                 <div className={classNames(s.block, s.blockFirst)}>
                     {data.map(newsItem => {
                         const content = isLoading ? (
-                            <NewsSkeleton type={'background'} />
+                            <NewsSkeleton
+                                key={newsItem.id}
+                                type={'background'}
+                            />
                         ) : (
                             <NewsCard
                                 key={newsItem.id}
                                 data={{
                                     ...newsItem,
-                                    date: SpaceFlightKeyConverter.convertPublishDate(
-                                        newsItem.date
-                                    )
+                                    date: converDateIsoToSince(newsItem.date)
                                 }}
                                 type={'background'}
                             >
@@ -45,15 +47,16 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                 <div className={classNames(s.block, s.blockSecond)}>
                     {data.map(newsItem => {
                         const content = isLoading ? (
-                            <NewsSkeleton type={'background'} />
+                            <NewsSkeleton
+                                key={newsItem.id}
+                                type={'background'}
+                            />
                         ) : (
                             <NewsCard
                                 key={newsItem.id}
                                 data={{
                                     ...newsItem,
-                                    date: SpaceFlightKeyConverter.convertPublishDate(
-                                        newsItem.date
-                                    )
+                                    date: converDateIsoToSince(newsItem.date)
                                 }}
                                 type={'background'}
                             >
@@ -71,15 +74,16 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                 <div className={classNames(s.block, s.blockThird)}>
                     {data.map((newsItem, i) => {
                         const content = isLoading ? (
-                            <NewsSkeleton type={'background'} />
+                            <NewsSkeleton
+                                key={newsItem.id}
+                                type={'background'}
+                            />
                         ) : (
                             <NewsCard
                                 key={newsItem.id}
                                 data={{
                                     ...newsItem,
-                                    date: SpaceFlightKeyConverter.convertPublishDate(
-                                        newsItem.date
-                                    )
+                                    date: converDateIsoToSince(newsItem.date)
                                 }}
                                 type={i === 0 ? 'column' : 'background'}
                             >

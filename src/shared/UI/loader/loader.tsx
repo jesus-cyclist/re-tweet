@@ -1,10 +1,11 @@
 import { Flex, Spin } from 'antd'
+import React from 'react'
 
-type TLoaderUI = {
+export type TLoaderUIProps = {
     isLoading: boolean
 }
 
-export const LoaderUI = (props: TLoaderUI) => {
+export const LoaderUI = (props: TLoaderUIProps) => {
     const { isLoading } = props
 
     if (isLoading) {

@@ -1,5 +1,5 @@
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
-import { ClientRoutes, LinkUI, TSpaceFlightCard } from '@/shared'
+import { ClientRoutes, LinkUI, TNews } from '@/shared'
 import { useLocation } from 'react-router-dom'
 import { NewsImage } from '../news-image'
 import s from './news-card.module.scss'
@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { ReactNode } from 'react'
 
 type TNewsCardProps = {
-    data: TSpaceFlightCard
+    data: TNews
     type: 'column' | 'background' | 'row'
     children?: ReactNode
 }

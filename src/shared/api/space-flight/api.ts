@@ -1,8 +1,8 @@
 import {
-    TSpaceFlightArticleItemResponse,
-    TSpaceFlightArticleResponse,
-    TSpaceFlightArticleResponseTransformed,
-    TSpaceFlightCard
+    TArticleItemResponse,
+    TArticleResponse,
+    TArticleNewsResponseTransformed,
+    TNews
 } from './types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { SpaceFlightKeyConverter } from './data-field-transformer'
@@ -13,7 +13,7 @@ export const spaceFlightApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: SpaceFlightApiRoutes.BASE_PATH }),
     endpoints: builder => ({
         getArticles: builder.query<
-            TSpaceFlightArticleResponseTransformed,
+            TArticleNewsResponseTransformed,
             { limit: number; offset: number }
         >({
             query: ({ limit, offset }) => ({
@@ -23,7 +23,7 @@ export const spaceFlightApi = createApi({
                     offset
                 }
             }),
-            transformResponse: (response: TSpaceFlightArticleResponse) => {
+            transformResponse: (response: TArticleResponse) => {
                 const transformedResults = response.results.map(item =>
                     SpaceFlightKeyConverter.news(item)
                 )
@@ -32,7 +32,7 @@ export const spaceFlightApi = createApi({
             }
         }),
         getArticlesBySearch: builder.query<
-            TSpaceFlightArticleResponseTransformed,
+            TArticleNewsResponseTransformed,
             { phrase: string; limit: number; offset: number }
         >({
             query: ({ phrase, limit, offset }) => ({
@@ -43,7 +43,7 @@ export const spaceFlightApi = createApi({
                     offset
                 }
             }),
-            transformResponse: (response: TSpaceFlightArticleResponse) => {
+            transformResponse: (response: TArticleResponse) => {
                 const transformedResults = response.results.map(item =>
                     SpaceFlightKeyConverter.news(item)
                 )
@@ -52,11 +52,11 @@ export const spaceFlightApi = createApi({
             }
         }),
 
-        getArticlesById: builder.query<TSpaceFlightCard, { id: number }>({
+        getArticlesById: builder.query<TNews, { id: number }>({
             query: ({ id }) => ({
                 url: `${SpaceFlightApiRoutes.ARTICLES_PATH}/${id}`
             }),
-            transformResponse: (response: TSpaceFlightArticleItemResponse) => {
+            transformResponse: (response: TArticleItemResponse) => {
                 const transformedResults =
                     SpaceFlightKeyConverter.news(response)
 
@@ -65,7 +65,7 @@ export const spaceFlightApi = createApi({
         })
 
         // getBlogs: builder.query<
-        //     TSpaceFlightArticleResponse,
+        //     TArticleResponse,
         //     { limit: number; offset: number }
         // >({
         //     query: ({ limit = 10, offset = 10 }) => ({
@@ -77,7 +77,7 @@ export const spaceFlightApi = createApi({
         //     })
         // }),
         // getInfo: builder.query<
-        //     TSpaceFlightArticleResponse,
+        //     TArticleResponse,
         //     { limit: number; offset: number }
         // >({
         //     query: ({ limit = 10, offset = 10 }) => ({
@@ -89,7 +89,7 @@ export const spaceFlightApi = createApi({
         //     })
         // }),
         // getReports: builder.query<
-        //     TSpaceFlightArticleResponse,
+        //     TArticleResponse,
         //     { limit: number; offset: number }
         // >({
         //     query: ({ limit = 10, offset = 10 }) => ({

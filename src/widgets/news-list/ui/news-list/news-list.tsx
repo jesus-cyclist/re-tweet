@@ -1,26 +1,20 @@
-import {
-    ErrorUI,
-    ScrollbarWrapper,
-    TSpaceFlightCard,
-    spaceFlightApi
-} from '@/shared'
+import { ScrollbarWrapper, TNews, spaceFlightApi } from '@/shared'
 import { Key, useEffect, useMemo, useState } from 'react'
 import { NewsBlock } from '../news-block/news-block'
 import { sliceResponseIntoParts } from '../../lib'
 import s from './news-list.module.scss'
 import { Pagination } from 'antd'
 
-type TNewList = Array<TSpaceFlightCard>
+type TNewList = Array<TNews>
 
 export const NewsList = () => {
     const [page, setPage] = useState<number>(1)
     const [offset, setOffset] = useState(0)
     const [list, setList] = useState<Array<TNewList>>([])
-    const { data, isFetching, isError, isSuccess } =
-        spaceFlightApi.useGetArticlesQuery({
-            limit: 9,
-            offset
-        })
+    const { data, isFetching, isSuccess } = spaceFlightApi.useGetArticlesQuery({
+        limit: 9,
+        offset
+    })
 
     useEffect(() => {
         if (data) {
@@ -47,8 +41,6 @@ export const NewsList = () => {
 
     return (
         <div className={s.container}>
-            <ErrorUI isError={isError} text={'Try to reload page.'} />
-
             {isSuccess && (
                 <ScrollbarWrapper>
                     <div className={s.list}>

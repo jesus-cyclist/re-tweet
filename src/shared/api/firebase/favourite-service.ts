@@ -1,12 +1,12 @@
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
-import { TSpaceFlightCard } from '../space-flight'
+import { TNews } from '../space-flight'
 import { firestoreDB } from './config'
 import { TFavourite } from './types'
 
 export class FirebaseFavourites {
     static async toggleFavourite(
         userID: string,
-        data: TSpaceFlightCard
+        data: TNews
     ): Promise<boolean> {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)

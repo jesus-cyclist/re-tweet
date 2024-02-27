@@ -1,1 +1,1 @@
-export { WithRouter as WithProviders } from './with-router'
+export { WithRedux as WithProviders } from './with-redux'

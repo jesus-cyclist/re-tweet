@@ -1,7 +1,7 @@
-import { TSpaceFlightCard } from '@/shared'
+import { TNews } from '@/shared'
 import { Image } from 'antd'
 
-type TNewsImage = Pick<TSpaceFlightCard, 'image' | 'title'> & {
+type TNewsImage = Pick<TNews, 'image' | 'title'> & {
     fallback: string
 }
 

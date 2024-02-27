@@ -4,11 +4,11 @@ import Rocket from '@/shared/assets/image/rocket.png'
 import Flame from '@/shared/assets/image/flame.png'
 import { NavLink } from 'react-router-dom'
 import { ClientRoutes } from '@/shared'
+import { memo, useMemo } from 'react'
 import classNames from 'classnames'
 import s from './logo.module.scss'
-import { useMemo } from 'react'
 
-export const Logo = () => {
+export const Logo = memo(() => {
     const handleClickOnLink = useMemo(
         () => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
             if (window.location.pathname === ClientRoutes.MAIN_PATH) {
@@ -17,6 +17,7 @@ export const Logo = () => {
         },
         []
     )
+    console.log('render logo')
     return (
         <NavLink
             className={s.header__link}
@@ -52,4 +53,6 @@ export const Logo = () => {
             <span className={s.lines_3}></span>
         </NavLink>
     )
-}
+})
+
+Logo.displayName = 'Logo'

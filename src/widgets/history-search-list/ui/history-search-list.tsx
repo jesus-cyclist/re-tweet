@@ -2,18 +2,18 @@ import {
     ClientRoutes,
     FirebaseSearch,
     LoaderUI,
-    SpaceFlightKeyConverter,
     TSearch,
     useAppSelector,
     useSortedByDate
 } from '@/shared'
+import { converDateIsoToSince } from '@/shared/lib/converDate'
 import SortIcon from '@/shared/assets/svg/sort-az.svg'
 import { useEffect, useMemo, useState } from 'react'
 import s from './history-search-list.module.scss'
 import { CloseOutlined } from '@ant-design/icons'
-import { Filter } from '@/features/filter'
 import { NavLink } from 'react-router-dom'
 import { authSelectors } from '@/features'
+import { FilterList } from '@/features'
 
 export const HistorySearchList = () => {
     const [isSortedByDate, setIsSortedByDate] = useState(true)
@@ -49,14 +49,11 @@ export const HistorySearchList = () => {
 
     return (
         <div className={s.container}>
-            <div>{sortedList && <Filter items={items} />}</div>
+            <div>{sortedList && <FilterList items={items} />}</div>
             <ul className={s.list}>
                 {sortedList ? (
                     sortedList.map(({ timestamp, query }) => {
-                        const date =
-                            SpaceFlightKeyConverter.convertPublishDate(
-                                timestamp
-                            )
+                        const date = converDateIsoToSince(timestamp)
                         return (
                             <li
                                 className={s.list__item}

@@ -9,9 +9,9 @@ import { selectAccountID } from '@/features/authentication/model/selectors'
 import { Footer, favouritesActions } from '@/widgets'
 import { Header } from '@/widgets/header/ui/header'
 import { Outlet } from 'react-router-dom'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
-const MainPage = () => {
+const MainPage = memo(() => {
     const userID = useAppSelector(selectAccountID)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -29,5 +29,8 @@ const MainPage = () => {
             footer={<Footer />}
         />
     )
-}
+})
+
 export default MainPage
+
+MainPage.displayName = 'MainPage'

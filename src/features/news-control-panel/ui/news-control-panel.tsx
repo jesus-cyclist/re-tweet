@@ -4,8 +4,8 @@ import {
     RetweetOutlined,
     SettingOutlined
 } from '@ant-design/icons'
-import { FirebaseFavourites, TSpaceFlightCard, useAppSelector } from '@/shared'
 import { useClickOutSide } from '@/shared/lib/hooks/use-click-outside'
+import { FirebaseFavourites, TNews, useAppSelector } from '@/shared'
 import { authSelectors } from '@/features/authentication'
 import { CSSTransition } from 'react-transition-group'
 import { useEffect, useRef, useState } from 'react'
@@ -14,8 +14,8 @@ import { selectFavouritesNews } from '@/widgets'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
 
-type TNewsControlPanelProps = {
-    data: TSpaceFlightCard
+export type TNewsControlPanelProps = {
+    data: TNews
 }
 
 export const NewsControlPanel = (

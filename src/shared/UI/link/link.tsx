@@ -1,5 +1,6 @@
 import { HTMLAttributeAnchorTarget, ReactNode, useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 type TLinkUIProps = {
     className?: string
@@ -40,4 +41,16 @@ export const LinkUI = (props: TLinkUIProps): JSX.Element => {
             {children}
         </NavLink>
     )
+}
+
+LinkUI.propsTypes = {
+    className: PropTypes.string,
+    to: PropTypes.string.isRequired,
+    children: PropTypes.element.isRequired,
+    stopDefault: PropTypes.bool,
+    target: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.oneOf([undefined])
+    ]),
+    state: PropTypes.object
 }

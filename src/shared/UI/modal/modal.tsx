@@ -33,6 +33,7 @@ export const ModalUI = (props: TModalUIProps): JSX.Element => {
             okButtonProps={{ style: { display: 'none' } }}
             closeIcon={null}
             className={s.modal}
+            onCancel={closeModal}
         >
             {children}
         </Modal>

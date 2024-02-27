@@ -2,9 +2,9 @@ import { SettingOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import s from './header-menu.module.scss'
 import { ClientRoutes } from '@/shared'
+import { memo, useState } from 'react'
 import type { MenuProps } from 'antd'
 import { Button, Menu } from 'antd'
-import { useState } from 'react'
 
 const items: MenuProps['items'] = [
     {
@@ -56,13 +56,13 @@ const items: MenuProps['items'] = [
     }
 ]
 
-export const HeaderMenu = () => {
+export const HeaderMenu = memo(() => {
     const [current, setCurrent] = useState('mail')
 
     const onClick: MenuProps['onClick'] = e => {
         setCurrent(e.key)
     }
-
+    console.log('render header-menu')
     return (
         <Menu
             style={{ background: 'var(--accent-color)' }}
@@ -73,4 +73,6 @@ export const HeaderMenu = () => {
             items={items}
         />
     )
-}
+})
+
+HeaderMenu.displayName = 'HeaderMenu'

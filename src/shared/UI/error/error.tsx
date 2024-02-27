@@ -1,16 +1,36 @@
-import { Alert } from 'antd'
+import Spaceman from '@/shared/assets/image/space-man.png'
+import { FallbackProps } from 'react-error-boundary'
+import s from './error.module.scss'
+import { Component } from 'react'
 
-type TErrorUIProps = {
-    isError: boolean
-    text: string
-}
+export class ErrorUI extends Component<FallbackProps> {
+    error: Error
+    resetErrorBoundary: () => void
 
-export const ErrorUI = (props: TErrorUIProps) => {
-    const { isError, text } = props
+    constructor(props: FallbackProps) {
+        super(props)
+        this.error = props.error
+        this.resetErrorBoundary = props.resetErrorBoundary
+    }
 
-    if (isError) {
+    render() {
         return (
-            <Alert message='Error' description={text} type='error' showIcon />
+            <div className={s.error}>
+                <div className={s.error__img}>
+                    <img src={Spaceman} alt='spaceman' />
+                </div>
+                <h2 className={s.error__title}>
+                    The command &ldquo;let&apos;s fly&ldquo; was taken too
+                    literally. Let&apos;s try again?
+                </h2>
+                <span className={s.error__text}>{this.error.message}</span>
+                <button
+                    className={s.error__button}
+                    onClick={this.resetErrorBoundary}
+                >
+                    Try again
+                </button>
+            </div>
         )
     }
 }

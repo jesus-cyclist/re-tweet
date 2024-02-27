@@ -6,14 +6,21 @@ import {
     useClickOutSide,
     useDebounce
 } from '@/shared'
-import { ChangeEvent, ReactNode, useCallback, useRef, useState } from 'react'
+import {
+    ChangeEvent,
+    ReactNode,
+    memo,
+    useCallback,
+    useRef,
+    useState
+} from 'react'
 import { authSelectors } from '@/features/authentication'
 import { NavLink, useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import s from './search-panel.module.scss'
 import Search from 'antd/es/input/Search'
 
-export const SearchPanel = () => {
+export const SearchPanel = memo(() => {
     const userID = useAppSelector(authSelectors.selectAccountID)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [searchValue, setSearchValue] = useState('')
@@ -98,7 +105,7 @@ export const SearchPanel = () => {
         [fetch, searchValue]
     )
 
-    const debouncedSearch = useDebounce({ callback: fetchSearch, delay: 0 })
+    const debouncedSearch = useDebounce({ callback: fetchSearch, delay: 1000 })
 
     const isShow = useCallback(() => {
         if (location.pathname === ClientRoutes.SEARCH_PATH) {
@@ -107,6 +114,8 @@ export const SearchPanel = () => {
 
         return true
     }, [location])
+
+    console.log('render search-panel')
 
     return (
         <div className={s.search}>
@@ -136,4 +145,6 @@ export const SearchPanel = () => {
             </CSSTransition>
         </div>
     )
-}
+})
+
+SearchPanel.displayName = 'SearchPanel'

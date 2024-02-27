@@ -1,9 +1,7 @@
-import { TSpaceFlightArticleItemResponse, TSpaceFlightCard } from './types'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import dayjs from 'dayjs'
+import { TArticleItemResponse, TNews } from './types'
 
 export class SpaceFlightKeyConverter {
-    static news(obj: TSpaceFlightArticleItemResponse): TSpaceFlightCard {
+    static news(obj: TArticleItemResponse): TNews {
         if (!obj) {
             return {
                 id: 0,
@@ -41,11 +39,5 @@ export class SpaceFlightKeyConverter {
             launches,
             events
         }
-    }
-
-    static convertPublishDate(date: string) {
-        dayjs.extend(relativeTime)
-        const transformedDate = dayjs(date).fromNow()
-        return transformedDate
     }
 }

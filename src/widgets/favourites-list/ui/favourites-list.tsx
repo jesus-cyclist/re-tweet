@@ -1,18 +1,14 @@
-import {
-    ScrollbarWrapper,
-    SpaceFlightKeyConverter,
-    useAppSelector,
-    useSortedByDate
-} from '@/shared'
+import { ScrollbarWrapper, useAppSelector, useSortedByDate } from '@/shared'
+import { converDateIsoToSince } from '@/shared/lib/converDate'
 import SortIcon from '@/shared/assets/svg/sort-az.svg'
 import { selectFavouritesNews } from '../model'
+import { memo, useMemo, useState } from 'react'
 import { NewsControlPanel } from '@/features'
 import s from './favourite-list.module.scss'
-import { Filter } from '@/features/filter'
-import { useMemo, useState } from 'react'
+import { FilterList } from '@/features'
 import { NewsCard } from '@/enteties'
 
-export const FavouritesList = () => {
+export const FavouritesList = memo(() => {
     const [isSortedByDate, setIsSortedByDate] = useState(true)
     const favourites = useAppSelector(selectFavouritesNews)
     const sortedList = useSortedByDate(favourites, isSortedByDate)
@@ -34,20 +30,20 @@ export const FavouritesList = () => {
         [handleSort, isSortedByDate]
     )
 
+    console.log('render favourite list')
+
     return (
         <div className={s.container}>
-            <div>{sortedList && <Filter items={items} />}</div>
+            <div>{sortedList && <FilterList items={items} />}</div>
             <ScrollbarWrapper>
                 <div className={s.list}>
                     {sortedList.map(favourite => {
-                        const datePublished =
-                            SpaceFlightKeyConverter.convertPublishDate(
-                                favourite.data.date
-                            )
-                        const dateAddedToFavourite =
-                            SpaceFlightKeyConverter.convertPublishDate(
-                                favourite.timestamp
-                            )
+                        const datePublished = converDateIsoToSince(
+                            favourite.data.date
+                        )
+                        const dateAddedToFavourite = converDateIsoToSince(
+                            favourite.timestamp
+                        )
                         return (
                             <NewsCard
                                 key={favourite.data.id}
@@ -70,4 +66,6 @@ export const FavouritesList = () => {
             </ScrollbarWrapper>
         </div>
     )
-}
+})
+
+FavouritesList.displayName = 'FavouritesList'
