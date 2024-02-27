@@ -1,7 +1,5 @@
 import { TSpaceFlightArticleItemResponse, TSpaceFlightCard } from './types'
 import { SpaceFlightKeyConverter } from './data-field-transformer'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import dayjs from 'dayjs'
 
 describe('test data field converter function', () => {
     jest.mock('dayjs', () => {
@@ -26,10 +24,7 @@ describe('test data field converter function', () => {
         } as TSpaceFlightArticleItemResponse
 
         const transformedData: TSpaceFlightCard =
-            SpaceFlightKeyConverter.article(case_1)
-
-        dayjs.extend(relativeTime)
-        const date = dayjs(case_1.published_at).fromNow()
+            SpaceFlightKeyConverter.news(case_1)
 
         expect(transformedData).toEqual({
             id: 1,
@@ -38,7 +33,7 @@ describe('test data field converter function', () => {
             image: '4',
             news: '5',
             description: '6',
-            date: date,
+            date: case_1.published_at,
             launches: case_1.launches,
             events: case_1.events
         })
@@ -57,12 +52,9 @@ describe('test data field converter function', () => {
         }
 
         const transformedData_1: TSpaceFlightCard =
-            SpaceFlightKeyConverter.article(
+            SpaceFlightKeyConverter.news(
                 case_1 as TSpaceFlightArticleItemResponse
             )
-
-        dayjs.extend(relativeTime)
-        const date_1 = dayjs(case_1.published_at).fromNow()
 
         expect(transformedData_1).toEqual({
             id: 1,
@@ -71,7 +63,7 @@ describe('test data field converter function', () => {
             image: '4',
             news: '5',
             description: '6',
-            date: date_1,
+            date: case_1.published_at,
             launches: [],
             events: []
         })
@@ -79,7 +71,7 @@ describe('test data field converter function', () => {
         const case_2: TSpaceFlightArticleItemResponse = null
 
         const transformedData_2: TSpaceFlightCard =
-            SpaceFlightKeyConverter.article(
+            SpaceFlightKeyConverter.news(
                 case_2 as TSpaceFlightArticleItemResponse
             )
 

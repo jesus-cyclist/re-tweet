@@ -1,47 +1,45 @@
-import ImageFallback from '@/shared/assets/image/image_fallback.jpg'
-import Bookmark from '@/shared/assets/svg/bookmark.svg'
-import { TSpaceFlightCard } from '@/shared'
-import { NavLink } from 'react-router-dom'
+import ImageFallback from '@/shared/assets/image/image_fallback.png'
+import { ClientRoutes, LinkUI, TSpaceFlightCard } from '@/shared'
+import { useLocation } from 'react-router-dom'
+import { NewsImage } from '../news-image'
 import s from './news-card.module.scss'
 import classNames from 'classnames'
-import { Image } from 'antd'
+import { ReactNode } from 'react'
 
 type TNewsCardProps = {
     data: TSpaceFlightCard
-    type: 'column' | 'background'
+    type: 'column' | 'background' | 'row'
+    children?: ReactNode
 }
 
 export const NewsCard = (props: TNewsCardProps): JSX.Element => {
     const {
-        data: { title, image, date, news, url },
+        children,
+        data: { title, image, date, news, id },
         type
     } = props
+    const location = useLocation()
 
     switch (type) {
         case 'background':
             return (
                 <div className={s.card}>
-                    <Image
-                        height={'100%'}
-                        width={'100%'}
-                        src={image}
+                    <NewsImage
+                        image={image}
+                        title={title}
                         fallback={ImageFallback}
-                        preview={false}
-                        alt={`image for ${title}`}
                     />
                     <div className={s.card__text}>
-                        <NavLink
+                        <LinkUI
                             className={s.card__news}
-                            to={url}
-                            target='_blank'
+                            to={`${ClientRoutes.NEWS}:${id}`}
+                            state={{ news: location.pathname }}
                         >
                             {news}
-                        </NavLink>
+                        </LinkUI>
                         <h3 className={s.card__title}>{title}</h3>
                         <span className={s.card__date}>{date}</span>
-                        <div className={s.card__bookmark}>
-                            <Bookmark />
-                        </div>
+                        {children}
                     </div>
                 </div>
             )
@@ -49,35 +47,45 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
         case 'column':
             return (
                 <div className={classNames(s.card, s.columnCard)}>
-                    <Image
-                        height={'100%'}
-                        width={'100%'}
-                        src={image}
+                    <NewsImage
+                        image={image}
+                        title={title}
                         fallback={ImageFallback}
-                        preview={false}
-                        alt={`image for ${title}`}
-                        placeholder={
-                            <Image
-                                preview={false}
-                                src={ImageFallback}
-                                width={'100%'}
-                                height={'100%'}
-                            />
-                        }
                     />
                     <div className={s.card__text}>
-                        <NavLink
+                        <LinkUI
                             className={s.card__news}
-                            to={url}
-                            target='_blank'
+                            to={`${ClientRoutes.NEWS}:${id}`}
+                            state={{ news: location.pathname }}
                         >
                             {news}
-                        </NavLink>
+                        </LinkUI>
                         <h3 className={s.card__title}>{title}</h3>
                         <span className={s.card__date}>{date}</span>
-                        <div className={s.card__bookmark}>
-                            <Bookmark />
-                        </div>
+                        {children}
+                    </div>
+                </div>
+            )
+
+        case 'row':
+            return (
+                <div className={classNames(s.card, s.rowCard)}>
+                    <NewsImage
+                        image={image}
+                        title={title}
+                        fallback={ImageFallback}
+                    />
+                    <div className={s.card__text}>
+                        <LinkUI
+                            className={s.card__news}
+                            to={`${ClientRoutes.NEWS}:${id}`}
+                            state={{ news: location.pathname }}
+                        >
+                            {news}
+                        </LinkUI>
+                        <h3 className={s.card__title}>{title}</h3>
+                        <span className={s.card__date}>{date}</span>
+                        {children}
                     </div>
                 </div>
             )

@@ -1,3 +1,6 @@
 export * from './authentication'
 export * from './protected-route'
 export * from './header-menu'
+export * from './news-control-panel'
+export * from './search-panel'
+export * from './logo'

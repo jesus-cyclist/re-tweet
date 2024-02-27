@@ -29,6 +29,13 @@ export type TSpaceFlightArticleResponse = {
     results: Array<TSpaceFlightArticleItemResponse>
 }
 
+export type TSpaceFlightArticleResponseTransformed = {
+    count: number
+    next: string | null
+    previous: string | null
+    results: Array<TSpaceFlightCard>
+}
+
 export type TSpaceFlightCard = {
     id: number
     title: string

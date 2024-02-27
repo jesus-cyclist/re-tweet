@@ -1,28 +1,32 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
-type TDebounce<T> = {
-    cb: () => void
+type TUseDebounce<T> = {
+    callback: (...args: T[]) => void
     delay: number
-    dependencies: T[]
 }
 
-export const useDebounce = <T>({ cb, delay, dependencies }: TDebounce<T>) => {
-    const [timeoutId, setTimeoutId] = useState(null)
+export const useDebounce = <T>({ callback, delay }: TUseDebounce<T>) => {
+    const timeoutRef = useRef(null)
 
     useEffect(() => {
-        if (timeoutId) {
-            clearTimeout(timeoutId)
-            setTimeoutId(null)
-        }
-
-        const id = setTimeout(() => {
-            cb()
-        }, delay)
-        setTimeoutId(id)
-
         return () => {
-            clearTimeout(timeoutId)
-            setTimeoutId(null)
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current)
+                timeoutRef.current = null
+            }
         }
-    }, dependencies)
+    }, [])
+
+    const debouncedCallback = (...args: T[]) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+            timeoutRef.current = null
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            callback(...args)
+        }, delay)
+    }
+
+    return debouncedCallback
 }

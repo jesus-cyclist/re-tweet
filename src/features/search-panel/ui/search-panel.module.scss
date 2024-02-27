@@ -1,0 +1,73 @@
+.search {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 0.8rem;
+    line-height: calc(0.8rem * 1.2);
+}
+
+.search__dropdown {
+    height: fit-content;
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-rows: repeat(auto-fill, 3rem);
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    max-width: 200px;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    box-shadow:
+        0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    border: 1px solid var(--highlight-color);
+    z-index: 20;
+    overflow: hidden;
+    background: var(--accent-color);
+
+    .search__listItem,
+    .search__listItemEmpty {
+        padding: 0.5rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        max-height: calc(0.8rem * 2 * 1.2 + 1rem + 1px);
+        background: var(--accent-color);
+        overflow: hidden;
+        color: var(--highlight-color);
+        transition:
+            color 0.1s ease,
+            background 0.1s ease;
+
+        .search__link {
+            display: inline-block;
+            max-height: calc(0.8rem * 2 * 1.2);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .search__listItem:hover {
+        background: var(--primary-color);
+        color: var(--link-color);
+        transition:
+            color 0.1s ease,
+            background 0.1s ease;
+    }
+}
+
+.search__dropdownEnter {
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.search__dropdownEnterDone {
+    transform: scaleY(1);
+    transition: transform 0.3s ease;
+}

@@ -3,7 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import dayjs from 'dayjs'
 
 export class SpaceFlightKeyConverter {
-    static article(obj: TSpaceFlightArticleItemResponse): TSpaceFlightCard {
+    static news(obj: TSpaceFlightArticleItemResponse): TSpaceFlightCard {
         if (!obj) {
             return {
                 id: 0,
@@ -30,9 +30,6 @@ export class SpaceFlightKeyConverter {
             events = []
         } = obj
 
-        dayjs.extend(relativeTime)
-        const date = dayjs(published_at).fromNow()
-
         return {
             id,
             title,
@@ -40,9 +37,15 @@ export class SpaceFlightKeyConverter {
             image: image_url,
             news: news_site,
             description: summary,
-            date,
+            date: published_at,
             launches,
             events
         }
+    }
+
+    static convertPublishDate(date: string) {
+        dayjs.extend(relativeTime)
+        const transformedDate = dayjs(date).fromNow()
+        return transformedDate
     }
 }

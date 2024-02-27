@@ -1,0 +1,45 @@
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}
+
+.filter {
+    border: 1px solid var(--highlight-color);
+    border-radius: 10px;
+    padding: 0.4rem;
+    cursor: pointer;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto auto;
+    background: var(--content-color);
+    color: var(--highlight-color);
+    transition:
+        color 0.3s ease,
+        background 0.3s ease;
+    .filter__text {
+    }
+
+    svg {
+        height: 100%;
+        width: 100%;
+        transform: rotate(-180deg);
+        transition: transform 0.3s ease;
+    }
+}
+
+.filterActive {
+    color: var(--content-color);
+    background: var(--highlight-color);
+    transition:
+        color 0.3s ease,
+        background 0.3s ease;
+    svg {
+        height: 100%;
+        width: 100%;
+        transform: rotate(0deg);
+        transition: transform 0.3s ease;
+    }
+}

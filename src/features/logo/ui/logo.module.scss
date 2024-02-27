@@ -1,0 +1,216 @@
+.header__link {
+    z-index: 10;
+    display: block;
+    width: 5rem;
+    height: 64px;
+    padding: 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.rocket {
+    top: 1rem;
+    height: 2rem;
+    width: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+
+    .rocket__main {
+    }
+
+    .rocket__flame {
+        height: 0.5rem;
+        position: absolute;
+        bottom: -0.2rem;
+        opacity: 0.5;
+        animation: flame 5s ease infinite;
+        transform-origin: top;
+    }
+
+    animation: fly 15s ease infinite;
+}
+
+@keyframes fly {
+    0% {
+        transform: translate(0%, 0%) rotate3d(0, 0, 0, 0deg) scale(1);
+    }
+    10% {
+        transform: translate(-0.5rem, -20%) rotate3d(0, 1, 0, -30deg) scale(1);
+    }
+    20% {
+        transform: translate(-0.2rem, -10%) rotate3d(0, -1, 0, -30deg) scale(1);
+    }
+    30% {
+        transform: translate(1.3rem, -30%) rotate3d(0, 1, 0, 30deg) scale(1.1);
+    }
+    40% {
+        transform: translate(-0.5rem, -40%) rotate3d(0, 1, 0, -30deg)
+            scale(1.05);
+    }
+    50% {
+        transform: translate(1.7rem, -30%) rotate3d(0, 1, 0, 30deg) scale(0.8);
+    }
+    60% {
+        transform: translate(2.4rem, -20%) rotate3d(0, 1, 0, 30deg) scale(1);
+    }
+    70% {
+        transform: translate(1.4rem, 0%) rotate3d(0, 1, 0, 30deg) scale(1);
+    }
+    80% {
+        transform: translate(-1rem, 15%) rotate3d(0, 1, 0, -30deg) scale(1);
+    }
+    90% {
+        transform: translate(-0.7rem, 30%) rotate3d(0, 1, 0, -30deg) scale(1);
+    }
+    100% {
+        transform: translate(0%, 0%) rotate3d(0, 0, 0, 0deg);
+    }
+}
+
+@keyframes flame {
+    0% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    10% {
+        opacity: 0.8;
+        transform: scaleY(1.5);
+    }
+    20% {
+        opacity: 1;
+        transform: scaleY(2);
+    }
+    30% {
+        opacity: 0.9;
+        transform: scaleY(1.4);
+    }
+    40% {
+        opacity: 0.5;
+        transform: scaleY(2);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scaleY(1);
+    }
+    60% {
+        opacity: 0.5;
+        transform: scaleY(1.7);
+    }
+    70% {
+        opacity: 1;
+        transform: scaleY(2);
+    }
+    80% {
+        opacity: 0.5;
+        transform: scaleY(1.2);
+    }
+    90% {
+        opacity: 0.4;
+        transform: scaleY(1.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+@function randomDuration($max) {
+    @return #{$max + random() * $max}s;
+}
+
+@function randomLeft($max) {
+    @return #{random() * $max}rem;
+}
+
+.comet {
+    position: absolute;
+    top: -5rem;
+    height: 0.5rem;
+}
+
+.comet__1 {
+    left: #{randomLeft(4)};
+    --animation-duration: #{randomDuration(3.5)};
+    animation: moveDown var(--animation-duration) ease-in-out infinite;
+}
+
+.comet__2 {
+    left: #{randomLeft(4)};
+    --animation-duration: #{randomDuration(2.5)};
+    animation: moveDown var(--animation-duration) ease-in-out infinite;
+}
+
+.comet__3 {
+    left: #{randomLeft(4)};
+    --animation-duration: #{randomDuration(3)};
+    animation: moveDown var(--animation-duration) ease-in-out infinite;
+}
+
+.comet__4 {
+    left: #{randomLeft(4)};
+    --animation-duration: #{randomDuration(1.7)};
+    animation: moveDown var(--animation-duration) ease-in-out infinite;
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(-2rem) rotate(0deg);
+    }
+    100% {
+        transform: translateY(10rem) rotate(360deg);
+    }
+}
+
+.lines_1 {
+    position: relative;
+    z-index: 5;
+    top: -5rem;
+    display: block;
+    width: 1px;
+    height: 4px;
+    color: black;
+    background: var(--content-color);
+    left: #{randomLeft(2)};
+    --animation-duration: #{randomDuration(1.5)};
+    animation: lines var(--animation-duration) ease-in-out infinite;
+}
+
+.lines_2 {
+    position: relative;
+    z-index: 5;
+    top: -5rem;
+    display: block;
+    width: 1px;
+    height: 3px;
+    color: black;
+    background: var(--content-color);
+    left: #{randomLeft(4)};
+    --animation-duration: #{randomDuration(1.5)};
+    animation: lines var(--animation-duration) ease-in-out infinite;
+}
+
+.lines_3 {
+    position: relative;
+    z-index: 5;
+    top: -5rem;
+    display: block;
+    width: 1px;
+    height: 6px;
+    color: black;
+    background: var(--content-color);
+    left: #{randomLeft(0.5)};
+    --animation-duration: #{randomDuration(1.5)};
+    animation: lines var(--animation-duration) ease-in-out infinite;
+}
+
+@keyframes lines {
+    0% {
+        transform: translateY(-2rem);
+    }
+    100% {
+        transform: translateY(10rem);
+    }
+}

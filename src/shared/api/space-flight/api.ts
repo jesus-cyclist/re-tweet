@@ -1,13 +1,19 @@
+import {
+    TSpaceFlightArticleItemResponse,
+    TSpaceFlightArticleResponse,
+    TSpaceFlightArticleResponseTransformed,
+    TSpaceFlightCard
+} from './types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { SpaceFlightKeyConverter } from './data-field-transformer'
 import { SpaceFlightApiRoutes } from '@/shared/config'
-import { TSpaceFlightArticleResponse } from './types'
 
 export const spaceFlightApi = createApi({
     reducerPath: 'spaceFlightApi',
     baseQuery: fetchBaseQuery({ baseUrl: SpaceFlightApiRoutes.BASE_PATH }),
     endpoints: builder => ({
         getArticles: builder.query<
-            TSpaceFlightArticleResponse,
+            TSpaceFlightArticleResponseTransformed,
             { limit: number; offset: number }
         >({
             query: ({ limit, offset }) => ({
@@ -16,10 +22,17 @@ export const spaceFlightApi = createApi({
                     limit,
                     offset
                 }
-            })
+            }),
+            transformResponse: (response: TSpaceFlightArticleResponse) => {
+                const transformedResults = response.results.map(item =>
+                    SpaceFlightKeyConverter.news(item)
+                )
+
+                return { ...response, results: transformedResults }
+            }
         }),
         getArticlesBySearch: builder.query<
-            TSpaceFlightArticleResponse,
+            TSpaceFlightArticleResponseTransformed,
             { phrase: string; limit: number; offset: number }
         >({
             query: ({ phrase, limit, offset }) => ({
@@ -29,13 +42,28 @@ export const spaceFlightApi = createApi({
                     limit,
                     offset
                 }
-            })
+            }),
+            transformResponse: (response: TSpaceFlightArticleResponse) => {
+                const transformedResults = response.results.map(item =>
+                    SpaceFlightKeyConverter.news(item)
+                )
+
+                return { ...response, results: transformedResults }
+            }
+        }),
+
+        getArticlesById: builder.query<TSpaceFlightCard, { id: number }>({
+            query: ({ id }) => ({
+                url: `${SpaceFlightApiRoutes.ARTICLES_PATH}/${id}`
+            }),
+            transformResponse: (response: TSpaceFlightArticleItemResponse) => {
+                const transformedResults =
+                    SpaceFlightKeyConverter.news(response)
+
+                return transformedResults
+            }
         })
-        // getArticlesById: builder.query<TSpaceFlightArticleResponse, number>({
-        //     query: (id: number) => ({
-        //         url: `${SpaceFlightApiRoutes.ARTICLES_PATH}/${id}`
-        //     })
-        // }),
+
         // getBlogs: builder.query<
         //     TSpaceFlightArticleResponse,
         //     { limit: number; offset: number }

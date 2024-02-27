@@ -1,0 +1,34 @@
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr auto;
+    grid-row-gap: 1rem;
+    justify-items: center;
+
+    .list__content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-row-gap: 2rem;
+    }
+
+    .pagination {
+        padding: 0.5rem;
+        background: var(--accent-color);
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+    }
+}
