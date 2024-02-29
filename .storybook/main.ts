@@ -33,28 +33,11 @@ const config: StorybookConfig = {
 
         fileLoaderRule.exclude = /\.svg$/
 
-        config.module.rules.push(
-            {
-                test: /\.svg$/,
-                enforce: 'pre',
-                loader: require.resolve('@svgr/webpack')
-            },
-            {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: {
-                                localIdentName: '[path][name]__[local]'
-                            }
-                        }
-                    },
-                    'sass-loader'
-                ]
-            }
-        )
+        config.module.rules.push({
+            test: /\.svg$/,
+            enforce: 'pre',
+            loader: require.resolve('@svgr/webpack')
+        })
 
         config.plugins.push(
             new TsconfigPathsPlugin({

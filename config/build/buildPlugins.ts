@@ -43,7 +43,9 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
                     process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
                 REACT_APP_FIREBASE_MESSAGE_SENDER_ID:
                     process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
-                REACT_APP_FIREBASE_APP_ID: process.env.REACT_APP_FIREBASE_APP_ID
+                REACT_APP_FIREBASE_APP_ID:
+                    process.env.REACT_APP_FIREBASE_APP_ID,
+                REACT_APP_REMOTE_STORE: process.env.REACT_APP_REMOTE_STORE
             })
         }),
         new CopyPlugin({

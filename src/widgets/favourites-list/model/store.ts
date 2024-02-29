@@ -1,5 +1,5 @@
+import { TFavourite } from '@/shared/api/db/types'
 import { createSlice } from '@reduxjs/toolkit'
-import { TFavourite } from '@/shared'
 
 type TInitialState = {
     list: Array<TFavourite>

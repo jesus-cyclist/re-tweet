@@ -1,6 +1,6 @@
 import {
     ClientRoutes,
-    FirebaseSearch,
+    dbApi,
     spaceFlightApi,
     useAppSelector,
     useClickOutSide,
@@ -15,9 +15,9 @@ import {
     useState
 } from 'react'
 import { authSelectors } from '@/features/authentication'
-import { NavLink, useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import s from './search-panel.module.scss'
+import { NavLink } from 'react-router-dom'
 import Search from 'antd/es/input/Search'
 
 export const SearchPanel = memo(() => {
@@ -26,10 +26,12 @@ export const SearchPanel = memo(() => {
     const [searchValue, setSearchValue] = useState('')
     const [searchListResult, setSearchListResult] =
         useState<Array<ReactNode>>(null)
-    const [fetch, { isFetching }] =
+    const [fetchSearchList, { isFetching }] =
         spaceFlightApi.useLazyGetArticlesBySearchQuery()
+
+    const [fetchSearchUpdate] = dbApi.useGetSearchQueryMutation()
+
     const listRef = useRef<HTMLUListElement | null>(null)
-    const location = useLocation()
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value)
@@ -39,12 +41,16 @@ export const SearchPanel = memo(() => {
         setIsDropdownOpen(false)
     }
 
+    const handlerUpdatedSearch = () => {
+        fetchSearchUpdate({ userID, query: searchValue })
+    }
+
     useClickOutSide({ ref: listRef, cb: handleCloseDropdown })
 
     const fetchSearch = useCallback(
         async (value: string) => {
             if (value) {
-                await fetch({
+                await fetchSearchList({
                     phrase: value,
                     limit: 5,
                     offset: 0
@@ -84,12 +90,7 @@ export const SearchPanel = memo(() => {
                                 key={'search-link'}
                                 to={ClientRoutes.SEARCH_PATH}
                                 state={{ search: `${searchValue}` }}
-                                onClick={() =>
-                                    FirebaseSearch.updateSearch(
-                                        userID,
-                                        searchValue
-                                    )
-                                }
+                                onClick={handlerUpdatedSearch}
                             >
                                 {'Show all'}
                             </NavLink>
@@ -107,16 +108,6 @@ export const SearchPanel = memo(() => {
 
     const debouncedSearch = useDebounce({ callback: fetchSearch, delay: 1000 })
 
-    const isShow = useCallback(() => {
-        if (location.pathname === ClientRoutes.SEARCH_PATH) {
-            return false
-        }
-
-        return true
-    }, [location])
-
-    console.log('render search-panel')
-
     return (
         <div className={s.search}>
             <Search
@@ -126,8 +117,6 @@ export const SearchPanel = memo(() => {
                 loading={isFetching}
                 onChange={handleInputChange}
                 onSearch={(value: string) => debouncedSearch(value)}
-                disabled={!isShow()}
-                style={{ visibility: isShow() ? 'visible' : 'hidden' }}
             />
             <CSSTransition
                 nodeRef={listRef}

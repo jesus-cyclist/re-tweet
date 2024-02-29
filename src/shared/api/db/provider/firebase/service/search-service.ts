@@ -1,9 +1,19 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
-import { firestoreDB } from './config'
-import { TSearch } from './types'
+import {
+    DocumentData,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc
+} from 'firebase/firestore'
+import { TUserID, TUserSearch } from '@/shared/api/db/types/arg'
+import { TSearch, TSuccess } from '@/shared/api/db/types/arg'
+import { firestoreDB } from '../config'
 
-export class FirebaseSearch {
-    static async updateSearch(userID: string, query: string): Promise<boolean> {
+export const search = {
+    getSearchQuery: async ({
+        userID,
+        query
+    }: TUserSearch): Promise<TSuccess> => {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 
@@ -30,7 +40,6 @@ export class FirebaseSearch {
             await updateDoc(userRef, {
                 search: updateHistory
             })
-            return false
         } else {
             const timestamp = new Date().toISOString()
             const favouriteItem = {
@@ -41,20 +50,26 @@ export class FirebaseSearch {
             await updateDoc(userRef, {
                 search: [...searchHistory, favouriteItem]
             })
-            return true
         }
-    }
 
-    static async getSearchHistory(userID: string): Promise<Array<TSearch>> {
+        return { success: true }
+    },
+
+    getSearchHistory: async (
+        userID: TUserID
+    ): Promise<DocumentData[string]> => {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 
         const searchHistory = userDoc.data()
 
         return searchHistory?.search || []
-    }
+    },
 
-    static async deleteSearchHistoryItem(userID: string, query: string) {
+    deleteSearchHistoryItem: async ({
+        userID,
+        query
+    }: TUserSearch): Promise<TSuccess> => {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 
@@ -65,13 +80,17 @@ export class FirebaseSearch {
         await updateDoc(userRef, {
             search: updateHistory
         })
-    }
 
-    static async clearSearchHistory(userID: string) {
+        return { success: true }
+    },
+
+    clearSearchHistory: async (userID: TUserID): Promise<TSuccess> => {
         const userRef = doc(firestoreDB, 'users', userID)
 
         await updateDoc(userRef, {
             search: []
         })
+
+        return { success: true }
     }
 }

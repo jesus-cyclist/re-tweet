@@ -60,7 +60,7 @@ export const SearchList = () => {
         }
     }, [searchValue, fetch, page, setSearchList])
 
-    const debouncedFetch = useDebounce({ callback: fetchSearch, delay: 2000 })
+    const debouncedFetch = useDebounce({ callback: fetchSearch, delay: 0 })
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPage(1)

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { dbApi, spaceFlightApi } from '@/shared'
 import { rootReducer } from './rootReducer'
-import { spaceFlightApi } from '@/shared'
 
 export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => {
-        return getDefaultMiddleware().concat(spaceFlightApi.middleware)
+        return getDefaultMiddleware()
+            .concat(dbApi.middleware)
+            .concat(spaceFlightApi.middleware)
     }
 })
 

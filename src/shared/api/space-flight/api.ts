@@ -9,7 +9,7 @@ import { SpaceFlightKeyConverter } from './data-field-transformer'
 import { SpaceFlightApiRoutes } from '@/shared/config'
 
 export const spaceFlightApi = createApi({
-    reducerPath: 'spaceFlightApi',
+    reducerPath: 'spaceFlight',
     baseQuery: fetchBaseQuery({ baseUrl: SpaceFlightApiRoutes.BASE_PATH }),
     endpoints: builder => ({
         getArticles: builder.query<
@@ -63,42 +63,5 @@ export const spaceFlightApi = createApi({
                 return transformedResults
             }
         })
-
-        // getBlogs: builder.query<
-        //     TArticleResponse,
-        //     { limit: number; offset: number }
-        // >({
-        //     query: ({ limit = 10, offset = 10 }) => ({
-        //         url: SpaceFlightApiRoutes.BLOGS_PATH,
-        //         params: {
-        //             limit,
-        //             offset
-        //         }
-        //     })
-        // }),
-        // getInfo: builder.query<
-        //     TArticleResponse,
-        //     { limit: number; offset: number }
-        // >({
-        //     query: ({ limit = 10, offset = 10 }) => ({
-        //         url: SpaceFlightApiRoutes.INFO_PATH,
-        //         params: {
-        //             limit,
-        //             offset
-        //         }
-        //     })
-        // }),
-        // getReports: builder.query<
-        //     TArticleResponse,
-        //     { limit: number; offset: number }
-        // >({
-        //     query: ({ limit = 10, offset = 10 }) => ({
-        //         url: SpaceFlightApiRoutes.REPORTS_PATH,
-        //         params: {
-        //             limit,
-        //             offset
-        //         }
-        //     })
-        // })
     })
 })

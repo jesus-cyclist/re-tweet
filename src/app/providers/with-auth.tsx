@@ -1,24 +1,24 @@
-import { FirebaseAuth, LoaderUI, useAppDispatch } from '@/shared'
+import { LoaderUI, dbApi, useAppDispatch } from '@/shared'
 import { useEffect, useState } from 'react'
 import { accountAction } from '@/features'
 import { WithAntd } from './with-antd'
-import { User } from 'firebase/auth'
 
 export const WithAuth = () => {
     const dispatch = useAppDispatch()
-    const [isAuth, setIsAuth] = useState(false)
+    const [checkAuth, setCheckAuth] = useState(true)
+    const { data, isFetching } = dbApi.useGetAuthStateQuery()
 
     useEffect(() => {
-        FirebaseAuth.authState((user: User) => {
-            if (user) {
-                const { email, uid } = user
+        if (!isFetching) {
+            if (data) {
+                const { email, uid } = data
                 dispatch(accountAction.setAccount({ email, uid }))
             }
-            setIsAuth(true)
-        })
-    }, [])
+            setCheckAuth(false)
+        }
+    }, [isFetching])
 
-    if (!isAuth) {
+    if (checkAuth) {
         return <LoaderUI isLoading />
     }
 

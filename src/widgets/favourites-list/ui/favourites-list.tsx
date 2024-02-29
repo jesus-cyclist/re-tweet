@@ -30,25 +30,23 @@ export const FavouritesList = memo(() => {
         [handleSort, isSortedByDate]
     )
 
-    console.log('render favourite list')
-
     return (
         <div className={s.container}>
             <div>{sortedList && <FilterList items={items} />}</div>
             <ScrollbarWrapper>
                 <div className={s.list}>
-                    {sortedList.map(favourite => {
+                    {sortedList.map(newsData => {
                         const datePublished = converDateIsoToSince(
-                            favourite.data.date
+                            newsData.data.date
                         )
                         const dateAddedToFavourite = converDateIsoToSince(
-                            favourite.timestamp
+                            newsData.timestamp
                         )
                         return (
                             <NewsCard
-                                key={favourite.data.id}
+                                key={newsData.data.id}
                                 data={{
-                                    ...favourite.data,
+                                    ...newsData.data,
                                     date: datePublished
                                 }}
                                 type={'row'}
@@ -57,7 +55,9 @@ export const FavouritesList = memo(() => {
                                     <span className={s.bottomPanel__text}>
                                         {`Added to favourites ${dateAddedToFavourite}`}
                                     </span>
-                                    <NewsControlPanel data={favourite.data} />
+                                    <NewsControlPanel
+                                        newsData={newsData.data}
+                                    />
                                 </div>
                             </NewsCard>
                         )

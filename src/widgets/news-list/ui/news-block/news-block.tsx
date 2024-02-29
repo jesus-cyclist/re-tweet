@@ -19,22 +19,22 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
         case 1:
             return (
                 <div className={classNames(s.block, s.blockFirst)}>
-                    {data.map(newsItem => {
+                    {data.map(newsData => {
                         const content = isLoading ? (
                             <NewsSkeleton
-                                key={newsItem.id}
+                                key={newsData.id}
                                 type={'background'}
                             />
                         ) : (
                             <NewsCard
-                                key={newsItem.id}
+                                key={newsData.id}
                                 data={{
-                                    ...newsItem,
-                                    date: converDateIsoToSince(newsItem.date)
+                                    ...newsData,
+                                    date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={'background'}
                             >
-                                <NewsControlPanel data={newsItem} />
+                                <NewsControlPanel newsData={newsData} />
                             </NewsCard>
                         )
                         return content
@@ -45,22 +45,22 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
         case 2:
             return (
                 <div className={classNames(s.block, s.blockSecond)}>
-                    {data.map(newsItem => {
+                    {data.map(newsData => {
                         const content = isLoading ? (
                             <NewsSkeleton
-                                key={newsItem.id}
+                                key={newsData.id}
                                 type={'background'}
                             />
                         ) : (
                             <NewsCard
-                                key={newsItem.id}
+                                key={newsData.id}
                                 data={{
-                                    ...newsItem,
-                                    date: converDateIsoToSince(newsItem.date)
+                                    ...newsData,
+                                    date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={'background'}
                             >
-                                <NewsControlPanel data={newsItem} />
+                                <NewsControlPanel newsData={newsData} />
                             </NewsCard>
                         )
 
@@ -72,22 +72,22 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
         case 3:
             return (
                 <div className={classNames(s.block, s.blockThird)}>
-                    {data.map((newsItem, i) => {
+                    {data.map((newsData, i) => {
                         const content = isLoading ? (
                             <NewsSkeleton
-                                key={newsItem.id}
+                                key={newsData.id}
                                 type={'background'}
                             />
                         ) : (
                             <NewsCard
-                                key={newsItem.id}
+                                key={newsData.id}
                                 data={{
-                                    ...newsItem,
-                                    date: converDateIsoToSince(newsItem.date)
+                                    ...newsData,
+                                    date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={i === 0 ? 'column' : 'background'}
                             >
-                                <NewsControlPanel data={newsItem} />
+                                <NewsControlPanel newsData={newsData} />
                             </NewsCard>
                         )
                         return content
