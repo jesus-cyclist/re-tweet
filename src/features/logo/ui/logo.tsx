@@ -17,7 +17,7 @@ export const Logo = memo(() => {
         },
         []
     )
-    console.log('render logo')
+
     return (
         <NavLink
             className={s.header__link}

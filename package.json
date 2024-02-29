@@ -85,12 +85,14 @@
         "sass": "^1.70.0",
         "sass-loader": "^14.1.1",
         "storybook": "^7.6.17",
+        "storybook-addon-sass-postcss": "^0.2.0",
         "storybook-react-context": "^0.6.0",
         "style-loader": "^3.3.4",
         "terser-webpack-plugin": "^5.3.10",
         "ts-jest": "^29.1.2",
         "ts-loader": "^9.5.1",
         "ts-node": "^10.9.2",
+        "tsconfig-paths-webpack-plugin": "^4.1.0",
         "typescript": "^5.3.3",
         "webpack": "^5.90.0",
         "webpack-bundle-analyzer": "^4.10.1",
@@ -120,11 +122,8 @@
         "react-window": "^1.8.10",
         "react-window-infinite-loader": "^1.0.9",
         "redux": "^5.0.1",
-        "storybook-addon-sass-postcss": "^0.2.0",
-        "tsconfig-paths-webpack-plugin": "^4.1.0",
         "uniqid": "^5.4.0",
-        "url-loader": "^4.1.1",
-        "webpack-merge": "^5.10.0"
+        "url-loader": "^4.1.1"
     },
     "lint-staged": {
         "*.ts": "eslint"
