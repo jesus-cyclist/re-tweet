@@ -8,7 +8,7 @@ export function buildResolvers(
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
             '@': options.paths.src
-        },
-        fallback: { crypto: false }
+        }
+        // fallback: { crypto: false }
     }
 }
