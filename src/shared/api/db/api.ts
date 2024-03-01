@@ -1,9 +1,11 @@
 import {
     TFavourite,
+    TReadStatus,
     TSuccess,
     TUserCredential,
     TUserFavourites,
     TUserID,
+    TUserReadStatus,
     TUserSearch
 } from './types/arg'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
@@ -15,7 +17,7 @@ import { db } from './provider'
 export const dbApi = createApi({
     reducerPath: 'db',
     baseQuery: fakeBaseQuery(),
-    tagTypes: ['favourites', 'search', 'auth'],
+    tagTypes: ['favourites', 'search', 'auth', 'read'],
     endpoints: builder => ({
         getSignUp: builder.query<TAuthUser, TUserCredential>({
             queryFn: async ({ email, password }) => {
@@ -151,6 +153,35 @@ export const dbApi = createApi({
                 }
             },
             invalidatesTags: ['search']
+        }),
+
+        getAddReadedStatus: builder.mutation<TSuccess, TUserReadStatus>({
+            queryFn: async ({ userID, data }) => {
+                try {
+                    const res = await db.readed.addReadedStatus({
+                        userID,
+                        data
+                    })
+
+                    return {
+                        data: res
+                    }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            invalidatesTags: ['read']
+        }),
+        getReaded: builder.query<Array<TReadStatus>, TUserID>({
+            queryFn: async userID => {
+                try {
+                    const res = await db.readed.getReaded(userID)
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            providesTags: ['read']
         })
     })
 })

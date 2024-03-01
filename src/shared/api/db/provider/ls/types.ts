@@ -1,4 +1,4 @@
-import { TFavourite, TSearch } from '../../types'
+import { TFavourite, TReadStatus, TSearch } from '../../types'
 import { TAuthUser } from '@/features'
 
 export type TDBStatus = {
@@ -14,4 +14,5 @@ export type TAuthUserWithPassword = TAuthUser & {
 export type TUser = TAuthUserWithPassword & {
     favourites: Array<TFavourite>
     search: Array<TSearch>
+    read: Array<TReadStatus>
 }

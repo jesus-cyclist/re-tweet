@@ -29,7 +29,8 @@ export const auth = {
             password: hashPasword,
             isAuth: true,
             favourites: [],
-            search: []
+            search: [],
+            read: []
         }
 
         const updatedUsers = [...users, newUser]

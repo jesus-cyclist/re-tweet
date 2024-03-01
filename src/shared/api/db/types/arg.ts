@@ -12,20 +12,24 @@ export type TUserFavourites = {
     data: TNews
 }
 
-export type TUserSearch = {
-    userID: TUserID
-    query: string
-}
-
 export type TFavourite = {
     timestamp: string
     data: TNews
+}
+
+export type TUserSearch = {
+    userID: TUserID
+    query: string
 }
 
 export type TSearch = {
     timestamp: string
     query: string
 }
+
+export type TUserReadStatus = TUserFavourites
+
+export type TReadStatus = TFavourite
 
 export type TSuccess = {
     success: boolean

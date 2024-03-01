@@ -18,10 +18,11 @@ export const search = {
         const userDoc = await getDoc(userRef)
 
         if (!userDoc.exists()) {
-            await setDoc(userRef, { userID, favourites: [], search: [] })
+            await setDoc(userRef, { favourites: [], search: [], read: [] })
         }
 
-        const searchHistory: Array<TSearch> = userDoc.data().search
+        const searchHistory: Array<TSearch> = (await getDoc(userRef)).data()
+            .search
         const isExists = searchHistory.some(item => item.query === query)
 
         if (isExists) {

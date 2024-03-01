@@ -1,5 +1,6 @@
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { ClientRoutes, LinkUI, TNews } from '@/shared'
+import { NewsReadStatus } from '../news-read-status'
 import { useLocation } from 'react-router-dom'
 import { NewsImage } from '../news-image'
 import s from './news-card.module.scss'
@@ -10,13 +11,15 @@ type TNewsCardProps = {
     data: TNews
     type: 'column' | 'background' | 'row'
     children?: ReactNode
+    readStatus?: boolean
 }
 
 export const NewsCard = (props: TNewsCardProps): JSX.Element => {
     const {
         children,
         data: { title, image, date, news, id },
-        type
+        type,
+        readStatus = false
     } = props
     const location = useLocation()
 
@@ -24,6 +27,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
         case 'background':
             return (
                 <div className={s.card}>
+                    <NewsReadStatus readed={readStatus} />
                     <NewsImage
                         image={image}
                         title={title}

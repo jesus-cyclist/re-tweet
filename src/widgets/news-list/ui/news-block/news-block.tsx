@@ -1,10 +1,11 @@
 import { NewsCard } from '../../../../enteties/news/ui/news-card'
 import { NewsSkeleton } from '@/enteties/news/ui/news-skeleton'
+import { selectReaded } from '@/enteties/news/model/selectors'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
+import { TNews, useAppSelector } from '@/shared'
 import { NewsControlPanel } from '@/features'
 import s from './news-block.module.scss'
 import classNames from 'classnames'
-import { TNews } from '@/shared'
 
 type TNewsBlockProps = {
     isLoading: boolean
@@ -14,6 +15,7 @@ type TNewsBlockProps = {
 
 export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
     const { type, data, isLoading } = props
+    const readed = useAppSelector(selectReaded)
 
     switch (type) {
         case 1:
@@ -33,6 +35,7 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                                     date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={'background'}
+                                readStatus={Boolean(readed[newsData.id])}
                             >
                                 <NewsControlPanel newsData={newsData} />
                             </NewsCard>
@@ -59,6 +62,7 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                                     date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={'background'}
+                                readStatus={Boolean(readed[newsData.id])}
                             >
                                 <NewsControlPanel newsData={newsData} />
                             </NewsCard>
@@ -86,6 +90,7 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                                     date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={i === 0 ? 'column' : 'background'}
+                                readStatus={Boolean(readed[newsData.id])}
                             >
                                 <NewsControlPanel newsData={newsData} />
                             </NewsCard>

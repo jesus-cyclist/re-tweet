@@ -6,5 +6,6 @@ export type {
     TUserSearch,
     TFavourite,
     TSearch,
-    TSuccess
+    TSuccess,
+    TReadStatus
 } from './arg'

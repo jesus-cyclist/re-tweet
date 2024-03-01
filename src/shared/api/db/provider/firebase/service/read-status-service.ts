@@ -1,17 +1,17 @@
 import {
-    TFavourite,
+    TReadStatus,
     TSuccess,
-    TUserFavourites,
-    TUserID
+    TUserID,
+    TUserReadStatus
 } from '@/shared/api/db/types/arg'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { firestoreDB } from '../config'
 
-export const favourites = {
-    toggleFavourite: async function ({
+export const readStatus = {
+    addReadedStatus: async function ({
         userID,
         data
-    }: TUserFavourites): Promise<TSuccess> {
+    }: TUserReadStatus): Promise<TSuccess> {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 
@@ -19,40 +19,36 @@ export const favourites = {
             await setDoc(userRef, { favourites: [], search: [], read: [] })
         }
 
-        const favourites: Array<TFavourite> = (await getDoc(userRef)).data()
-            .favourites
-
-        const isExists = favourites.some(item => item.data.id === data.id)
+        const read: Array<TReadStatus> = (await getDoc(userRef)).data().read
+        const isExists = read.some(item => item.data.id === data.id)
 
         if (isExists) {
-            const filtredFavourites = favourites.filter(
-                item => item.data.id !== data.id
-            )
+            const filtredRead = read.filter(item => item.data.id !== data.id)
 
             await updateDoc(userRef, {
-                favourites: filtredFavourites
+                read: filtredRead
             })
         } else {
             const timestamp = new Date().toISOString()
-            const favouriteItem = {
+            const readItem = {
                 timestamp,
                 data
             }
 
             await updateDoc(userRef, {
-                favourites: [...favourites, favouriteItem]
+                read: [...read, readItem]
             })
         }
 
         return { success: true }
     },
 
-    getFavourites: async (userID: TUserID): Promise<Array<TFavourite>> => {
+    getReaded: async (userID: TUserID): Promise<Array<TReadStatus>> => {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 
-        const favouritesCollection = userDoc.data()
+        const readCollection = userDoc.data()
 
-        return favouritesCollection?.favourites || []
+        return readCollection?.read || []
     }
 }

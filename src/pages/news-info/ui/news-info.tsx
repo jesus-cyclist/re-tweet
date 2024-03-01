@@ -3,30 +3,39 @@ import {
     LoaderUI,
     ScrollbarWrapper,
     TNews,
-    spaceFlightApi
+    dbApi,
+    spaceFlightApi,
+    useAppSelector
 } from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { authSelectors } from '@/features'
 import s from './news-info.module.scss'
 import { Image } from 'antd'
 
 const NewsInfo = () => {
     const params = useParams()
+    const userID = useAppSelector(authSelectors.selectAccountID)
     const [newsData, setNewsData] = useState<TNews>(null)
-    const { data } = spaceFlightApi.useGetArticlesByIdQuery({
+    const { data: spaceFlightData } = spaceFlightApi.useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
 
+    const [fetch] = dbApi.useGetAddReadedStatusMutation()
+
     useEffect(() => {
-        if (data) {
+        if (spaceFlightData) {
             setNewsData({
-                ...data,
-                date: converDateIsoToSince(data.date)
+                ...spaceFlightData,
+                date: converDateIsoToSince(spaceFlightData.date)
             })
+
+            fetch({ userID, data: spaceFlightData })
         }
-    }, [data])
+    }, [spaceFlightData])
+
     return (
         <div className={s.container}>
             <ScrollbarWrapper>

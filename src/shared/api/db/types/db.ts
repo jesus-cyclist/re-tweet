@@ -1,8 +1,10 @@
 import type {
     TFavourite,
+    TReadStatus,
     TUserCredential,
     TUserFavourites,
     TUserID,
+    TUserReadStatus,
     TUserSearch
 } from '../types/arg'
 import { DocumentData } from 'firebase/firestore'
@@ -31,8 +33,14 @@ type TSearchMethods = {
     clearSearchHistory: (userID: TUserID) => Promise<TSuccess>
 }
 
+type TReadedStatusMethods = {
+    addReadedStatus: ({ userID, data }: TUserReadStatus) => Promise<TSuccess>
+    getReaded: (id: TUserID) => Promise<Array<TReadStatus>>
+}
+
 export type TDBMethods = {
     search: TSearchMethods
     auth: TAuthMethods
     favourites: TFavouritesMethods
+    readed: TReadedStatusMethods
 }
