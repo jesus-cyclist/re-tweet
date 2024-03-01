@@ -1,12 +1,19 @@
+@import '@/shared//styles/mixins.scss';
+
 .header__link {
     z-index: 10;
     display: block;
-    width: 5rem;
-    min-width: 5rem;
+    width: 2rem;
+    min-width: 2rem;
     height: 64px;
     padding: 0 2rem 0 1rem;
     position: relative;
     overflow: hidden;
+
+    @include desktop {
+        width: 5rem;
+        min-width: 5rem;
+    }
 }
 
 .rocket {
@@ -31,7 +38,29 @@
         transform-origin: top;
     }
 
-    animation: fly 25s ease-in-out infinite;
+    animation: fly-mobile 25s ease-in-out infinite;
+
+    @include desktop {
+        animation: fly 25s ease-in-out infinite;
+    }
+}
+
+@keyframes fly-mobile {
+    0% {
+        transform: translate(0%, 0%) rotate3d(0, 0, 0, 0deg) scale(1);
+    }
+    25% {
+        transform: translate(0.5rem, -30%) rotate3d(0, 1, 0, 30deg) scale(1.1);
+    }
+    50% {
+        transform: translate(-0.5rem, -30%) rotate3d(0, 1, 0, 30deg) scale(0.8);
+    }
+    75% {
+        transform: translate(0.8rem, 0%) rotate3d(0, 1, 0, 30deg) scale(1);
+    }
+    100% {
+        transform: translate(0%, 0%) rotate3d(0, 0, 0, 0deg);
+    }
 }
 
 @keyframes fly {
@@ -213,25 +242,5 @@
     }
     100% {
         transform: translateY(10rem);
-    }
-}
-
-.satelite {
-    position: absolute;
-    width: 1.5rem;
-    height: 0.8rem;
-    z-index: 4;
-    top: -5rem;
-    left: 0;
-    --animation-duration: #{randomDuration(5)};
-    animation: lines var(--animation-duration) ease-in-out infinite;
-}
-
-@keyframes lines {
-    0% {
-        transform: translateY(-2rem) rotate(30deg);
-    }
-    100% {
-        transform: translateY(10rem) rotate(80deg);
     }
 }

@@ -1,11 +1,11 @@
 import { ClientRoutes, dbApi, useAppDispatch } from '@/shared'
 import { accountAction } from '@/features/authentication'
-import { SettingOutlined } from '@ant-design/icons'
+import { ThemeHandler } from '@/features/theme-handler'
 import { memo, useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import s from './header-menu.module.scss'
 import type { MenuProps } from 'antd'
-import { Button, Menu } from 'antd'
+import { Menu } from 'antd'
 
 export const HeaderMenu = memo(() => {
     const [current, setCurrent] = useState('mail')
@@ -25,11 +25,10 @@ export const HeaderMenu = memo(() => {
             {
                 label: 'Menu',
                 key: 'News',
-                icon: <SettingOutlined />,
                 children: [
                     {
                         label: <NavLink to={ClientRoutes.NEWS}>News</NavLink>,
-                        key: 'setting:2'
+                        key: 'setting:1'
                     },
                     {
                         label: (
@@ -37,7 +36,7 @@ export const HeaderMenu = memo(() => {
                                 Favourites
                             </NavLink>
                         ),
-                        key: 'setting:3'
+                        key: 'setting:2'
                     },
                     {
                         label: (
@@ -45,24 +44,35 @@ export const HeaderMenu = memo(() => {
                                 Search history
                             </NavLink>
                         ),
-                        key: 'setting:4'
+                        key: 'setting:3'
                     },
                     {
                         label: <NavLink to={ClientRoutes.TWEET}>Tweet</NavLink>,
-                        key: 'tweet'
+                        key: 'setting:4'
                     },
                     {
-                        label: (
-                            <Button
-                                type='primary'
-                                htmlType='submit'
-                                className='login-form-button'
-                                onClick={handleSignOut}
-                            >
-                                Exit
-                            </Button>
-                        ),
-                        key: 'setting:5'
+                        label: <div>Settings</div>,
+                        key: 'settings:5',
+                        children: [
+                            {
+                                label: (
+                                    <div
+                                        style={{ height: '100%' }}
+                                        onClick={e => {
+                                            e.stopPropagation()
+                                            return
+                                        }}
+                                    >
+                                        <ThemeHandler />
+                                    </div>
+                                ),
+                                key: 'setting:6'
+                            }
+                        ]
+                    },
+                    {
+                        label: <div onClick={handleSignOut}>Exit</div>,
+                        key: 'setting:8'
                     }
                 ]
             }

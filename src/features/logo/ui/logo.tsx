@@ -1,4 +1,3 @@
-import Satelite from '@/shared/assets/image/satellite.png'
 import CometSml from '@/shared/assets/image/comet_1.png'
 import CometLrg from '@/shared/assets/image/comet_2.png'
 import Rocket from '@/shared/assets/image/rocket.png'
@@ -49,7 +48,6 @@ export const Logo = memo(() => {
                 src={CometLrg}
                 alt='comet'
             />
-            <img className={s.satelite} src={Satelite} alt='satelite' />
             <span className={s.lines_1}></span>
             <span className={s.lines_2}></span>
             <span className={s.lines_3}></span>
