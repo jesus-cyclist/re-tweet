@@ -2,6 +2,8 @@ import { selectAccountID } from '@/features/authentication/model/selectors'
 import { LayoutUI, dbApi, useAppDispatch, useAppSelector } from '@/shared'
 import { Footer, favouritesActions } from '@/widgets'
 import { Header } from '@/widgets/header/ui/header'
+import { telegramShareActions } from '@/features'
+import { useGetTgSharedQuery } from '../api'
 import { Outlet } from 'react-router-dom'
 import { readActions } from '@/enteties'
 import { memo, useEffect } from 'react'
@@ -11,6 +13,7 @@ const MainPage = memo(() => {
     const dispatch = useAppDispatch()
     const { data: favouriteData } = dbApi.useGetFavouritesQuery(userID)
     const { data: readData } = dbApi.useGetReadedQuery(userID)
+    const { data } = useGetTgSharedQuery()
 
     useEffect(() => {
         if (favouriteData) {
@@ -23,6 +26,12 @@ const MainPage = memo(() => {
             dispatch(readActions.readReceived(readData))
         }
     }, [readData])
+
+    useEffect(() => {
+        if (data) {
+            dispatch(telegramShareActions.setShare(data.isTelegramShareEnabled))
+        }
+    }, [data])
 
     return (
         <LayoutUI

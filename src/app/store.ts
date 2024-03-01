@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { dbApi, spaceFlightApi } from '@/shared'
 import { rootReducer } from './rootReducer'
+import { telegramApi } from '@/pages'
 
 export const store = configureStore({
     reducer: rootReducer,
@@ -8,6 +9,7 @@ export const store = configureStore({
         return getDefaultMiddleware()
             .concat(dbApi.middleware)
             .concat(spaceFlightApi.middleware)
+            .concat(telegramApi.middleware)
     }
 })
 

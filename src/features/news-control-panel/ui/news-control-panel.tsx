@@ -5,10 +5,12 @@ import {
     SettingOutlined
 } from '@ant-design/icons'
 import { useClickOutSide } from '@/shared/lib/hooks/use-click-outside'
+import { LinkUI, TNews, dbApi, useAppSelector } from '@/shared'
+import TelegramIcon from '@/shared/assets/svg/telegram.svg'
 import { authSelectors } from '@/features/authentication'
-import { TNews, dbApi, useAppSelector } from '@/shared'
 import { CSSTransition } from 'react-transition-group'
 import { useEffect, useRef, useState } from 'react'
+import { selectIsTgShareEnabled } from '../model'
 import s from './news-control-panel.module.scss'
 import { selectFavouritesNews } from '@/widgets'
 import classNames from 'classnames'
@@ -32,6 +34,8 @@ export const NewsControlPanel = (
 
     const panelRef = useRef<HTMLUListElement | null>(null)
     const buttonRef = useRef<HTMLDivElement | null>(null)
+
+    const isTelegramShareEnabled = useAppSelector(selectIsTgShareEnabled)
 
     const [fetch] = dbApi.useGetToggledFavouriteMutation()
 
@@ -109,6 +113,17 @@ export const NewsControlPanel = (
                     <li className={s.panel__icon}>
                         <RetweetOutlined />
                     </li>
+                    {isTelegramShareEnabled && (
+                        <li className={s.panel__icon}>
+                            <LinkUI
+                                to={`https://t.me/share/url?url=${newsData.url}&text=${newsData.title}`}
+                                target='_blank'
+                                className={s.panel__tg}
+                            >
+                                <TelegramIcon />
+                            </LinkUI>
+                        </li>
+                    )}
                 </ul>
             </CSSTransition>
         </div>

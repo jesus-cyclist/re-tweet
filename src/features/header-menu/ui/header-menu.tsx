@@ -28,12 +28,6 @@ export const HeaderMenu = memo(() => {
                 icon: <SettingOutlined />,
                 children: [
                     {
-                        label: (
-                            <NavLink to={ClientRoutes.MAIN_PATH}>Home</NavLink>
-                        ),
-                        key: 'setting:1'
-                    },
-                    {
                         label: <NavLink to={ClientRoutes.NEWS}>News</NavLink>,
                         key: 'setting:2'
                     },
@@ -54,6 +48,10 @@ export const HeaderMenu = memo(() => {
                         key: 'setting:4'
                     },
                     {
+                        label: <NavLink to={ClientRoutes.TWEET}>Tweet</NavLink>,
+                        key: 'tweet'
+                    },
+                    {
                         label: (
                             <Button
                                 type='primary'
@@ -67,10 +65,6 @@ export const HeaderMenu = memo(() => {
                         key: 'setting:5'
                     }
                 ]
-            },
-            {
-                label: <NavLink to={ClientRoutes.TWEET}>Tweet</NavLink>,
-                key: 'tweet'
             }
         ],
         []
