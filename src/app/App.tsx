@@ -1,5 +1,5 @@
+import '@/shared/api/db/provider/firebase/config'
 import { WithProviders } from './providers'
-import '../shared/api/firebase/config'
 import '@/shared/styles/base.scss'
 
 export const App = () => {

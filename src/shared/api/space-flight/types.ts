@@ -8,7 +8,7 @@ type TEvents = {
     provider: string
 }
 
-export type TSpaceFlightArticleItemResponse = {
+export type TArticleItemResponse = {
     id: number
     title: string
     url: string
@@ -22,21 +22,21 @@ export type TSpaceFlightArticleItemResponse = {
     events: Array<TEvents>
 }
 
-export type TSpaceFlightArticleResponse = {
+export type TArticleResponse = {
     count: number
     next: string | null
     previous: string | null
-    results: Array<TSpaceFlightArticleItemResponse>
+    results: Array<TArticleItemResponse>
 }
 
-export type TSpaceFlightArticleResponseTransformed = {
+export type TArticleNewsResponseTransformed = {
     count: number
     next: string | null
     previous: string | null
-    results: Array<TSpaceFlightCard>
+    results: Array<TNews>
 }
 
-export type TSpaceFlightCard = {
+export type TNews = {
     id: number
     title: string
     url: string

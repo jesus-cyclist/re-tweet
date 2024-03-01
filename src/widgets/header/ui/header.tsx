@@ -1,4 +1,4 @@
-import { HeaderMenu, Logo, SearchPanel } from '@/features'
+import { HeaderMenu, Logo, SearchPanel, ThemeHandler } from '@/features'
 import s from './header.module.scss'
 
 export const Header = () => {
@@ -6,6 +6,7 @@ export const Header = () => {
         <div className={s.header}>
             <Logo />
             <HeaderMenu />
+            <ThemeHandler />
             <SearchPanel />
         </div>
     )

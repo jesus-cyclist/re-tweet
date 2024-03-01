@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { TInitialState } from './models'
 
+export type TAuthUser = {
+    email: string
+    uid: string
+}
+
 const initialState: TInitialState = { uid: null, email: null, isAuth: false }
 
 const accountSlice = createSlice({
@@ -8,7 +13,7 @@ const accountSlice = createSlice({
     initialState,
     reducers: {
         setAccount: (state, action) => {
-            const { email, uid } = action.payload
+            const { email, uid } = action.payload as TAuthUser
             state.email = email
             state.uid = uid
             state.isAuth = true

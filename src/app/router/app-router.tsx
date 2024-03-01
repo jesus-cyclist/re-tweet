@@ -18,11 +18,10 @@ const NewsInfoPageLazy = lazy(() => import('@/pages/news-info/ui/news-info'))
 
 export const AppRouter = () => {
     const location = useLocation()
-    const state = location.state
 
     return (
         <>
-            <Routes location={state?.news || location}>
+            <Routes location={location.state?.news || location}>
                 <Route
                     path={ClientRoutes.MAIN_PATH}
                     element={
@@ -108,7 +107,7 @@ export const AppRouter = () => {
 
                 <Route path='*' element={<div>not found</div>} />
             </Routes>
-            {state?.news && (
+            {location.state?.news && (
                 <Routes>
                     <Route
                         path={`${ClientRoutes.NEWS}:id`}

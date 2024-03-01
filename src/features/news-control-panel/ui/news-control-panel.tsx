@@ -4,9 +4,9 @@ import {
     RetweetOutlined,
     SettingOutlined
 } from '@ant-design/icons'
-import { FirebaseFavourites, TSpaceFlightCard, useAppSelector } from '@/shared'
 import { useClickOutSide } from '@/shared/lib/hooks/use-click-outside'
 import { authSelectors } from '@/features/authentication'
+import { TNews, dbApi, useAppSelector } from '@/shared'
 import { CSSTransition } from 'react-transition-group'
 import { useEffect, useRef, useState } from 'react'
 import s from './news-control-panel.module.scss'
@@ -14,14 +14,14 @@ import { selectFavouritesNews } from '@/widgets'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
 
-type TNewsControlPanelProps = {
-    data: TSpaceFlightCard
+export type TNewsControlPanelProps = {
+    newsData: TNews
 }
 
 export const NewsControlPanel = (
     props: TNewsControlPanelProps
 ): JSX.Element => {
-    const { data } = props
+    const { newsData } = props
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
     const userID = useAppSelector(authSelectors.selectAccountID)
 
@@ -33,12 +33,14 @@ export const NewsControlPanel = (
     const panelRef = useRef<HTMLUListElement | null>(null)
     const buttonRef = useRef<HTMLDivElement | null>(null)
 
+    const [fetch] = dbApi.useGetToggledFavouriteMutation()
+
     useEffect(() => {
         const favouriteCheck = favourites.some(
-            favourute => favourute.data.id === data.id
+            favourute => favourute.data.id === newsData.id
         )
         setIsFavourite(favouriteCheck)
-    }, [favourites, data])
+    }, [favourites, newsData])
 
     useClickOutSide({
         ref: panelRef,
@@ -50,16 +52,12 @@ export const NewsControlPanel = (
         }
     })
 
-    const handleToggleFavourite = async () => {
-        const toggleResult = await FirebaseFavourites.toggleFavourite(
-            userID,
-            props.data
-        )
-        setIsFavourite(toggleResult)
+    const favouriteToggled = async () => {
+        await fetch({ userID, data: newsData })
     }
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(data.url)
+        navigator.clipboard.writeText(newsData.url)
         setIsTooltipVisible(true)
     }
 
@@ -94,7 +92,7 @@ export const NewsControlPanel = (
                             className={
                                 isFavourite ? s.bookmarkActive : s.bookmark
                             }
-                            onClick={handleToggleFavourite}
+                            onClick={favouriteToggled}
                         />
                     </li>
                     <li className={s.panel__icon}>

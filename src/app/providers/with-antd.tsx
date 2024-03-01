@@ -1,15 +1,17 @@
 import { ConfigProvider, ThemeConfig } from 'antd'
-import { WithSprings } from './with-springs'
+import { WithTheme } from './with-theme'
+import { useMemo } from 'react'
 
 export const WithAntd = () => {
-    const config: ThemeConfig = {
-        components: {},
-        token: {}
-    }
-
+    const config: ThemeConfig = useMemo(() => {
+        return {
+            components: {},
+            token: {}
+        }
+    }, [])
     return (
         <ConfigProvider theme={config}>
-            <WithSprings />
+            <WithTheme />
         </ConfigProvider>
     )
 }

@@ -3,7 +3,7 @@
     display: block;
     width: 5rem;
     height: 64px;
-    padding: 0 1rem;
+    padding: 0 2rem 0 1rem;
     position: relative;
     overflow: hidden;
 }
@@ -30,7 +30,7 @@
         transform-origin: top;
     }
 
-    animation: fly 15s ease infinite;
+    animation: fly 15s ease-in-out infinite;
 }
 
 @keyframes fly {
@@ -63,7 +63,7 @@
         transform: translate(-1rem, 15%) rotate3d(0, 1, 0, -30deg) scale(1);
     }
     90% {
-        transform: translate(-0.7rem, 30%) rotate3d(0, 1, 0, -30deg) scale(1);
+        transform: translate(-0.7rem, 20%) rotate3d(0, 1, 0, -30deg) scale(1);
     }
     100% {
         transform: translate(0%, 0%) rotate3d(0, 0, 0, 0deg);

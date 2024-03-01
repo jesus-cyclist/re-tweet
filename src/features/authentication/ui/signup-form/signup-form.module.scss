@@ -6,11 +6,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #333333;
 
     .content {
         max-width: 500px;
         width: 100%;
-
         @include responsive-padding(1rem, 1rem, 1rem, 1rem);
 
         .alternateAction {
@@ -22,18 +22,6 @@
             .alternateAction__link {
                 text-decoration: underline;
             }
-        }
-    }
-
-    .error {
-        min-height: calc(1rem * 3);
-
-        @include tablet {
-            min-height: calc(1.125rem * 3);
-        }
-
-        @include desktop {
-            min-height: calc(1.25rem * 3);
         }
     }
 }

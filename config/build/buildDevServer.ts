@@ -9,7 +9,10 @@ export function buildDevServer(options: TBuildOptions): DevServerConfiguration {
         port: port ?? 3000,
         open: true,
         historyApiFallback: true,
-        hot: true
+        hot: true,
+        client: {
+            overlay: false
+        }
     }
 
     return isDev ? devServer : undefined

@@ -1,11 +1,10 @@
-import { ClientRoutes, FirebaseAuth, FirebaseErrorHandler } from '@/shared'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { useCallback, useEffect, useState } from 'react'
-import { Alert, Button, Form, Input, Space } from 'antd'
+import { ClientRoutes, dbApi } from '@/shared'
 import { useAppDispatch } from '@/shared/lib'
-import { FirebaseError } from 'firebase/app'
 import { accountAction } from '../../model'
 import { NavLink } from 'react-router-dom'
+import { Button, Form, Input } from 'antd'
 import s from './signup-form.module.scss'
 
 type TFieldType = {
@@ -16,6 +15,7 @@ type TFieldType = {
 export const SignupForm = () => {
     const [error, setError] = useState('')
     const dispatch = useAppDispatch()
+    const [fetchOnSignUp] = dbApi.useLazyGetSignUpQuery()
 
     useEffect(() => {
         if (error) {
@@ -27,16 +27,12 @@ export const SignupForm = () => {
 
     const onFinish = useCallback((values: TFieldType) => {
         const { email, password } = values
-
-        FirebaseAuth.signUp(email, password)
-            .then(({ user }) => {
-                const { email, uid } = user
+        fetchOnSignUp({ email, password }).then(({ data }) => {
+            if (data) {
+                const { email, uid } = data
                 dispatch(accountAction.setAccount({ email, uid }))
-            })
-            .catch((error: FirebaseError) => {
-                const errorMessage = FirebaseErrorHandler.getError(error)
-                setError(errorMessage)
-            })
+            }
+        })
     }, [])
 
     return (
@@ -106,13 +102,6 @@ export const SignupForm = () => {
                     >
                         Sign in
                     </NavLink>
-                </div>
-                <div className={s.error}>
-                    {error && (
-                        <Space direction='vertical' style={{ width: '100%' }}>
-                            <Alert message={error} type='error' />
-                        </Space>
-                    )}
                 </div>
             </div>
         </div>

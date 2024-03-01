@@ -8,12 +8,7 @@ import {
     useRef,
     useState
 } from 'react'
-import {
-    LoaderUI,
-    TSpaceFlightCard,
-    spaceFlightApi,
-    useDebounce
-} from '@/shared'
+import { LoaderUI, TNews, spaceFlightApi, useDebounce } from '@/shared'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { useLocation } from 'react-router-dom'
 import { FixedSizeList } from 'react-window'
@@ -39,7 +34,7 @@ export const SearchList = () => {
     })
     const listRef = useRef<null | HTMLDivElement>(null)
     const [searchValue, setSearchValue] = useState<string>('')
-    const [searchList, setSearchList] = useState<Array<TSpaceFlightCard>>([])
+    const [searchList, setSearchList] = useState<Array<TNews>>([])
     const [fetch, { data, isFetching }] =
         spaceFlightApi.useLazyGetArticlesBySearchQuery()
     const location = useLocation()
@@ -65,7 +60,7 @@ export const SearchList = () => {
         }
     }, [searchValue, fetch, page, setSearchList])
 
-    const debouncedFetch = useDebounce({ callback: fetchSearch, delay: 2000 })
+    const debouncedFetch = useDebounce({ callback: fetchSearch, delay: 0 })
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPage(1)

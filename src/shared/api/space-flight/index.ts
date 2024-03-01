@@ -1,8 +1,8 @@
 export type {
-    TSpaceFlightArticleItemResponse,
-    TSpaceFlightArticleResponse,
-    TSpaceFlightCard,
-    TSpaceFlightArticleResponseTransformed
+    TArticleItemResponse,
+    TArticleResponse,
+    TNews,
+    TArticleNewsResponseTransformed
 } from './types'
 
 export { SpaceFlightKeyConverter } from './data-field-transformer'

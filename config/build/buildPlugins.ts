@@ -43,7 +43,9 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
                     process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
                 REACT_APP_FIREBASE_MESSAGE_SENDER_ID:
                     process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
-                REACT_APP_FIREBASE_APP_ID: process.env.REACT_APP_FIREBASE_APP_ID
+                REACT_APP_FIREBASE_APP_ID:
+                    process.env.REACT_APP_FIREBASE_APP_ID,
+                REACT_APP_REMOTE_STORE: process.env.REACT_APP_REMOTE_STORE
             })
         }),
         new CopyPlugin({
@@ -57,7 +59,7 @@ export function buildPlugins(options: TBuildOptions): Configuration['plugins'] {
     ]
 
     if (isDev) {
-        plugins.push(new ReactRefreshWebpackPlugin())
+        plugins.push(new ReactRefreshWebpackPlugin({ overlay: false }))
         plugins.push(new ESLintPlugin())
     }
 

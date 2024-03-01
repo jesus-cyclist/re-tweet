@@ -1,10 +1,13 @@
+import { dbApi, spaceFlightApi } from '@/shared'
 import { favouritesReducer } from '@/widgets'
 import { accountReducer } from '@/features'
-import { spaceFlightApi } from '@/shared'
+import { readReducer } from '@/enteties'
 import { combineReducers } from 'redux'
 
 export const rootReducer = combineReducers({
     account: accountReducer,
     favourites: favouritesReducer,
-    [spaceFlightApi.reducerPath]: spaceFlightApi.reducer
+    read: readReducer,
+    [spaceFlightApi.reducerPath]: spaceFlightApi.reducer,
+    [dbApi.reducerPath]: dbApi.reducer
 })

@@ -1,5 +1,5 @@
-import { TSpaceFlightArticleItemResponse, TSpaceFlightCard } from './types'
 import { SpaceFlightKeyConverter } from './data-field-transformer'
+import { TArticleItemResponse, TNews } from './types'
 
 describe('test data field converter function', () => {
     jest.mock('dayjs', () => {
@@ -21,10 +21,9 @@ describe('test data field converter function', () => {
             featured: false,
             launches: [],
             events: []
-        } as TSpaceFlightArticleItemResponse
+        } as TArticleItemResponse
 
-        const transformedData: TSpaceFlightCard =
-            SpaceFlightKeyConverter.news(case_1)
+        const transformedData: TNews = SpaceFlightKeyConverter.news(case_1)
 
         expect(transformedData).toEqual({
             id: 1,
@@ -51,10 +50,9 @@ describe('test data field converter function', () => {
             updated_at: '8'
         }
 
-        const transformedData_1: TSpaceFlightCard =
-            SpaceFlightKeyConverter.news(
-                case_1 as TSpaceFlightArticleItemResponse
-            )
+        const transformedData_1: TNews = SpaceFlightKeyConverter.news(
+            case_1 as TArticleItemResponse
+        )
 
         expect(transformedData_1).toEqual({
             id: 1,
@@ -68,12 +66,11 @@ describe('test data field converter function', () => {
             events: []
         })
 
-        const case_2: TSpaceFlightArticleItemResponse = null
+        const case_2: TArticleItemResponse = null
 
-        const transformedData_2: TSpaceFlightCard =
-            SpaceFlightKeyConverter.news(
-                case_2 as TSpaceFlightArticleItemResponse
-            )
+        const transformedData_2: TNews = SpaceFlightKeyConverter.news(
+            case_2 as TArticleItemResponse
+        )
 
         expect(transformedData_2).toEqual({
             id: 0,

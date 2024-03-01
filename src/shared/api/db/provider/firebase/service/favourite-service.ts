@@ -1,21 +1,27 @@
+import {
+    TFavourite,
+    TSuccess,
+    TUserFavourites,
+    TUserID
+} from '@/shared/api/db/types/arg'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
-import { TSpaceFlightCard } from '../space-flight'
-import { firestoreDB } from './config'
-import { TFavourite } from './types'
+import { firestoreDB } from '../config'
 
-export class FirebaseFavourites {
-    static async toggleFavourite(
-        userID: string,
-        data: TSpaceFlightCard
-    ): Promise<boolean> {
+export const favourites = {
+    toggleFavourite: async function ({
+        userID,
+        data
+    }: TUserFavourites): Promise<TSuccess> {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 
         if (!userDoc.exists()) {
-            await setDoc(userRef, { userID, favourites: [], search: [] })
+            await setDoc(userRef, { favourites: [], search: [], read: [] })
         }
 
-        const favourites: Array<TFavourite> = userDoc.data().favourites
+        const favourites: Array<TFavourite> = (await getDoc(userRef)).data()
+            .favourites
+
         const isExists = favourites.some(item => item.data.id === data.id)
 
         if (isExists) {
@@ -26,7 +32,6 @@ export class FirebaseFavourites {
             await updateDoc(userRef, {
                 favourites: filtredFavourites
             })
-            return false
         } else {
             const timestamp = new Date().toISOString()
             const favouriteItem = {
@@ -37,11 +42,12 @@ export class FirebaseFavourites {
             await updateDoc(userRef, {
                 favourites: [...favourites, favouriteItem]
             })
-            return true
         }
-    }
 
-    static async getFavourites(userID: string) {
+        return { success: true }
+    },
+
+    getFavourites: async (userID: TUserID): Promise<Array<TFavourite>> => {
         const userRef = doc(firestoreDB, 'users', userID)
         const userDoc = await getDoc(userRef)
 

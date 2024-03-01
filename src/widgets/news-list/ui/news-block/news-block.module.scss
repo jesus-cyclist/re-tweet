@@ -19,7 +19,7 @@
     height: auto;
 
     @include desktop {
-        height: 250px;
+        height: 300px;
         grid-template-columns: repeat(3, calc(33.33% - 1rem / 3));
         grid-template-rows: auto;
         grid-column-gap: 0.5rem;
@@ -51,7 +51,7 @@
     height: auto;
 
     @include desktop {
-        height: 600px;
+        height: 500px;
         grid-template-columns: repeat(2, calc(50% - 0.25rem));
         grid-template-columns: calc(66.66% - 0.25rem) 1fr;
         grid-template-rows: repeat(2, calc(50% - 0.25rem));
