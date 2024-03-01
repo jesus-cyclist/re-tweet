@@ -46,7 +46,7 @@
     background: var(--content-color);
     gap: 0.5rem;
     border-radius: 40px 0px 0 40px;
-    left: -4.5rem;
+    left: -6rem;
     top: 0;
     bottom: 0;
     padding: 0.2rem 1.2rem 0.2rem 0.2rem;
@@ -116,4 +116,8 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+.panel__tg {
+    display: flex;
 }

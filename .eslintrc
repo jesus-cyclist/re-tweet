@@ -38,6 +38,7 @@
         "prefer-const": "warn",
         "no-unused-vars": "error",
         "react/prop-types": "off",
+        "@ts-expect-error": "off",
         "no-unused-expressions": "error",
         "indent": "off",
         "prettier/prettier": [

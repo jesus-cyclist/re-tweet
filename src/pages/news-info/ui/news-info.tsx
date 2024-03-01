@@ -62,13 +62,16 @@ const NewsInfo = () => {
                                 />
                             </div>
                             <div className={s.card__text}>
-                                <h2 className={s.card__news}>
-                                    {newsData.news}
-                                </h2>
-                                <h3 className={s.card__title}>
-                                    {newsData.title}
-                                </h3>
-                                <span>{newsData.description}</span>
+                                <div>
+                                    <h2 className={s.card__news}>
+                                        {newsData.news}
+                                    </h2>
+                                    <h3 className={s.card__title}>
+                                        {newsData.title}
+                                    </h3>
+                                    <span>{newsData.description}</span>
+                                </div>
+
                                 <div className={s.card__footer}>
                                     <span className={s.card__date}>
                                         {newsData.date}
