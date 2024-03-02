@@ -5,7 +5,7 @@ type TInitialState = {
 }
 
 const initialState: TInitialState = {
-    enabled: false
+    enabled: true
 }
 
 const telegramShare = createSlice({

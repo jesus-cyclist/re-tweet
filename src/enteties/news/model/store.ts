@@ -19,7 +19,7 @@ const readSlice = createSlice({
                     }
                 })
             ]
-            // console.log(read, normalizedRead)
+
             readStatusAdapter.setAll(state, normalizedRead)
         }
     }

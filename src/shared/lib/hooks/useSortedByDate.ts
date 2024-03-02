@@ -7,9 +7,9 @@ export const useSortedByDate = <T extends { timestamp: string }>(
     const sortedList = useMemo(() => {
         return [...list].sort((a, b) => {
             if (isSorted) {
-                return a.timestamp.localeCompare(b.timestamp)
+                return b.timestamp.localeCompare(a.timestamp)
             }
-            return b.timestamp.localeCompare(a.timestamp)
+            return a.timestamp.localeCompare(b.timestamp)
         })
     }, [list, isSorted])
 

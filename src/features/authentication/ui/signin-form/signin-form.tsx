@@ -59,6 +59,7 @@ export const SigninForm = () => {
                                 <UserOutlined className='site-form-item-icon' />
                             }
                             placeholder='Email'
+                            data-test-id={'signin-email'}
                         />
                     </Form.Item>
                     <Form.Item
@@ -80,6 +81,7 @@ export const SigninForm = () => {
                                 <LockOutlined className='site-form-item-icon' />
                             }
                             placeholder='Password'
+                            data-test-id={'signin-password'}
                         />
                     </Form.Item>
 
@@ -88,6 +90,7 @@ export const SigninForm = () => {
                             type='primary'
                             htmlType='submit'
                             className='login-form-button'
+                            data-test-id={'signin-button-confirm'}
                         >
                             Continue
                         </Button>

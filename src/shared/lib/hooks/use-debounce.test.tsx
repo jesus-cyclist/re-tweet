@@ -4,6 +4,7 @@
 
 import { renderHook, act } from '@testing-library/react'
 import { useDebounce } from './use-debounce'
+import { expect } from '@jest/globals'
 
 describe('test useDebounce hook', () => {
     jest.useFakeTimers()
