@@ -31,10 +31,14 @@ const NewsInfo = () => {
                 ...spaceFlightData,
                 date: converDateIsoToSince(spaceFlightData.date)
             })
-
-            fetch({ userID, data: spaceFlightData })
         }
     }, [spaceFlightData])
+
+    useEffect(() => {
+        if (spaceFlightData && userID) {
+            fetch({ userID, data: spaceFlightData })
+        }
+    }, [spaceFlightData, userID])
 
     return (
         <div className={s.container}>
@@ -66,14 +70,20 @@ const NewsInfo = () => {
                                     <h2 className={s.card__news}>
                                         {newsData.news}
                                     </h2>
-                                    <h3 className={s.card__title}>
+                                    <h3
+                                        className={s.card__title}
+                                        data-test-id={'post-search-title'}
+                                    >
                                         {newsData.title}
                                     </h3>
                                     <span>{newsData.description}</span>
                                 </div>
 
                                 <div className={s.card__footer}>
-                                    <span className={s.card__date}>
+                                    <span
+                                        className={s.card__date}
+                                        data-test-id={'post-search-date'}
+                                    >
                                         {newsData.date}
                                     </span>
                                     <LinkUI

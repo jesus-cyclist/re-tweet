@@ -42,9 +42,6 @@
         background: var(--accent-color);
         overflow: hidden;
         color: var(--highlight-color);
-        transition:
-            color 0.1s ease,
-            background 0.1s ease;
 
         .search__link {
             display: inline-block;
@@ -58,9 +55,6 @@
     .search__listItem:hover {
         background: var(--primary-color);
         color: var(--link-color);
-        transition:
-            color 0.1s ease,
-            background 0.1s ease;
     }
 }
 

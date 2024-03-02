@@ -22,41 +22,18 @@ export const AppRouter = () => {
     return (
         <>
             <Routes location={location.state?.news || location}>
-                <Route
-                    path={ClientRoutes.MAIN_PATH}
-                    element={
-                        <ProtectedRoute
-                            isAuthOnly={true}
-                            component={<MainPageLazy />}
-                        />
-                    }
-                >
+                <Route path={ClientRoutes.MAIN_PATH} element={<MainPageLazy />}>
                     <Route
                         path={ClientRoutes.NEWS}
-                        element={
-                            <ProtectedRoute
-                                isAuthOnly={true}
-                                component={<NewsPageLazy />}
-                            />
-                        }
+                        element={<NewsPageLazy />}
                     />
                     <Route
                         path={`${ClientRoutes.NEWS}:id`}
-                        element={
-                            <ProtectedRoute
-                                isAuthOnly={true}
-                                component={<NewsInfoPageLazy />}
-                            />
-                        }
+                        element={<NewsInfoPageLazy />}
                     />
                     <Route
                         path={ClientRoutes.SEARCH_PATH}
-                        element={
-                            <ProtectedRoute
-                                isAuthOnly={true}
-                                component={<SearchPageLazy />}
-                            />
-                        }
+                        element={<SearchPageLazy />}
                     />
                     <Route
                         path={ClientRoutes.SEARCH_HISTORY_PATH}
@@ -78,48 +55,37 @@ export const AppRouter = () => {
                     />
                     <Route
                         path={ClientRoutes.SEARCH_PATH}
+                        element={<SearchPageLazy />}
+                    />
+                    <Route
+                        path={ClientRoutes.SIGNIN_PATH}
                         element={
                             <ProtectedRoute
-                                isAuthOnly={true}
-                                component={<SearchPageLazy />}
+                                isAuthOnly={false}
+                                component={<SighinPageLazy />}
                             />
                         }
                     />
+                    <Route
+                        path={ClientRoutes.SIGNUP_PATH}
+                        element={
+                            <ProtectedRoute
+                                isAuthOnly={false}
+                                component={<SignupPageLazy />}
+                            />
+                        }
+                    />
+                    <Route path='*' element={<div>not found</div>} />
                 </Route>
-                <Route
-                    path={ClientRoutes.SIGNIN_PATH}
-                    element={
-                        <ProtectedRoute
-                            isAuthOnly={false}
-                            component={<SighinPageLazy />}
-                        />
-                    }
-                />
-                <Route
-                    path={ClientRoutes.SIGNUP_PATH}
-                    element={
-                        <ProtectedRoute
-                            isAuthOnly={false}
-                            component={<SignupPageLazy />}
-                        />
-                    }
-                />
-
-                <Route path='*' element={<div>not found</div>} />
             </Routes>
             {location.state?.news && (
                 <Routes>
                     <Route
                         path={`${ClientRoutes.NEWS}:id`}
                         element={
-                            <ProtectedRoute
-                                isAuthOnly={true}
-                                component={
-                                    <ModalUI>
-                                        <NewsInfoPageLazy />
-                                    </ModalUI>
-                                }
-                            />
+                            <ModalUI>
+                                <NewsInfoPageLazy />
+                            </ModalUI>
                         }
                     />
                 </Routes>

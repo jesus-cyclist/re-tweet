@@ -1,6 +1,6 @@
 import { SpaceFlightKeyConverter } from './data-field-transformer'
 import { TArticleItemResponse, TNews } from './types'
-import { expect } from '@jest/globals'
+// import { expect } from '@jest/globals'
 
 describe('test data field converter function', () => {
     jest.mock('dayjs', () => {

@@ -11,9 +11,17 @@ import { memo, useEffect } from 'react'
 const MainPage = memo(() => {
     const userID = useAppSelector(selectAccountID)
     const dispatch = useAppDispatch()
-    const { data: favouriteData } = dbApi.useGetFavouritesQuery(userID)
-    const { data: readData } = dbApi.useGetReadedQuery(userID)
+    const [fetchFavourites, { data: favouriteData }] =
+        dbApi.useLazyGetFavouritesQuery()
+    const [fetchReaded, { data: readData }] = dbApi.useLazyGetReadedQuery()
     const { data } = useGetTgSharedQuery()
+
+    useEffect(() => {
+        if (userID) {
+            fetchFavourites(userID)
+            fetchReaded(userID)
+        }
+    }, [userID])
 
     useEffect(() => {
         if (favouriteData) {
@@ -22,10 +30,10 @@ const MainPage = memo(() => {
     }, [favouriteData])
 
     useEffect(() => {
-        if (readData) {
+        if (readData && userID) {
             dispatch(readActions.readReceived(readData))
         }
-    }, [readData])
+    }, [readData, userID])
 
     useEffect(() => {
         if (data) {

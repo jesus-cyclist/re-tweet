@@ -5,7 +5,8 @@ export const telegramApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:5000/api/' }),
     endpoints: builder => ({
         getTgShared: builder.query<{ isTelegramShareEnabled: boolean }, void>({
-            query: () => `feature-flags`
+            query: () => `feature-flags`,
+            keepUnusedDataFor: -1
         })
     })
 })

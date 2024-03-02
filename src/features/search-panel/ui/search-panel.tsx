@@ -43,6 +43,7 @@ export const SearchPanel = memo(() => {
 
     const handlerUpdatedSearch = () => {
         fetchSearchUpdate({ userID, query: searchValue })
+        handleCloseDropdown()
     }
 
     useClickOutSide({ ref: listRef, cb: handleCloseDropdown })
@@ -58,10 +59,15 @@ export const SearchPanel = memo(() => {
                     const queryResponse = res.data.results.map(
                         ({ id, title }) => {
                             return (
-                                <li className={s.search__listItem} key={id}>
+                                <li
+                                    className={s.search__listItem}
+                                    key={id}
+                                    onClick={handleCloseDropdown}
+                                >
                                     <NavLink
                                         className={s.search__link}
                                         to={`${ClientRoutes.NEWS}:${id}`}
+                                        data-test-id={'search-link'}
                                     >
                                         {title}
                                     </NavLink>
@@ -75,6 +81,7 @@ export const SearchPanel = memo(() => {
                             <li
                                 className={s.search__listItemEmpty}
                                 key={'search-link'}
+                                data-test-id={'search-link'}
                             >
                                 {'Nothing was found'}
                             </li>
@@ -117,6 +124,7 @@ export const SearchPanel = memo(() => {
                 loading={isFetching}
                 onChange={handleInputChange}
                 onSearch={(value: string) => debouncedSearch(value)}
+                data-test-id={'search-input'}
             />
             <CSSTransition
                 nodeRef={listRef}
@@ -127,7 +135,11 @@ export const SearchPanel = memo(() => {
                     enterDone: s.search__dropdownEnterDone
                 }}
             >
-                <ul className={s.search__dropdown} ref={listRef}>
+                <ul
+                    className={s.search__dropdown}
+                    ref={listRef}
+                    data-test-id={'search-list'}
+                >
                     {searchListResult &&
                         searchListResult.map(newsItem => newsItem)}
                 </ul>

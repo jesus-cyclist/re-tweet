@@ -14,12 +14,19 @@
         "paths": {
             "@/*": ["./src/*"],
             "@assets*": ["./src/shared/ui/assets*"]
-        }
+        },
+        "typeRoots": ["node_modules/@types"]
     },
     "ts-node": {
         "compilerOptions": {
             "module": "CommonJS"
         }
     },
-    "exclude": ["node_modules", "node_modules/chokidar/types/index.d.ts"]
+    "exclude": [
+        "node_modules",
+        "node_modules/chokidar/types/index.d.ts",
+        "cypress.config.ts",
+        "cypress",
+        "node_modules"
+    ]
 }

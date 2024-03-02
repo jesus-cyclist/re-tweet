@@ -26,7 +26,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
     switch (type) {
         case 'background':
             return (
-                <div className={s.card}>
+                <div className={s.card} data-test-id={'news-card'}>
                     <NewsReadStatus readed={readStatus} />
                     <NewsImage
                         image={image}
@@ -41,7 +41,12 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                         >
                             {news}
                         </LinkUI>
-                        <h3 className={s.card__title}>{title}</h3>
+                        <h3
+                            className={s.card__title}
+                            data-test-id={'news-card-title'}
+                        >
+                            {title}
+                        </h3>
                         <span className={s.card__date}>{date}</span>
                         {children}
                     </div>
@@ -50,7 +55,10 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
 
         case 'column':
             return (
-                <div className={classNames(s.card, s.columnCard)}>
+                <div
+                    className={classNames(s.card, s.columnCard)}
+                    data-test-id={'news-card'}
+                >
                     <NewsImage
                         image={image}
                         title={title}
@@ -64,7 +72,12 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                         >
                             {news}
                         </LinkUI>
-                        <h3 className={s.card__title}>{title}</h3>
+                        <h3
+                            className={s.card__title}
+                            data-test-id={'news-card-title'}
+                        >
+                            {title}
+                        </h3>
                         <span className={s.card__date}>{date}</span>
                         {children}
                     </div>
@@ -73,7 +86,10 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
 
         case 'row':
             return (
-                <div className={classNames(s.card, s.rowCard)}>
+                <div
+                    className={classNames(s.card, s.rowCard)}
+                    data-test-id={'news-card'}
+                >
                     <NewsImage
                         image={image}
                         title={title}
@@ -87,7 +103,12 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                         >
                             {news}
                         </LinkUI>
-                        <h3 className={s.card__title}>{title}</h3>
+                        <h3
+                            className={s.card__title}
+                            data-test-id={'news-card-title'}
+                        >
+                            {title}
+                        </h3>
                         <span className={s.card__date}>{date}</span>
                         {children}
                     </div>

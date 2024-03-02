@@ -75,10 +75,13 @@ export const NewsControlPanel = (
 
     return (
         <div className={s.container}>
-            <div className={s.button} ref={buttonRef}>
-                <SettingOutlined
-                    onClick={() => setIsSettingsOpen(prev => !prev)}
-                />
+            <div
+                className={s.button}
+                ref={buttonRef}
+                data-test-id={'open-panel-button'}
+                onClick={() => setIsSettingsOpen(prev => !prev)}
+            >
+                <SettingOutlined />
             </div>
 
             <CSSTransition
@@ -90,8 +93,17 @@ export const NewsControlPanel = (
                     enterDone: s.panelEnterDone
                 }}
             >
-                <ul className={s.panel} ref={panelRef}>
-                    <li className={classNames(s.panel__icon)}>
+                <ul
+                    className={s.panel}
+                    ref={panelRef}
+                    style={{
+                        left: isTelegramShareEnabled ? '-6rem' : '-4.5rem'
+                    }}
+                >
+                    <li
+                        className={classNames(s.panel__icon)}
+                        data-test-id={'toggle-favourite-button'}
+                    >
                         <BookOutlined
                             className={
                                 isFavourite ? s.bookmarkActive : s.bookmark
