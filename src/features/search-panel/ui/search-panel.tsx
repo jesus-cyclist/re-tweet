@@ -1,7 +1,7 @@
 import {
     ClientRoutes,
     dbApi,
-    spaceFlightApi,
+    news,
     useAppSelector,
     useClickOutSide,
     useDebounce
@@ -27,7 +27,7 @@ export const SearchPanel = memo(() => {
     const [searchListResult, setSearchListResult] =
         useState<Array<ReactNode>>(null)
     const [fetchSearchList, { isFetching }] =
-        spaceFlightApi.useLazyGetArticlesBySearchQuery()
+        news.useLazyGetArticlesBySearchQuery()
 
     const [fetchSearchUpdate] = dbApi.useGetSearchQueryMutation()
 

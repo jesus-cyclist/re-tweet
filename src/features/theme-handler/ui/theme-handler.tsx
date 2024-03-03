@@ -21,6 +21,7 @@ export const ThemeHandler = () => {
 
             <label className={s.switch}>
                 <input
+                    checked={theme === 'dark'}
                     className={s.checkbox}
                     type='checkbox'
                     onChange={changeTheme}
