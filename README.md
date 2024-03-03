@@ -7,7 +7,7 @@
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase)](https://firebase.google.com/)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8743b257-27fb-443c-969a-6555395e4f5c/deploy-status)](https://app.netlify.com/sites/re-tweet/deploys)
-### [Visit re-tweet](https://re-tweet.netlify.app/) 🌐
+### [Visit re-tweet](https://main--re-tweet.netlify.app/) 🌐
 
 ### 1 уровень
 - [x] Реализованы Требования к функциональности
