@@ -17,7 +17,7 @@
     margin-left: 0.5rem;
     cursor: pointer;
     padding: 0.2rem;
-    background: var(--content-color);
+    background: var(--permanent-light);
     border-radius: 50%;
     z-index: 1;
 
@@ -25,7 +25,7 @@
         justify-content: end;
         svg {
             margin: 0 auto;
-            color: var(--highlight-color);
+            color: var(--permanent-dark);
             width: 18px;
             height: 18px;
         }
@@ -43,7 +43,7 @@
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
-    background: var(--content-color);
+    background: var(--permanent-light);
     gap: 0.5rem;
     border-radius: 40px 0px 0 40px;
     left: -6rem;
@@ -80,7 +80,7 @@
     align-items: center;
 
     svg {
-        color: var(--highlight-color);
+        color: var(--permanent-dark);
         transition: color 0.05s ease;
         width: 18px;
         height: 18px;
@@ -97,7 +97,7 @@
 
 .bookmark {
     svg {
-        color: var(--highlight-color);
+        color: var(--permanent-dark);
         transition: color 0.2s ease;
     }
 }

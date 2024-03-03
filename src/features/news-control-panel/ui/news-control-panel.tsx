@@ -1,11 +1,18 @@
 import {
+    ClientRoutes,
+    LinkUI,
+    TNews,
+    dbApi,
+    openNotification,
+    useAppSelector
+} from '@/shared'
+import {
     BookOutlined,
     CopyOutlined,
     RetweetOutlined,
     SettingOutlined
 } from '@ant-design/icons'
 import { useClickOutSide } from '@/shared/lib/hooks/use-click-outside'
-import { LinkUI, TNews, dbApi, useAppSelector } from '@/shared'
 import TelegramIcon from '@/shared/assets/svg/telegram.svg'
 import { authSelectors } from '@/features/authentication'
 import { CSSTransition } from 'react-transition-group'
@@ -13,6 +20,7 @@ import { useEffect, useRef, useState } from 'react'
 import { selectIsTgShareEnabled } from '../model'
 import s from './news-control-panel.module.scss'
 import { selectFavouritesNews } from '@/widgets'
+import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
 
@@ -26,6 +34,7 @@ export const NewsControlPanel = (
     const { newsData } = props
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
     const userID = useAppSelector(authSelectors.selectAccountID)
+    const navigate = useNavigate()
 
     const favourites = useAppSelector(selectFavouritesNews)
     const [isFavourite, setIsFavourite] = useState(false)
@@ -57,7 +66,14 @@ export const NewsControlPanel = (
     })
 
     const favouriteToggled = async () => {
-        await fetch({ userID, data: newsData })
+        if (userID) {
+            await fetch({ userID, data: newsData })
+        } else {
+            openNotification.info({
+                description: 'You must log in to add to favorites'
+            })
+            navigate(ClientRoutes.SIGNIN_PATH)
+        }
     }
 
     const copyToClipboard = () => {

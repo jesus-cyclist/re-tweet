@@ -1,1 +1,2 @@
-export { HeaderMenu } from './header-menu'
+export * from './header-menu'
+export * from './logo'

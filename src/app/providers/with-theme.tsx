@@ -1,19 +1,20 @@
-import { createContext, useCallback, useMemo, useState } from 'react'
+import { createContext, useCallback, useMemo } from 'react'
 import { AppRouter } from '../router'
+import { useTheme } from '@/shared'
 
 export const ThemeContext = createContext(null)
 
 export const WithTheme = () => {
-    const [isThemeDark, setIsThemeDark] = useState<boolean>(false)
+    const [theme, setTheme] = useTheme()
 
-    const handleChangeTheme = useCallback(
-        () => setIsThemeDark(prev => !prev),
-        [setIsThemeDark]
-    )
+    const handleChangeTheme = useCallback(() => {
+        const currentTheme = theme === 'light' ? 'dark' : 'light'
+        setTheme(currentTheme)
+    }, [theme])
 
     const contextValue = useMemo(() => {
-        return { isThemeDark, changeTheme: handleChangeTheme }
-    }, [isThemeDark, handleChangeTheme])
+        return { theme, changeTheme: handleChangeTheme }
+    }, [theme, handleChangeTheme])
 
     return (
         <ThemeContext.Provider value={contextValue}>

@@ -7,5 +7,6 @@ export type {
     TFavourite,
     TSearch,
     TSuccess,
-    TReadStatus
+    TReadStatus,
+    TUserArgs
 } from './arg'

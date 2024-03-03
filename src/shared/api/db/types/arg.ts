@@ -34,3 +34,9 @@ export type TReadStatus = TFavourite
 export type TSuccess = {
     success: boolean
 }
+
+export type TUserArgs =
+    | TUserSearch
+    | TUserID
+    | TUserFavourites
+    | TUserCredential

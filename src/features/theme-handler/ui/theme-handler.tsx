@@ -5,7 +5,7 @@ import s from './theme-handler.module.scss'
 import { useContext, useRef } from 'react'
 
 export const ThemeHandler = () => {
-    const { isThemeDark, changeTheme } = useContext(ThemeContext)
+    const { theme, changeTheme } = useContext(ThemeContext)
 
     const moonRef = useRef(null)
     const sunRef = useRef(null)
@@ -13,7 +13,7 @@ export const ThemeHandler = () => {
     return (
         <div className={s.container}>
             <div
-                className={isThemeDark ? s.modeSun : s.modeSunActive}
+                className={theme === 'light' ? s.modeSun : s.modeSunActive}
                 ref={sunRef}
             >
                 <Sun />
@@ -29,7 +29,7 @@ export const ThemeHandler = () => {
             </label>
 
             <div
-                className={isThemeDark ? s.modeDarkActive : s.modeDark}
+                className={theme === 'dark' ? s.modeDarkActive : s.modeDark}
                 ref={moonRef}
             >
                 <Moon />
