@@ -6,7 +6,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #333333;
+    color: var(--highlight-color);
+    font-size: inherit;
+    line-height: inherit;
+    font-family: inherit;
 
     .content {
         max-width: 500px;

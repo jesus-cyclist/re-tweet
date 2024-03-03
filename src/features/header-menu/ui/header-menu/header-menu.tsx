@@ -86,6 +86,13 @@ export const HeaderMenu = memo(() => {
             children.push(...authContent)
         }
 
+        if (!isAuth) {
+            children.push({
+                label: <NavLink to={ClientRoutes.SIGNIN_PATH}>Sign in</NavLink>,
+                key: 'setting:10'
+            })
+        }
+
         return [
             {
                 label: <Logo />,

@@ -48,7 +48,7 @@ const NewsInfo = () => {
                         <>
                             <div className={s.card__image}>
                                 <Image
-                                    className={s.test}
+                                    className={s.image}
                                     height={'100%'}
                                     width={'100%'}
                                     src={newsData.image}

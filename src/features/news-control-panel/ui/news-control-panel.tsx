@@ -69,7 +69,7 @@ export const NewsControlPanel = (
         if (userID) {
             await fetch({ userID, data: newsData })
         } else {
-            openNotification.info({
+            openNotification.error({
                 description: 'You must log in to add to favorites'
             })
             navigate(ClientRoutes.SIGNIN_PATH)
