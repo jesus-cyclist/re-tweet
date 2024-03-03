@@ -8,7 +8,7 @@ import {
     useRef,
     useState
 } from 'react'
-import { LoaderUI, TNews, spaceFlightApi, useDebounce } from '@/shared'
+import { LoaderUI, TNews, news, useDebounce } from '@/shared'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { useLocation } from 'react-router-dom'
 import { FixedSizeList } from 'react-window'
@@ -35,8 +35,7 @@ export const SearchList = () => {
     const listRef = useRef<null | HTMLDivElement>(null)
     const [searchValue, setSearchValue] = useState<string>('')
     const [searchList, setSearchList] = useState<Array<TNews>>([])
-    const [fetch, { data, isFetching }] =
-        spaceFlightApi.useLazyGetArticlesBySearchQuery()
+    const [fetch, { data, isFetching }] = news.useLazyGetArticlesBySearchQuery()
     const location = useLocation()
 
     useEffect(() => {

@@ -1,5 +1,5 @@
-import { ScrollbarWrapper, TNews, spaceFlightApi } from '@/shared'
 import { Key, useEffect, useMemo, useState } from 'react'
+import { ScrollbarWrapper, TNews, news } from '@/shared'
 import { NewsBlock } from '../news-block/news-block'
 import { sliceResponseIntoParts } from '../../lib'
 import s from './news-list.module.scss'
@@ -11,7 +11,7 @@ export const NewsList = () => {
     const [page, setPage] = useState<number>(1)
     const [offset, setOffset] = useState(0)
     const [list, setList] = useState<Array<TNewList>>([])
-    const { data, isFetching, isSuccess } = spaceFlightApi.useGetArticlesQuery({
+    const { data, isFetching, isSuccess } = news.useGetArticlesQuery({
         limit: 9,
         offset
     })

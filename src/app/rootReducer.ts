@@ -1,8 +1,8 @@
 import { accountReducer, telegramShareReducer } from '@/features'
-import { dbApi, spaceFlightApi } from '@/shared'
 import { favouritesReducer } from '@/widgets'
 import { readReducer } from '@/enteties'
 import { combineReducers } from 'redux'
+import { dbApi, news } from '@/shared'
 import { telegramApi } from '@/pages'
 
 export const rootReducer = combineReducers({
@@ -10,7 +10,7 @@ export const rootReducer = combineReducers({
     favourites: favouritesReducer,
     read: readReducer,
     shareTg: telegramShareReducer,
-    [spaceFlightApi.reducerPath]: spaceFlightApi.reducer,
+    [news.reducerPath]: news.reducer,
     [dbApi.reducerPath]: dbApi.reducer,
     [telegramApi.reducerPath]: telegramApi.reducer
 })

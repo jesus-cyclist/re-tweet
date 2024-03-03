@@ -4,7 +4,7 @@ import {
     ScrollbarWrapper,
     TNews,
     dbApi,
-    spaceFlightApi,
+    news,
     useAppSelector
 } from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
@@ -19,7 +19,7 @@ const NewsInfo = () => {
     const params = useParams()
     const userID = useAppSelector(authSelectors.selectAccountID)
     const [newsData, setNewsData] = useState<TNews>(null)
-    const { data: spaceFlightData } = spaceFlightApi.useGetArticlesByIdQuery({
+    const { data: spaceFlightData } = news.useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
 

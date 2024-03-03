@@ -1,4 +1,4 @@
-import { consoleMiddleware, dbApi, spaceFlightApi } from '@/shared'
+import { consoleMiddleware, dbApi, news } from '@/shared'
 import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from './rootReducer'
 import { telegramApi } from '@/pages'
@@ -9,7 +9,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware => {
         return getDefaultMiddleware()
             .concat(dbApi.middleware)
-            .concat(spaceFlightApi.middleware)
+            .concat(news.middleware)
             .concat(telegramApi.middleware)
             .concat(logger)
             .prepend(consoleMiddleware.middleware)
