@@ -39,8 +39,7 @@
 - [x] Проведена оптимизация приложения
   - использование memo, useMemo, useCallback для мемоизации [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/ui/main-page.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/header-menu/ui/header-menu/header-menu.tsx) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/providers/with-theme.tsx)
   - [использование lazy подгрузки компонентов](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/router/app-router.tsx)
-  - test performance на unlighthouse - 87 пишет, потому что API отдает изображения с разным aspect ratio и не всегда качественные
-
+  - test performance на unlighthouse - 89 пишет, потому что API отдает изображения с разным aspect ratio и не всегда качественные
 - [x] Feature Flags [1](https://github.com/jesus-cyclist/re-tweet/blob/main/server/index.mjs) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/news-control-panel/model/store.ts) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/api/api.ts)
 - [x] Тесты [1](https://github.com/jesus-cyclist/re-tweet/blob/main/cypress/e2e/favourite-action.cy.ts) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/cypress/e2e/search-information.cy.ts) [3]() [4]()
 - [x] Связь UI и бизнес-логики построена через события.
