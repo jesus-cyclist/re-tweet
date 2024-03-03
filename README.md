@@ -12,7 +12,7 @@
 ### 1 уровень
 - [x] Реализованы Требования к функциональности
 - [x] Используются функциональные компоненты c хуками 
-- [x] Есть разделение на умные и глупые компоненты
+- [x] Есть разделение на умные и глупые компоненты [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/enteties/news/ui/news-card/news-card.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/ui/main-page.tsx)
 - [x] [Есть рендеринг списков](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/news-list/ui/news-list.tsx)
 - [x] [Реализована хотя бы одна форма](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/ui/signup-form/signup-form.tsx)
 - [x] [Есть применение Контекст API](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/providers/with-theme.tsx)
@@ -23,14 +23,14 @@
 - [x] [Есть применение lazy + Suspense](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/router/app-router.tsx)
 - [x] [Используем Modern Redux with Redux Toolkit](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/store.ts) 
 - [x] [Используем слайсы](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/model/store.ts)
-- [ ] Есть хотя бы одна кастомная мидлвара
+- [x] [Есть хотя бы одна кастомная мидлвара](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/model/middleware.ts)
 - [x] [Используется RTK Query](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/space-flight/api.ts) 
-- [x] Используется Transforming Responses
+- [x] [Используется Transforming Responses](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/space-flight/api.ts) 
 
 ### 2 уровень
 - [x] Использование TypeScript
 - [x] Подключен storybook и созданы два, три сториса с knobs, которые показывают разные состояния компонента [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/stories/filter.stories.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/stories/loader.stories.tsx)
-- [x] Использование Firebase для учетных записей пользователей и их Избранного и Истории поиска
+- [x] [Использование Firebase для учетных записей пользователей и их Избранного и Истории поиска](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/db/provider/firebase/config.ts)
 - [x] [Низкая связанность клиентского кода](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/db/provider/provider-switcher.ts)
 - [x] [Настроен CI/CD](https://github.com/jesus-cyclist/re-tweet/blob/main/.github/workflows/actions.yml)
 - [x] [Реализована виртуализация списков](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/search-list/ui/search-list.tsx)
@@ -40,4 +40,4 @@
 - [x] Feature Flags [1](https://github.com/jesus-cyclist/re-tweet/blob/main/server/index.mjs) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/news-control-panel/model/store.ts) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/api/api.ts)
 - [x] Тесты
 - [ ] Связь UI и бизнес-логики построена через события.
-- [ ] Project Console API
+- [x] [Project Console API](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/console/middleware.ts)
