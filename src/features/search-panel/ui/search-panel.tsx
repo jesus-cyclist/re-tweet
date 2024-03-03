@@ -42,8 +42,10 @@ export const SearchPanel = memo(() => {
     }
 
     const handlerUpdatedSearch = () => {
-        fetchSearchUpdate({ userID, query: searchValue })
-        handleCloseDropdown()
+        if (userID) {
+            fetchSearchUpdate({ userID, query: searchValue })
+            handleCloseDropdown()
+        }
     }
 
     useClickOutSide({ ref: listRef, cb: handleCloseDropdown })

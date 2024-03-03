@@ -1,5 +1,5 @@
+import { consoleMiddleware, dbApi, spaceFlightApi } from '@/shared'
 import { configureStore } from '@reduxjs/toolkit'
-import { dbApi, spaceFlightApi } from '@/shared'
 import { rootReducer } from './rootReducer'
 import { telegramApi } from '@/pages'
 import { logger } from '@/features'
@@ -12,6 +12,7 @@ export const store = configureStore({
             .concat(spaceFlightApi.middleware)
             .concat(telegramApi.middleware)
             .concat(logger)
+            .prepend(consoleMiddleware.middleware)
     }
 })
 

@@ -202,7 +202,7 @@
     width: 1px;
     height: 4px;
     color: black;
-    background: var(--content-color);
+    background: var(--permanent-light);
     left: #{randomLeft(2)};
     --animation-duration: #{randomDuration(1.5)};
     animation: lines var(--animation-duration) ease-in-out infinite;
@@ -216,7 +216,7 @@
     width: 1px;
     height: 3px;
     color: black;
-    background: var(--content-color);
+    background: var(--permanent-light);
     left: #{randomLeft(4)};
     --animation-duration: #{randomDuration(1.5)};
     animation: lines var(--animation-duration) ease-in-out infinite;
@@ -230,7 +230,7 @@
     width: 1px;
     height: 6px;
     color: black;
-    background: var(--content-color);
+    background: var(--permanent-light);
     left: #{randomLeft(0.5)};
     --animation-duration: #{randomDuration(1.5)};
     animation: lines var(--animation-duration) ease-in-out infinite;
