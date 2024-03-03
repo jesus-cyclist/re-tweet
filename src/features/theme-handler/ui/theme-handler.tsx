@@ -13,7 +13,7 @@ export const ThemeHandler = () => {
     return (
         <div className={s.container}>
             <div
-                className={theme === 'light' ? s.modeSun : s.modeSunActive}
+                className={theme === 'light' ? s.modeSunActive : s.modeSun}
                 ref={sunRef}
             >
                 <Sun />

@@ -6,6 +6,7 @@ import { accountAction } from '../../model'
 import { NavLink } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
 import s from './signin-form.module.scss'
+import classNames from 'classnames'
 
 type TFieldType = {
     email: string
@@ -89,7 +90,10 @@ export const SigninForm = () => {
                         <Button
                             type='primary'
                             htmlType='submit'
-                            className='login-form-button'
+                            className={classNames(
+                                'login-form-button',
+                                s.button
+                            )}
                             data-test-id={'signin-button-confirm'}
                         >
                             Continue

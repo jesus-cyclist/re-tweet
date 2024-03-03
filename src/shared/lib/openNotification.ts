@@ -1,33 +1,38 @@
-import { notification } from 'antd'
+import toast from 'react-hot-toast'
 
 type TNotification = {
-    message: string
     description: string
 }
 
 export const openNotification = {
-    error: ({ description }: Pick<TNotification, 'description'>) => {
-        notification.error({
-            message: 'Error',
-            description
+    error: ({ description }: TNotification) => {
+        return toast.error(description, {
+            duration: 4000,
+            position: 'bottom-right',
+            icon: '🚫',
+            iconTheme: {
+                primary: '#000',
+                secondary: '#fff'
+            },
+            ariaProps: {
+                role: 'status',
+                'aria-live': 'polite'
+            }
         })
     },
-    info: ({ description }: Pick<TNotification, 'description'>) => {
-        notification.info({
-            message: 'Info',
-            description
-        })
-    },
-    warning: ({ description }: Pick<TNotification, 'description'>) => {
-        notification.warning({
-            message: 'Warning',
-            description
-        })
-    },
-    success: ({ description }: Pick<TNotification, 'description'>) => {
-        notification.success({
-            message: 'Success',
-            description
+    success: ({ description }: TNotification) => {
+        return toast.success(description, {
+            duration: 4000,
+            position: 'bottom-right',
+            icon: '👏',
+            iconTheme: {
+                primary: '#000',
+                secondary: '#fff'
+            },
+            ariaProps: {
+                role: 'status',
+                'aria-live': 'polite'
+            }
         })
     }
 }

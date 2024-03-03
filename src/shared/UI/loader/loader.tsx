@@ -1,3 +1,4 @@
+import s from './loader.module.scss'
 import { Flex, Spin } from 'antd'
 import React from 'react'
 
@@ -16,7 +17,7 @@ export const LoaderUI = (props: TLoaderUIProps) => {
                 justify='center'
                 gap='middle'
             >
-                <Spin size='large' />
+                <Spin size='large' className={s.spin} />
             </Flex>
         )
     }

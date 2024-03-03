@@ -19,7 +19,8 @@
         height: fit-content;
         border: 1px solid var(--highlight-color);
         border-radius: 10px;
-        background: var(--content-color);
+        background: var(--primary-color);
+        color: var(--highlight-color);
         padding: 0.5rem;
         filter: none;
         transition: filter 0.5s ease;
@@ -47,6 +48,7 @@
             border: none;
             background: transparent;
             cursor: pointer;
+            color: var(--highlight-color);
 
             transform: rotate(-45deg);
             opacity: 0;

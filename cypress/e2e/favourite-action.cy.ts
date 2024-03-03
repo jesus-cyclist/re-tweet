@@ -26,7 +26,6 @@ describe('action with favourite feature', () => {
     })
 
     it('action with favourite', () => {
-        //click on news page
         cy.get('[data-test-id="news-card-title"]').as('news-card-title')
         cy.get('@news-card-title').first().should('have.text', 'TEST')
         cy.get('[data-test-id="toggle-favourite-button"]').as(
