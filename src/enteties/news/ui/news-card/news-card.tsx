@@ -22,7 +22,6 @@ export const NewsCard = (props: Props): JSX.Element => {
         readStatus = false
     } = props
     const location = useLocation()
-    // console.log(readStatus, title)
 
     switch (type) {
         case 'background':
