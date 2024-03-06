@@ -1,20 +1,23 @@
 /* eslint-disable no-console */
-import { TUserSearch } from '../../db/types/arg'
-import { TUserID } from '../../db/types'
+import { TUserCredentialSearch } from '../../db/types/arg'
+import { TUserCredentialID } from '../../db/types'
 import { db } from '../../db'
 
 export class SearchService {
-    static async getSearchQuery({ userID, query }: TUserSearch) {
+    static async getSearchQuery({ userID, query }: TUserCredentialSearch) {
         const isSuccess = await db.search.getSearchQuery({ userID, query })
         console.log(isSuccess)
     }
 
-    static async getSearchHistory(userID: TUserID) {
+    static async getSearchHistory(userID: TUserCredentialID) {
         const searchHistory = await db.search.getSearchHistory(userID)
         console.log(searchHistory)
     }
 
-    static async deleteSearchHistoryItem({ userID, query }: TUserSearch) {
+    static async deleteSearchHistoryItem({
+        userID,
+        query
+    }: TUserCredentialSearch) {
         const isSuccess = await db.search.deleteSearchHistoryItem({
             userID,
             query
@@ -22,7 +25,7 @@ export class SearchService {
         console.log(isSuccess)
     }
 
-    static async clearSearchHistory(userID: TUserID) {
+    static async clearSearchHistory(userID: TUserCredentialID) {
         const isSuccess = await db.search.clearSearchHistory(userID)
         console.log(isSuccess)
     }

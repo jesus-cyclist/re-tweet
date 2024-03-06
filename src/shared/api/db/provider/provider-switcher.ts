@@ -9,5 +9,6 @@ export const db: TDBMethods = {
     search: { ...dbMethods.search },
     auth: { ...dbMethods.auth },
     favourites: { ...dbMethods.favourites },
-    readed: { ...dbMethods.readStatus }
+    readed: { ...dbMethods.readStatus },
+    tweet: { ...dbMethods.tweet }
 }

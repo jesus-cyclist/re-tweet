@@ -1,5 +1,9 @@
 @import '@/shared/styles/mixins.scss';
 
+.wrapper {
+    height: 100%;
+}
+
 .container {
     height: 100%;
     display: grid;

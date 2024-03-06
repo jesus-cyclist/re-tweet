@@ -33,6 +33,14 @@ html[data-theme='dark'] {
         line-height: 1.2;
     }
 
+    .ant-menu {
+        background: transparent;
+    }
+
+    .ant-menu-light.ant-menu-root.ant-menu-inline {
+        border-inline-end: none;
+    }
+
     .ant-menu.ant-menu-sub.ant-menu-vertical {
         box-shadow:
             0 6px 16px 0 var(--shadow-color),
@@ -76,14 +84,6 @@ html[data-theme='dark'] {
         }
     }
 
-    .ant-spin-dot-item {
-        color: var(--highlight-color);
-    }
-
-    .ant-spin .ant-spin-dot-item {
-        background-color: var(--highlight-color);
-    }
-
     .ant-pagination-item a {
         color: var(--highlight-color) !important;
     }
@@ -116,5 +116,61 @@ html[data-theme='dark'] {
         svg {
             color: var(--highlight-color) !important;
         }
+    }
+
+    .ant-modal .ant-modal-content {
+        @include responsive-padding(0.5rem, 0.5rem, 0.5rem, 0.5rem);
+    }
+
+    .ant-image {
+        height: 100%;
+    }
+
+    .ant-alert-info {
+        background-color: var(--primary-color);
+        border: 1px solid var(--highlight-color);
+        color: var(--highlight-color);
+        .ant-alert-message,
+        .ant-alert-description {
+            color: var(--highlight-color);
+        }
+    }
+
+    .ant-card {
+        background: var(--primary-color);
+        color: var(--highlight-color);
+        border: 1px solid var(--highlight-color);
+
+        .ant-card-meta {
+            color: var(--highlight-color);
+
+            .ant-card-meta-avatar {
+                .ant-avatar.ant-avatar-circle {
+                    border: 1px solid var(--highlight-color);
+                }
+
+                svg {
+                    color: var(--highlight-color);
+                }
+            }
+
+            .ant-card-meta-detail {
+                .ant-card-meta-title,
+                .ant-card-meta-description {
+                    color: var(--highlight-color);
+                    font-family: Roboto, Arial, Helvetica, sans-serif;
+                }
+
+                .ant-card-meta-title {
+                    font-family: Montserrat, Arial, Helvetica, sans-serif;
+                }
+            }
+        }
+    }
+
+    .ant-result-subtitle,
+    .ant-result-title,
+    .ant-result.ant-result-subtitle {
+        color: var(--highlight-color) !important;
     }
 }

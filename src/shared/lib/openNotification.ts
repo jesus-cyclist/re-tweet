@@ -7,7 +7,7 @@ type TNotification = {
 export const openNotification = {
     error: ({ description }: TNotification) => {
         return toast.error(description, {
-            duration: 4000,
+            duration: 2000,
             position: 'bottom-right',
             icon: '🚫',
             iconTheme: {

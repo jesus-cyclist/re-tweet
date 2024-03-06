@@ -65,3 +65,12 @@ export const spaceFlightApi = createApi({
         })
     })
 })
+
+export const {
+    useLazyGetArticlesQuery,
+    useLazyGetArticlesBySearchQuery,
+    useGetArticlesByIdQuery,
+    useGetArticlesBySearchQuery,
+    useGetArticlesQuery,
+    useLazyGetArticlesByIdQuery
+} = spaceFlightApi

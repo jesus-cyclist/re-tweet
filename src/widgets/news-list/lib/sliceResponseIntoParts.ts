@@ -1,4 +1,4 @@
-import { TNews } from '@/shared'
+import type { TNews } from '@/shared'
 
 export const sliceResponseIntoParts = (response: Array<TNews>) => {
     const part_first = response.slice(0, 3)

@@ -1,41 +1,89 @@
 import type {
-    TFavourite,
-    TReadStatus,
+    TFavouriteResponseItem,
+    TReadStatusResponseItem,
     TUserCredential,
-    TUserFavourites,
-    TUserID,
-    TUserReadStatus,
-    TUserSearch
+    TUserCredentialFavourites,
+    TUserCredentialID,
+    TUserCredentialReadStatus,
+    TUserCredentialSearch
 } from '../types/arg'
+import {
+    TCredentialLikeTweet,
+    TCredentialTweet,
+    TUserTweetResponseItem
+} from '..'
 import { DocumentData } from 'firebase/firestore'
-import { TSuccess } from '../types/arg'
-import { TAuthUser } from '@/features'
+import { TSuccessResponse } from '../types/arg'
+import { TAuthUser } from '../types/arg'
 
 type TAuthMethods = {
     signUp: (authData: TUserCredential) => Promise<TAuthUser>
     signIn: (authData: TUserCredential) => Promise<TAuthUser>
-    signOut: () => Promise<TSuccess>
+    signOut: () => Promise<TSuccessResponse>
     authState: () => Promise<TAuthUser>
+    getUserData: () => Promise<
+        Pick<TUserCredential, 'photoURL' | 'displayName'>
+    >
+    updateUserData: ({
+        photoURL,
+        displayName
+    }: Pick<TUserCredential, 'photoURL' | 'displayName'>) => Promise<TAuthUser>
 }
 
 type TFavouritesMethods = {
-    toggleFavourite: ({ userID, data }: TUserFavourites) => Promise<TSuccess>
-    getFavourites: (id: TUserID) => Promise<Array<TFavourite>>
+    toggleFavourite: ({
+        userID,
+        data
+    }: TUserCredentialFavourites) => Promise<TSuccessResponse>
+    getFavourites: (
+        id: TUserCredentialID
+    ) => Promise<Array<TFavouriteResponseItem>>
 }
 
 type TSearchMethods = {
-    getSearchQuery: ({ userID, query }: TUserSearch) => Promise<TSuccess>
-    getSearchHistory: (userID: TUserID) => Promise<DocumentData>
+    getSearchQuery: ({
+        userID,
+        query
+    }: TUserCredentialSearch) => Promise<TSuccessResponse>
+    getSearchHistory: (userID: TUserCredentialID) => Promise<DocumentData>
     deleteSearchHistoryItem: ({
         userID,
         query
-    }: TUserSearch) => Promise<TSuccess>
-    clearSearchHistory: (userID: TUserID) => Promise<TSuccess>
+    }: TUserCredentialSearch) => Promise<TSuccessResponse>
+    clearSearchHistory: (userID: TUserCredentialID) => Promise<TSuccessResponse>
 }
 
 type TReadedStatusMethods = {
-    addReadedStatus: ({ userID, data }: TUserReadStatus) => Promise<TSuccess>
-    getReaded: (id: TUserID) => Promise<Array<TReadStatus>>
+    addReadedStatus: ({
+        userID,
+        data
+    }: TUserCredentialReadStatus) => Promise<TSuccessResponse>
+    getReaded: (
+        id: TUserCredentialID
+    ) => Promise<Array<TReadStatusResponseItem>>
+}
+
+type TTweetMethods = {
+    postTweet: ({
+        author,
+        tweetedPost,
+        tweetMessage,
+        hashtags
+    }: TCredentialTweet) => Promise<TSuccessResponse>
+    getLikeTweet: ({
+        userID,
+        tweetID
+    }: TCredentialLikeTweet) => Promise<TSuccessResponse>
+    getDislikeTweet: ({
+        userID,
+        tweetID
+    }: TCredentialLikeTweet) => Promise<TSuccessResponse>
+    getTweets: () => Promise<
+        Array<Omit<TUserTweetResponseItem, 'comments' | 'reaction'>>
+    >
+    getReaction: () => Promise<
+        Array<Pick<TUserTweetResponseItem, 'comments' | 'reaction' | 'id'>>
+    >
 }
 
 export type TDBMethods = {
@@ -43,4 +91,5 @@ export type TDBMethods = {
     auth: TAuthMethods
     favourites: TFavouritesMethods
     readed: TReadedStatusMethods
+    tweet: TTweetMethods
 }

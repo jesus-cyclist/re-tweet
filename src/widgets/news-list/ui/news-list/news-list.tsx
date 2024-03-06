@@ -1,17 +1,18 @@
-import { Key, useEffect, useMemo, useState } from 'react'
-import { ScrollbarWrapper, TNews, news } from '@/shared'
+import React, { Key, useCallback, useEffect, useMemo, useState } from 'react'
+import { ScrollbarWrapper, useGetArticlesQuery } from '@/shared'
 import { NewsBlock } from '../news-block/news-block'
 import { sliceResponseIntoParts } from '../../lib'
 import s from './news-list.module.scss'
+import type { TNews } from '@/shared'
 import { Pagination } from 'antd'
 
 type TNewList = Array<TNews>
 
-export const NewsList = () => {
+export const NewsList = React.memo(() => {
     const [page, setPage] = useState<number>(1)
     const [offset, setOffset] = useState(0)
     const [list, setList] = useState<Array<TNewList>>([])
-    const { data, isFetching, isSuccess } = news.useGetArticlesQuery({
+    const { data, isFetching, isSuccess } = useGetArticlesQuery({
         limit: 9,
         offset
     })
@@ -23,14 +24,17 @@ export const NewsList = () => {
         }
     }, [data])
 
-    const handleChangePage = (page: number) => {
-        setPage(page)
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
-        setOffset(page * 9)
-    }
+    const handleChangePage = useCallback(
+        (page: number) => {
+            setPage(page)
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
+            setOffset(page * 9)
+        },
+        [setPage, setOffset]
+    )
 
     const getTotalPage = useMemo(() => {
         if (data) {
@@ -75,4 +79,6 @@ export const NewsList = () => {
             )}
         </div>
     )
-}
+})
+
+NewsList.displayName = 'NewsList'

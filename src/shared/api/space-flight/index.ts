@@ -7,4 +7,4 @@ export type {
 
 export { SpaceFlightKeyConverter } from './data-field-transformer'
 
-export { spaceFlightApi as news } from './api'
+export * from './api'

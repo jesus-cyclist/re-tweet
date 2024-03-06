@@ -1,19 +1,21 @@
-import { NewsCard } from '../../../../enteties/news/ui/news-card'
-import { NewsSkeleton } from '@/enteties/news/ui/news-skeleton'
-import { selectReaded } from '@/enteties/news/model/selectors'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
-import { TNews, useAppSelector } from '@/shared'
 import { NewsControlPanel } from '@/features'
+import { selectReaded } from '@/enteties'
+import { NewsSkeleton } from '@/enteties'
+import { useAppSelector } from '@/shared'
 import s from './news-block.module.scss'
+import { NewsCard } from '@/enteties'
+import type { TNews } from '@/shared'
 import classNames from 'classnames'
+import React from 'react'
 
-type TNewsBlockProps = {
+type Props = {
     isLoading: boolean
     type: 1 | 2 | 3
     data: Array<TNews>
 }
 
-export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
+export const NewsBlock = React.memo((props: Props): JSX.Element => {
     const { type, data, isLoading } = props
     const readed = useAppSelector(selectReaded)
 
@@ -100,4 +102,6 @@ export const NewsBlock = (props: TNewsBlockProps): JSX.Element => {
                 </div>
             )
     }
-}
+})
+
+NewsBlock.displayName = 'NewsBlock'

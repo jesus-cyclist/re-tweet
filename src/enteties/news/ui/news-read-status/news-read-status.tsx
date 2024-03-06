@@ -1,29 +1,22 @@
-import { CSSTransition } from 'react-transition-group'
 import { FieldTimeOutlined } from '@ant-design/icons'
 import s from './news-read-status.module.scss'
-import { useRef } from 'react'
+import classNames from 'classnames'
+import { useMemo } from 'react'
 
-type TNewsReadStatusProps = {
+type Props = {
     readed: boolean
 }
 
-export const NewsReadStatus = (props: TNewsReadStatusProps): JSX.Element => {
+export const NewsReadStatus = (props: Props): JSX.Element => {
     const { readed } = props
-    const ref = useRef(null)
+
+    const getActiveClassName = useMemo(() => {
+        return readed ? classNames(s.container, s.containerActive) : s.container
+    }, [readed])
 
     return (
-        <CSSTransition
-            nodeRef={ref}
-            in={readed}
-            timeout={200}
-            classNames={{
-                enter: s.containerEnter,
-                enterDone: s.containerEnterDone
-            }}
-        >
-            <div className={s.container} ref={ref}>
-                <FieldTimeOutlined />
-            </div>
-        </CSSTransition>
+        <div className={getActiveClassName}>
+            <FieldTimeOutlined />
+        </div>
     )
 }

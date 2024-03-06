@@ -1,11 +1,11 @@
-import { TNews } from '@/shared'
+import type { TNews } from '@/shared'
 import { Image } from 'antd'
 
-type TNewsImage = Pick<TNews, 'image' | 'title'> & {
+type Props = Pick<TNews, 'image' | 'title'> & {
     fallback: string
 }
 
-export const NewsImage = (props: TNewsImage): JSX.Element => {
+export const NewsImage = (props: Props): JSX.Element => {
     const { image, title, fallback } = props
     return (
         <Image

@@ -4,11 +4,11 @@ import { ReactNode, useState } from 'react'
 import s from './modal.module.scss'
 import { Modal } from 'antd'
 
-type TModalUIProps = {
+type Props = {
     children: ReactNode
 }
 
-export const ModalUI = (props: TModalUIProps): JSX.Element => {
+export const ModalUI = (props: Props): JSX.Element => {
     const { children } = props
     const [isModalOpen, setIsModalOpen] = useState(true)
     const navigate = useNavigate()
@@ -34,6 +34,7 @@ export const ModalUI = (props: TModalUIProps): JSX.Element => {
             closeIcon={null}
             className={s.modal}
             onCancel={closeModal}
+            footer={null}
         >
             {children}
         </Modal>

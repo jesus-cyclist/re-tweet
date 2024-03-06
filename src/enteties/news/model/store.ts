@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
-import { TFavourite } from '@/shared/api/db/types'
+import { TFavouriteResponseItem } from '@/shared/api/db/types'
 
 const readStatusAdapter = createEntityAdapter()
 
@@ -10,7 +10,7 @@ const readSlice = createSlice({
     initialState,
     reducers: {
         readReceived(state, action) {
-            const read = action.payload as Array<TFavourite>
+            const read = action.payload as Array<TFavouriteResponseItem>
             const normalizedRead = [
                 ...read.map(item => {
                     return {
@@ -21,6 +21,10 @@ const readSlice = createSlice({
             ]
 
             readStatusAdapter.setAll(state, normalizedRead)
+        },
+
+        resetRead(state) {
+            readStatusAdapter.setAll(state, {})
         }
     }
 })

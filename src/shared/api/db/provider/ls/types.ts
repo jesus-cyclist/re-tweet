@@ -1,5 +1,9 @@
-import { TFavourite, TReadStatus, TSearch } from '../../types'
-import { TAuthUser } from '@/features'
+import type {
+    TReadStatusResponseItem,
+    TFavouriteResponseItem,
+    TSearchResponseItem
+} from '@/shared'
+import type { TAuthUser } from '@/shared'
 
 export type TDBStatus = {
     email: string
@@ -12,7 +16,7 @@ export type TAuthUserWithPassword = TAuthUser & {
 }
 
 export type TUser = TAuthUserWithPassword & {
-    favourites: Array<TFavourite>
-    search: Array<TSearch>
-    read: Array<TReadStatus>
+    favourites: Array<TFavouriteResponseItem>
+    search: Array<TSearchResponseItem>
+    read: Array<TReadStatusResponseItem>
 }

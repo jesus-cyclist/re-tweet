@@ -1,21 +1,29 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { useCallback, useEffect, useState } from 'react'
-import { ClientRoutes, dbApi } from '@/shared'
+import {
+    FileImageOutlined,
+    LockOutlined,
+    MailOutlined,
+    UserOutlined
+} from '@ant-design/icons'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ClientRoutes, useLazyGetSignUpQuery } from '@/shared'
+import { Avatar, Button, Form, Input } from 'antd'
 import { useAppDispatch } from '@/shared/lib'
 import { accountAction } from '../../model'
 import { NavLink } from 'react-router-dom'
-import { Button, Form, Input } from 'antd'
 import s from './signup-form.module.scss'
 
 type TFieldType = {
     email: string
     password: string
+    displayName: string
+    photoURL: string
 }
 
 export const SignupForm = () => {
+    const [photo, setPhoto] = useState<string | null>(null)
     const [error, setError] = useState('')
     const dispatch = useAppDispatch()
-    const [fetchOnSignUp] = dbApi.useLazyGetSignUpQuery()
+    const [fetchOnSignUp] = useLazyGetSignUpQuery()
 
     useEffect(() => {
         if (error) {
@@ -26,14 +34,26 @@ export const SignupForm = () => {
     }, [error])
 
     const onFinish = useCallback((values: TFieldType) => {
-        const { email, password } = values
-        fetchOnSignUp({ email, password }).then(({ data }) => {
-            if (data) {
-                const { email, uid } = data
-                dispatch(accountAction.setAccount({ email, uid }))
+        const { email, password, displayName } = values
+
+        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
+        const isValidUrl = urlRegex.test(photo)
+        const photoURL = isValidUrl ? photo : null
+
+        fetchOnSignUp({ email, password, displayName, photoURL }).then(
+            ({ data }) => {
+                if (data) {
+                    dispatch(accountAction.setAccount(data))
+                }
             }
-        })
+        )
     }, [])
+
+    const handleChangePhoto = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value) {
+            setPhoto(e.target.value)
+        }
+    }
 
     return (
         <div className={s.container}>
@@ -44,6 +64,24 @@ export const SignupForm = () => {
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
+                    <Form.Item
+                        name='displayName'
+                        rules={[
+                            {
+                                min: 6,
+                                required: true,
+                                message: 'Must contain nickname'
+                            }
+                        ]}
+                    >
+                        <Input
+                            type='text'
+                            prefix={
+                                <UserOutlined className='site-form-item-icon' />
+                            }
+                            placeholder='Nickname'
+                        />
+                    </Form.Item>
                     <Form.Item
                         name='email'
                         rules={[
@@ -56,7 +94,7 @@ export const SignupForm = () => {
                         <Input
                             type='email'
                             prefix={
-                                <UserOutlined className='site-form-item-icon' />
+                                <MailOutlined className='site-form-item-icon' />
                             }
                             placeholder='Email'
                         />
@@ -80,6 +118,36 @@ export const SignupForm = () => {
                             placeholder='Password'
                         />
                     </Form.Item>
+
+                    <Form.Item
+                        name='photoURL'
+                        rules={[
+                            {
+                                pattern:
+                                    /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i,
+                                required: false,
+                                message: 'Must contain photo URL'
+                            }
+                        ]}
+                    >
+                        <Input
+                            type='text'
+                            prefix={
+                                <FileImageOutlined className='site-form-item-icon' />
+                            }
+                            placeholder='Photo URL'
+                            onBlur={handleChangePhoto}
+                        />
+                    </Form.Item>
+
+                    <div className={s.form__avatar}>
+                        <Avatar
+                            src={photo}
+                            shape='square'
+                            size={64}
+                            icon={<UserOutlined />}
+                        />
+                    </div>
 
                     <Form.Item>
                         <Button

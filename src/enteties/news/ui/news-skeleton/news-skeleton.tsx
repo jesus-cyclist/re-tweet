@@ -2,11 +2,11 @@ import s from './news-skeleton.module.scss'
 import classNames from 'classnames'
 import { Skeleton } from 'antd'
 
-type TNewsCardProps = {
+type Props = {
     type: 'column' | 'background' | 'row'
 }
 
-export const NewsSkeleton = (props: TNewsCardProps): JSX.Element => {
+export const NewsSkeleton = (props: Props): JSX.Element => {
     const { type } = props
 
     switch (type) {

@@ -7,6 +7,7 @@ import { NewsControlPanel } from '@/features'
 import s from './favourite-list.module.scss'
 import { FilterList } from '@/features'
 import { NewsCard } from '@/enteties'
+import { Alert } from 'antd'
 
 export const FavouritesList = memo(() => {
     const [isSortedByDate, setIsSortedByDate] = useState(true)
@@ -31,39 +32,50 @@ export const FavouritesList = memo(() => {
     )
 
     return (
-        <div className={s.container}>
-            <div>{sortedList && <FilterList items={items} />}</div>
-            <ScrollbarWrapper>
-                <div className={s.list}>
-                    {sortedList.map(newsData => {
-                        const datePublished = converDateIsoToSince(
-                            newsData.data.date
-                        )
-                        const dateAddedToFavourite = converDateIsoToSince(
-                            newsData.timestamp
-                        )
-                        return (
-                            <NewsCard
-                                key={newsData.data.id}
-                                data={{
-                                    ...newsData.data,
-                                    date: datePublished
-                                }}
-                                type={'row'}
-                            >
-                                <div className={s.bottomPanel}>
-                                    <span className={s.bottomPanel__text}>
-                                        {`Added to favourites ${dateAddedToFavourite}`}
-                                    </span>
-                                    <NewsControlPanel
-                                        newsData={newsData.data}
-                                    />
-                                </div>
-                            </NewsCard>
-                        )
-                    })}
+        <div className={s.wrapper}>
+            {sortedList.length ? (
+                <div className={s.container}>
+                    <div>{sortedList && <FilterList items={items} />}</div>
+                    <ScrollbarWrapper>
+                        <div className={s.list}>
+                            {sortedList.map(newsData => {
+                                const datePublished = converDateIsoToSince(
+                                    newsData.data.date
+                                )
+                                const dateAddedToFavourite =
+                                    converDateIsoToSince(newsData.timestamp)
+                                return (
+                                    <NewsCard
+                                        key={newsData.data.id}
+                                        data={{
+                                            ...newsData.data,
+                                            date: datePublished
+                                        }}
+                                        type={'row'}
+                                    >
+                                        <div className={s.bottomPanel}>
+                                            <span
+                                                className={s.bottomPanel__text}
+                                            >
+                                                {`Added to favourites ${dateAddedToFavourite}`}
+                                            </span>
+                                            <NewsControlPanel
+                                                newsData={newsData.data}
+                                            />
+                                        </div>
+                                    </NewsCard>
+                                )
+                            })}
+                        </div>
+                    </ScrollbarWrapper>
                 </div>
-            </ScrollbarWrapper>
+            ) : (
+                <Alert
+                    message='Info'
+                    description='The favourites news will appear here'
+                    type='info'
+                />
+            )}
         </div>
     )
 })
