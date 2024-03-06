@@ -1,0 +1,86 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+}
+
+.iframe,
+.iframeActive {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--highlight-color);
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.iframeActive {
+    color: var(--link-color);
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0px 0px 5px var(--link-color));
+}
+
+.switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    display: inline-block;
+}
+
+.checkbox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+}
+
+.slider {
+    background-color: var(--accent-color);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid var(--highlight-color);
+}
+
+.slider::before {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background-color: var(--content-color);
+    position: absolute;
+    content: '';
+    bottom: 2px;
+    left: 2px;
+    transition:
+        background-color 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        -webkit-box-shadow 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        -moz-box-shadow 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        box-shadow 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.checkbox:checked + .slider {
+    content: '';
+    background-color: var(--accent-color);
+}
+
+.checkbox:checked + .slider:before {
+    background-color: var(--content-color);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(30px);
+    transition:
+        background-color 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        -webkit-transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        -ms-transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}

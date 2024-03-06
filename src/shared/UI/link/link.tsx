@@ -2,7 +2,7 @@ import { HTMLAttributeAnchorTarget, ReactNode, useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-type TLinkUIProps = {
+type Props = {
     className?: string
     to: string
     children: ReactNode
@@ -11,7 +11,7 @@ type TLinkUIProps = {
     state?: Record<string, string>
 }
 
-export const LinkUI = (props: TLinkUIProps): JSX.Element => {
+export const LinkUI = (props: Props): JSX.Element => {
     const {
         children,
         to,

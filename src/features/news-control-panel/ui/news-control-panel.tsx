@@ -1,10 +1,9 @@
 import {
     ClientRoutes,
     LinkUI,
-    TNews,
-    dbApi,
     openNotification,
-    useAppSelector
+    useAppSelector,
+    useGetToggledFavouriteMutation
 } from '@/shared'
 import {
     BookOutlined,
@@ -12,15 +11,16 @@ import {
     RetweetOutlined,
     SettingOutlined
 } from '@ant-design/icons'
-import { useClickOutSide } from '@/shared/lib/hooks/use-click-outside'
 import TelegramIcon from '@/shared/assets/svg/telegram.svg'
-import { authSelectors } from '@/features/authentication'
+import { selectAccountID } from '@/features/authentication'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import { useEffect, useRef, useState } from 'react'
 import { selectIsTgShareEnabled } from '../model'
 import s from './news-control-panel.module.scss'
 import { selectFavouritesNews } from '@/widgets'
-import { useNavigate } from 'react-router-dom'
+import { useClickOutSide } from '@/shared'
+import type { TNews } from '@/shared'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
 
@@ -33,7 +33,7 @@ export const NewsControlPanel = (
 ): JSX.Element => {
     const { newsData } = props
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-    const userID = useAppSelector(authSelectors.selectAccountID)
+    const userID = useAppSelector(selectAccountID)
     const navigate = useNavigate()
 
     const favourites = useAppSelector(selectFavouritesNews)
@@ -46,7 +46,9 @@ export const NewsControlPanel = (
 
     const isTelegramShareEnabled = useAppSelector(selectIsTgShareEnabled)
 
-    const [fetch] = dbApi.useGetToggledFavouriteMutation()
+    const location = useLocation()
+
+    const [fetch] = useGetToggledFavouriteMutation()
 
     useEffect(() => {
         const favouriteCheck = favourites.some(
@@ -139,7 +141,13 @@ export const NewsControlPanel = (
                         </Tooltip>
                     </li>
                     <li className={s.panel__icon}>
-                        <RetweetOutlined />
+                        <LinkUI
+                            className={s.link__tweet}
+                            to={`${ClientRoutes.TWEET_CREATE_PATH}:${newsData.id}`}
+                            state={{ tweet: location.pathname }}
+                        >
+                            <RetweetOutlined />
+                        </LinkUI>
                     </li>
                     {isTelegramShareEnabled && (
                         <li className={s.panel__icon}>

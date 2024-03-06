@@ -1,25 +1,29 @@
-import { ClientRoutes, dbApi, useAppSelector, useSortedByDate } from '@/shared'
+import {
+    ClientRoutes,
+    useAppSelector,
+    useDeleteSearchHistoryItemMutation,
+    useLazyGetSearchHistoryQuery,
+    useSortedByDate
+} from '@/shared'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import SortIcon from '@/shared/assets/svg/sort-az.svg'
 import { useEffect, useMemo, useState } from 'react'
+import type { TSearchResponseItem } from '@/shared'
 import s from './history-search-list.module.scss'
 import { CloseOutlined } from '@ant-design/icons'
-import { TSearch } from '@/shared/api/db/types'
+import { selectAccountID } from '@/features'
 import { NavLink } from 'react-router-dom'
-import { authSelectors } from '@/features'
 import { FilterList } from '@/features'
 import { Alert } from 'antd'
 
 export const HistorySearchList = () => {
     const [isSortedByDate, setIsSortedByDate] = useState(true)
-    const userID = useAppSelector(authSelectors.selectAccountID)
-    const [searchHistoryList, setSearchHistoryList] = useState<Array<TSearch>>(
-        []
-    )
-    const [fetchSearchHistoryList, { data }] =
-        dbApi.useLazyGetSearchHistoryQuery()
-    const [fetchDeleteSearchHistoryItem] =
-        dbApi.useDeleteSearchHistoryItemMutation()
+    const userID = useAppSelector(selectAccountID)
+    const [searchHistoryList, setSearchHistoryList] = useState<
+        Array<TSearchResponseItem>
+    >([])
+    const [fetchSearchHistoryList, { data }] = useLazyGetSearchHistoryQuery()
+    const [fetchDeleteSearchHistoryItem] = useDeleteSearchHistoryItemMutation()
 
     useEffect(() => {
         if (data) {
@@ -96,8 +100,8 @@ export const HistorySearchList = () => {
                 </div>
             ) : (
                 <Alert
-                    message='Info Text'
-                    description='The browsing history will appear here'
+                    message='Info'
+                    description='The search history will appear here'
                     type='info'
                 />
             )}

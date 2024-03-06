@@ -1,5 +1,13 @@
+import {
+    LayoutUI,
+    useAppDispatch,
+    useAppSelector,
+    useIframeState,
+    useLazyGetFavouritesQuery,
+    useLazyGetReadedQuery
+} from '@/shared'
 import { selectAccountID } from '@/features/authentication/model/selectors'
-import { LayoutUI, dbApi, useAppDispatch, useAppSelector } from '@/shared'
+import { IFrameAction } from '@/features/iframe-handler/model'
 import { Footer, favouritesActions } from '@/widgets'
 import { Header } from '@/widgets/header/ui/header'
 import { telegramShareActions } from '@/features'
@@ -9,11 +17,12 @@ import { readActions } from '@/enteties'
 import { memo, useEffect } from 'react'
 
 const MainPage = memo(() => {
+    const { isIframeEnabled } = useIframeState()
     const userID = useAppSelector(selectAccountID)
     const dispatch = useAppDispatch()
     const [fetchFavourites, { data: favouriteData }] =
-        dbApi.useLazyGetFavouritesQuery()
-    const [fetchReaded, { data: readData }] = dbApi.useLazyGetReadedQuery()
+        useLazyGetFavouritesQuery()
+    const [fetchReaded, { data: readData }] = useLazyGetReadedQuery()
     const { data } = useGetTgSharedQuery()
 
     useEffect(() => {
@@ -40,6 +49,10 @@ const MainPage = memo(() => {
             dispatch(telegramShareActions.setShare(data.isTelegramShareEnabled))
         }
     }, [data])
+
+    useEffect(() => {
+        dispatch(IFrameAction.setIFrame(isIframeEnabled))
+    }, [])
 
     return (
         <LayoutUI

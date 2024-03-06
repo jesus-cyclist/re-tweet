@@ -1,5 +1,5 @@
-import { TUserArgs } from '@/shared/api/db/types'
 import { WithRouter } from './with-router'
+import type { TUserArgs } from '@/shared'
 import { Provider } from 'react-redux'
 import { consoleAPI } from '@/shared'
 import { store } from '../store'

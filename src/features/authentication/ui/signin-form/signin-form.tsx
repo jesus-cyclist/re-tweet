@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { ClientRoutes, useLazyGetSignInQuery } from '@/shared'
 import { useCallback, useEffect, useState } from 'react'
-import { ClientRoutes, dbApi } from '@/shared'
 import { useAppDispatch } from '@/shared/lib'
 import { accountAction } from '../../model'
 import { NavLink } from 'react-router-dom'
@@ -16,7 +16,7 @@ type TFieldType = {
 export const SigninForm = () => {
     const [error, setError] = useState(null)
     const dispatch = useAppDispatch()
-    const [fetchOnSignIn] = dbApi.useLazyGetSignInQuery()
+    const [fetchOnSignIn] = useLazyGetSignInQuery()
 
     useEffect(() => {
         if (error) {

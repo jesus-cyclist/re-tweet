@@ -1,17 +1,17 @@
-import { authSelectors } from '@/features/authentication'
+import { selectAccountIsAuth } from '@/features/authentication'
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAppSelector } from '@/shared/lib'
 import { ClientRoutes } from '@/shared'
 import { ReactNode } from 'react'
 
-type TProtectedRouteProps = {
+type Props = {
     component: ReactNode
     isAuthOnly: boolean
 }
 
-export const ProtectedRoute = (props: TProtectedRouteProps): JSX.Element => {
+export const ProtectedRoute = (props: Props): JSX.Element => {
     const { component, isAuthOnly } = props
-    const isAuth = useAppSelector(authSelectors.selectAccountIsAuth)
+    const isAuth = useAppSelector(selectAccountIsAuth)
     const location = useLocation()
 
     if (isAuthOnly && !isAuth) {

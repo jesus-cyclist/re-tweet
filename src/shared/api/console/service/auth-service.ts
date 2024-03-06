@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { TUserCredential } from '../../db/types'
-import { TAuthUser } from '@/features'
+import { TAuthUser } from '@/shared'
 import { db } from '../../db'
 
 export class AuthService {

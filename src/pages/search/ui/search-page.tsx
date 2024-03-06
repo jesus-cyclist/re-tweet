@@ -1,4 +1,4 @@
-import { SearchList } from '@/widgets/search-list'
+import { SearchList } from '@/widgets'
 
 const SearchPage = () => {
     return <SearchList />

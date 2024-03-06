@@ -2,11 +2,11 @@ import Scrollbars from 'react-custom-scrollbars-2'
 import s from './scrollbar-wrapper.module.scss'
 import { ReactNode } from 'react'
 
-type TScrollbarWrapperProps = {
+type Props = {
     children: ReactNode
 }
 
-export const ScrollbarWrapper = (props: TScrollbarWrapperProps) => {
+export const ScrollbarWrapper = (props: Props) => {
     const { children } = props
 
     return (

@@ -5,93 +5,122 @@ import {
     setDoc,
     updateDoc
 } from 'firebase/firestore'
-import { TUserID, TUserSearch } from '@/shared/api/db/types/arg'
-import { TSearch, TSuccess } from '@/shared/api/db/types/arg'
+import {
+    TUserCredentialID,
+    TUserCredentialSearch
+} from '@/shared/api/db/types/arg'
+import {
+    TSearchResponseItem,
+    TSuccessResponse
+} from '@/shared/api/db/types/arg'
+import { openNotification } from '@/shared/lib'
 import { firestoreDB } from '../config'
 
 export const search = {
     getSearchQuery: async ({
         userID,
         query
-    }: TUserSearch): Promise<TSuccess> => {
-        const userRef = doc(firestoreDB, 'users', userID)
-        const userDoc = await getDoc(userRef)
+    }: TUserCredentialSearch): Promise<TSuccessResponse> => {
+        try {
+            const userRef = doc(firestoreDB, 'users', userID)
+            const userDoc = await getDoc(userRef)
 
-        if (!userDoc.exists()) {
-            await setDoc(userRef, { favourites: [], search: [], read: [] })
-        }
-
-        const searchHistory: Array<TSearch> = (await getDoc(userRef)).data()
-            .search
-        const isExists = searchHistory.some(item => item.query === query)
-
-        if (isExists) {
-            const updateHistory = searchHistory.map(item => {
-                if (item.query === query) {
-                    const timestamp = new Date().toISOString()
-                    return {
-                        timestamp,
-                        query
-                    }
-                }
-
-                return item
-            })
-
-            await updateDoc(userRef, {
-                search: updateHistory
-            })
-        } else {
-            const timestamp = new Date().toISOString()
-            const favouriteItem = {
-                timestamp,
-                query
+            if (!userDoc.exists()) {
+                await setDoc(userRef, { favourites: [], search: [], read: [] })
             }
 
-            await updateDoc(userRef, {
-                search: [...searchHistory, favouriteItem]
-            })
-        }
+            const searchHistory: Array<TSearchResponseItem> = (
+                await getDoc(userRef)
+            ).data().search
+            const isExists = searchHistory.some(item => item.query === query)
 
-        return { success: true }
+            if (isExists) {
+                const updateHistory = searchHistory.map(item => {
+                    if (item.query === query) {
+                        const timestamp = new Date().toISOString()
+                        return {
+                            timestamp,
+                            query
+                        }
+                    }
+
+                    return item
+                })
+
+                await updateDoc(userRef, {
+                    search: updateHistory
+                })
+            } else {
+                const timestamp = new Date().toISOString()
+                const favouriteItem = {
+                    timestamp,
+                    query
+                }
+
+                await updateDoc(userRef, {
+                    search: [...searchHistory, favouriteItem]
+                })
+            }
+
+            return { success: true }
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
     },
 
     getSearchHistory: async (
-        userID: TUserID
+        userID: TUserCredentialID
     ): Promise<DocumentData[string]> => {
-        const userRef = doc(firestoreDB, 'users', userID)
-        const userDoc = await getDoc(userRef)
+        try {
+            const userRef = doc(firestoreDB, 'users', userID)
+            const userDoc = await getDoc(userRef)
 
-        const searchHistory = userDoc.data()
+            const searchHistory = userDoc.data()
 
-        return searchHistory?.search || []
+            return searchHistory?.search || []
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
     },
 
     deleteSearchHistoryItem: async ({
         userID,
         query
-    }: TUserSearch): Promise<TSuccess> => {
-        const userRef = doc(firestoreDB, 'users', userID)
-        const userDoc = await getDoc(userRef)
+    }: TUserCredentialSearch): Promise<TSuccessResponse> => {
+        try {
+            const userRef = doc(firestoreDB, 'users', userID)
+            const userDoc = await getDoc(userRef)
 
-        const searchHistory: Array<TSearch> = userDoc.data().search
+            const searchHistory: Array<TSearchResponseItem> =
+                userDoc.data().search
 
-        const updateHistory = searchHistory.filter(item => item.query !== query)
+            const updateHistory = searchHistory.filter(
+                item => item.query !== query
+            )
 
-        await updateDoc(userRef, {
-            search: updateHistory
-        })
+            await updateDoc(userRef, {
+                search: updateHistory
+            })
 
-        return { success: true }
+            return { success: true }
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
     },
 
-    clearSearchHistory: async (userID: TUserID): Promise<TSuccess> => {
-        const userRef = doc(firestoreDB, 'users', userID)
+    clearSearchHistory: async (
+        userID: TUserCredentialID
+    ): Promise<TSuccessResponse> => {
+        try {
+            const userRef = doc(firestoreDB, 'users', userID)
 
-        await updateDoc(userRef, {
-            search: []
-        })
+            await updateDoc(userRef, {
+                search: []
+            })
 
-        return { success: true }
+            return { success: true }
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
     }
 }

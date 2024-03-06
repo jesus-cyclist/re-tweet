@@ -1,12 +1,24 @@
 export type { TDBMethods } from './db'
 export type {
-    TUserID,
+    TUserCredentialID,
     TUserCredential,
-    TUserFavourites,
-    TUserSearch,
-    TFavourite,
-    TSearch,
-    TSuccess,
-    TReadStatus,
-    TUserArgs
+    TUserCredentialFavourites,
+    TUserCredentialSearch,
+    TFavouriteResponseItem,
+    TSearchResponseItem,
+    TSuccessResponse,
+    TReadStatusResponseItem,
+    TUserArgs,
+    TUser,
+    TAuthUser
 } from './arg'
+
+export type {
+    TCredentialTweet,
+    TTweetComment,
+    TUserTweetResponseItem,
+    TTweetCredentialID,
+    TCredentialLikeTweet,
+    TLikes,
+    TDislikes
+} from './tweet'

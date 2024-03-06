@@ -1,10 +1,10 @@
 import {
     ClientRoutes,
-    dbApi,
-    news,
     useAppSelector,
     useClickOutSide,
-    useDebounce
+    useDebounce,
+    useGetSearchQueryMutation,
+    useLazyGetArticlesBySearchQuery
 } from '@/shared'
 import {
     ChangeEvent,
@@ -14,22 +14,21 @@ import {
     useRef,
     useState
 } from 'react'
-import { authSelectors } from '@/features/authentication'
+import { selectAccountID } from '@/features/authentication'
 import { CSSTransition } from 'react-transition-group'
 import s from './search-panel.module.scss'
 import { NavLink } from 'react-router-dom'
 import Search from 'antd/es/input/Search'
 
 export const SearchPanel = memo(() => {
-    const userID = useAppSelector(authSelectors.selectAccountID)
+    const userID = useAppSelector(selectAccountID)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [searchValue, setSearchValue] = useState('')
     const [searchListResult, setSearchListResult] =
         useState<Array<ReactNode>>(null)
-    const [fetchSearchList, { isFetching }] =
-        news.useLazyGetArticlesBySearchQuery()
+    const [fetchSearchList, { isFetching }] = useLazyGetArticlesBySearchQuery()
 
-    const [fetchSearchUpdate] = dbApi.useGetSearchQueryMutation()
+    const [fetchSearchUpdate] = useGetSearchQueryMutation()
 
     const listRef = useRef<HTMLUListElement | null>(null)
 
@@ -37,18 +36,18 @@ export const SearchPanel = memo(() => {
         setSearchValue(e.target.value)
     }
 
-    const handleCloseDropdown = () => {
-        setIsDropdownOpen(false)
-    }
-
     const handlerUpdatedSearch = () => {
+        closeDropdown()
         if (userID) {
             fetchSearchUpdate({ userID, query: searchValue })
-            handleCloseDropdown()
         }
     }
 
-    useClickOutSide({ ref: listRef, cb: handleCloseDropdown })
+    const closeDropdown = () => {
+        setIsDropdownOpen(false)
+    }
+
+    useClickOutSide({ ref: listRef, cb: closeDropdown })
 
     const fetchSearch = useCallback(
         async (value: string) => {
@@ -64,11 +63,11 @@ export const SearchPanel = memo(() => {
                                 <li
                                     className={s.search__listItem}
                                     key={id}
-                                    onClick={handleCloseDropdown}
+                                    onClick={closeDropdown}
                                 >
                                     <NavLink
                                         className={s.search__link}
-                                        to={`${ClientRoutes.NEWS}:${id}`}
+                                        to={`${ClientRoutes.NEWS_PATH}:${id}`}
                                         data-test-id={'search-link'}
                                     >
                                         {title}

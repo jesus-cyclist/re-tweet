@@ -7,14 +7,14 @@ import s from './news-card.module.scss'
 import classNames from 'classnames'
 import { ReactNode } from 'react'
 
-type TNewsCardProps = {
+type Props = {
     data: TNews
     type: 'column' | 'background' | 'row'
     children?: ReactNode
     readStatus?: boolean
 }
 
-export const NewsCard = (props: TNewsCardProps): JSX.Element => {
+export const NewsCard = (props: Props): JSX.Element => {
     const {
         children,
         data: { title, image, date, news, id },
@@ -22,6 +22,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
         readStatus = false
     } = props
     const location = useLocation()
+    // console.log(readStatus, title)
 
     switch (type) {
         case 'background':
@@ -36,7 +37,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                     <div className={s.card__text}>
                         <LinkUI
                             className={s.card__news}
-                            to={`${ClientRoutes.NEWS}:${id}`}
+                            to={`${ClientRoutes.NEWS_PATH}:${id}`}
                             state={{ news: location.pathname }}
                         >
                             {news}
@@ -59,6 +60,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                     className={classNames(s.card, s.columnCard)}
                     data-test-id={'news-card'}
                 >
+                    <NewsReadStatus readed={readStatus} />
                     <NewsImage
                         image={image}
                         title={title}
@@ -67,7 +69,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                     <div className={s.card__text}>
                         <LinkUI
                             className={s.card__news}
-                            to={`${ClientRoutes.NEWS}:${id}`}
+                            to={`${ClientRoutes.NEWS_PATH}:${id}`}
                             state={{ news: location.pathname }}
                         >
                             {news}
@@ -98,7 +100,7 @@ export const NewsCard = (props: TNewsCardProps): JSX.Element => {
                     <div className={s.card__text}>
                         <LinkUI
                             className={s.card__news}
-                            to={`${ClientRoutes.NEWS}:${id}`}
+                            to={`${ClientRoutes.NEWS_PATH}:${id}`}
                             state={{ news: location.pathname }}
                         >
                             {news}

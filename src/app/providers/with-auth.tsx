@@ -1,25 +1,34 @@
-import { LoaderUI, dbApi, useAppDispatch } from '@/shared'
+import { useAppDispatch, useGetAuthStateQuery } from '@/shared'
 import { useEffect, useState } from 'react'
 import { accountAction } from '@/features'
 import { WithAntd } from './with-antd'
+import { Flex, Spin } from 'antd'
 
 export const WithAuth = () => {
     const dispatch = useAppDispatch()
     const [checkAuth, setCheckAuth] = useState(true)
-    const { data, isFetching } = dbApi.useGetAuthStateQuery()
+    const { data, isFetching } = useGetAuthStateQuery()
 
     useEffect(() => {
         if (!isFetching) {
             if (data) {
-                const { email, uid } = data
-                dispatch(accountAction.setAccount({ email, uid }))
+                dispatch(accountAction.setAccount(data))
             }
             setCheckAuth(false)
         }
     }, [isFetching])
 
     if (checkAuth) {
-        return <LoaderUI isLoading />
+        return (
+            <Flex
+                style={{ width: '100%', height: '100%' }}
+                align='center'
+                justify='center'
+                gap='middle'
+            >
+                <Spin size='large' />
+            </Flex>
+        )
     }
 
     return <WithAntd />

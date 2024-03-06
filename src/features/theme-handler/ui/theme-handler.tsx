@@ -2,20 +2,14 @@ import { ThemeContext } from '@/app/providers/with-theme'
 import Moon from '@/shared/assets/svg/moon.svg'
 import Sun from '@/shared/assets/svg/sun.svg'
 import s from './theme-handler.module.scss'
-import { useContext, useRef } from 'react'
+import { useContext } from 'react'
 
 export const ThemeHandler = () => {
     const { theme, changeTheme } = useContext(ThemeContext)
 
-    const moonRef = useRef(null)
-    const sunRef = useRef(null)
-
     return (
         <div className={s.container}>
-            <div
-                className={theme === 'light' ? s.modeSunActive : s.modeSun}
-                ref={sunRef}
-            >
+            <div className={theme === 'light' ? s.modeSunActive : s.modeSun}>
                 <Sun />
             </div>
 
@@ -29,10 +23,7 @@ export const ThemeHandler = () => {
                 <span className={s.slider} />
             </label>
 
-            <div
-                className={theme === 'dark' ? s.modeDarkActive : s.modeDark}
-                ref={moonRef}
-            >
+            <div className={theme === 'dark' ? s.modeDarkActive : s.modeDark}>
                 <Moon />
             </div>
         </div>

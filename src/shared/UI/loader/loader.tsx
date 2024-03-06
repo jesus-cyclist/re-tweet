@@ -12,6 +12,7 @@ export const LoaderUI = (props: TLoaderUIProps) => {
     if (isLoading) {
         return (
             <Flex
+                className={s.loader}
                 style={{ width: '100%', height: '100%' }}
                 align='center'
                 justify='center'

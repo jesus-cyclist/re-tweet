@@ -11,7 +11,7 @@ export const WithAntd = () => {
                     itemMarginBlock: 0,
                     itemMarginInline: 0,
                     itemBg: '#ffffff',
-                    itemActiveBg: 'var(--primary-color)',
+                    itemActiveBg: 'var(--content-color)',
                     itemColor: 'var(--highlight-color)',
                     itemHoverBg: 'var(--accent-color)',
                     itemHoverColor: 'var(--link-color)',
@@ -21,8 +21,9 @@ export const WithAntd = () => {
                     groupTitleFontSize: 12.8,
                     darkItemSelectedBg: 'var(--link-color)',
                     horizontalItemSelectedColor: 'var(--highlight-color)',
-                    itemSelectedColor: 'var(--primary-color)',
-                    itemSelectedBg: 'var(--content-color)'
+                    itemSelectedColor: 'var(--highlight-color)',
+                    itemSelectedBg: 'var(--accent-color)',
+                    subMenuItemBorderRadius: 0
                 },
                 Modal: {
                     contentBg: 'var(--primary-color)',
@@ -44,6 +45,15 @@ export const WithAntd = () => {
                 Pagination: {
                     itemActiveBg: 'var(--highlight-color)',
                     itemActiveColorDisabled: 'var(--highlight-color)'
+                },
+                Checkbox: {
+                    colorPrimary: 'var(--content-color)',
+                    colorPrimaryHover: 'var(--content-color)',
+                    colorTextDisabled: 'var(--highlight-color)',
+                    colorText: 'var(--highlight-color)'
+                },
+                Card: {
+                    actionsBg: 'var(--primary-color)'
                 }
             }
         }

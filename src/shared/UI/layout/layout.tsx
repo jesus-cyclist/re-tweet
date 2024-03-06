@@ -5,13 +5,13 @@ import { Layout } from 'antd'
 
 const { Header, Content, Footer } = Layout
 
-type TLayoutUIProps = {
+type Props = {
     header: ReactNode
     content: ReactNode
     footer: ReactNode
 }
 
-export const LayoutUI = (props: TLayoutUIProps): JSX.Element => {
+export const LayoutUI = (props: Props): JSX.Element => {
     const { header, content, footer } = props
     return (
         <Layout className={s.layout}>

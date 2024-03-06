@@ -21,3 +21,4 @@ declare const __PLATFORM__: 'mobile' | 'desktop'
 declare const __ENV__: 'production' | 'development'
 
 declare module 'bcryptjs'
+declare module 'antd-img-crop'

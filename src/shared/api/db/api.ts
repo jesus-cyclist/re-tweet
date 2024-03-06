@@ -1,28 +1,76 @@
 import {
-    TFavourite,
-    TReadStatus,
-    TSuccess,
+    TFavouriteResponseItem,
+    TReadStatusResponseItem,
+    TSuccessResponse,
     TUserCredential,
-    TUserFavourites,
-    TUserID,
-    TUserReadStatus,
-    TUserSearch
+    TUserCredentialFavourites,
+    TUserCredentialID,
+    TUserCredentialReadStatus,
+    TUserCredentialSearch
 } from './types/arg'
+import {
+    TCredentialLikeTweet,
+    TCredentialTweet,
+    TUserTweetResponseItem
+} from '..'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
 import { DocumentData } from 'firebase/firestore'
 import { openNotification } from '@/shared/lib'
-import { TAuthUser } from '@/features'
+import { TAuthUser } from './types/arg'
 import { db } from './provider'
 
 export const dbApi = createApi({
     reducerPath: 'db',
     baseQuery: fakeBaseQuery(),
-    tagTypes: ['favourites', 'search', 'auth', 'read'],
+    tagTypes: [
+        'favourites',
+        'search',
+        'auth',
+        'read',
+        'tweet',
+        'tweet-reaction'
+    ],
     endpoints: builder => ({
         getSignUp: builder.query<TAuthUser, TUserCredential>({
-            queryFn: async ({ email, password }) => {
+            queryFn: async ({ email, password, displayName, photoURL }) => {
                 try {
-                    const res = await db.auth.signUp({ email, password })
+                    const res = await db.auth.signUp({
+                        email,
+                        password,
+                        displayName,
+                        photoURL
+                    })
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            providesTags: ['auth']
+        }),
+        getUserData: builder.query<
+            Pick<TUserCredential, 'photoURL' | 'displayName'>,
+            void
+        >({
+            queryFn: async () => {
+                try {
+                    const res = await db.auth.getUserData()
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            providesTags: ['auth']
+        }),
+        getUpdateUserData: builder.query<
+            TAuthUser,
+            Pick<TUserCredential, 'photoURL' | 'displayName'>
+        >({
+            queryFn: async ({ displayName, photoURL }) => {
+                try {
+                    const res = await db.auth.updateUserData({
+                        displayName,
+                        photoURL
+                    })
                     return { data: res }
                 } catch (error) {
                     openNotification.error({ description: error.message })
@@ -41,7 +89,7 @@ export const dbApi = createApi({
             },
             providesTags: ['auth']
         }),
-        getSignOut: builder.query<TSuccess, void>({
+        getSignOut: builder.query<TSuccessResponse, void>({
             queryFn: async () => {
                 try {
                     const res = await db.auth.signOut()
@@ -64,7 +112,10 @@ export const dbApi = createApi({
             providesTags: ['auth']
         }),
 
-        getToggledFavourite: builder.mutation<TSuccess, TUserFavourites>({
+        getToggledFavourite: builder.mutation<
+            TSuccessResponse,
+            TUserCredentialFavourites
+        >({
             queryFn: async ({ userID, data }) => {
                 try {
                     const res = await db.favourites.toggleFavourite({
@@ -87,7 +138,10 @@ export const dbApi = createApi({
             },
             invalidatesTags: ['favourites']
         }),
-        getFavourites: builder.query<Array<TFavourite>, TUserID>({
+        getFavourites: builder.query<
+            Array<TFavouriteResponseItem>,
+            TUserCredentialID
+        >({
             queryFn: async userID => {
                 try {
                     const res = await db.favourites.getFavourites(userID)
@@ -98,8 +152,11 @@ export const dbApi = createApi({
             },
             providesTags: ['favourites']
         }),
-        getSearchQuery: builder.mutation<TSuccess, TUserSearch>({
-            queryFn: async ({ userID, query }: TUserSearch) => {
+        getSearchQuery: builder.mutation<
+            TSuccessResponse,
+            TUserCredentialSearch
+        >({
+            queryFn: async ({ userID, query }: TUserCredentialSearch) => {
                 try {
                     const res = await db.search.getSearchQuery({
                         userID,
@@ -112,8 +169,11 @@ export const dbApi = createApi({
             },
             invalidatesTags: ['search']
         }),
-        getSearchHistory: builder.query<DocumentData[string], TUserID>({
-            queryFn: async (userID: TUserID) => {
+        getSearchHistory: builder.query<
+            DocumentData[string],
+            TUserCredentialID
+        >({
+            queryFn: async (userID: TUserCredentialID) => {
                 try {
                     const res = await db.search.getSearchHistory(userID)
                     return { data: res }
@@ -123,8 +183,11 @@ export const dbApi = createApi({
             },
             providesTags: ['search']
         }),
-        deleteSearchHistoryItem: builder.mutation<TSuccess, TUserSearch>({
-            queryFn: async ({ userID, query }: TUserSearch) => {
+        deleteSearchHistoryItem: builder.mutation<
+            TSuccessResponse,
+            TUserCredentialSearch
+        >({
+            queryFn: async ({ userID, query }: TUserCredentialSearch) => {
                 try {
                     const res = await db.search.deleteSearchHistoryItem({
                         userID,
@@ -140,8 +203,11 @@ export const dbApi = createApi({
             },
             invalidatesTags: ['search']
         }),
-        clearSearchHistory: builder.mutation<TSuccess, TUserID>({
-            queryFn: async (userID: TUserID) => {
+        clearSearchHistory: builder.mutation<
+            TSuccessResponse,
+            TUserCredentialID
+        >({
+            queryFn: async (userID: TUserCredentialID) => {
                 try {
                     const res = await db.search.clearSearchHistory(userID)
                     openNotification.success({
@@ -155,7 +221,10 @@ export const dbApi = createApi({
             invalidatesTags: ['search']
         }),
 
-        getAddReadedStatus: builder.mutation<TSuccess, TUserReadStatus>({
+        getAddReadedStatus: builder.mutation<
+            TSuccessResponse,
+            TUserCredentialReadStatus
+        >({
             queryFn: async ({ userID, data }) => {
                 try {
                     const res = await db.readed.addReadedStatus({
@@ -172,7 +241,10 @@ export const dbApi = createApi({
             },
             invalidatesTags: ['read']
         }),
-        getReaded: builder.query<Array<TReadStatus>, TUserID>({
+        getReaded: builder.query<
+            Array<TReadStatusResponseItem>,
+            TUserCredentialID
+        >({
             queryFn: async userID => {
                 try {
                     const res = await db.readed.getReaded(userID)
@@ -182,6 +254,120 @@ export const dbApi = createApi({
                 }
             },
             providesTags: ['read']
+        }),
+
+        getPostTweet: builder.mutation<TSuccessResponse, TCredentialTweet>({
+            queryFn: async ({
+                author,
+                tweetedPost,
+                tweetMessage,
+                hashtags = []
+            }) => {
+                try {
+                    const res = await db.tweet.postTweet({
+                        author,
+                        tweetedPost,
+                        tweetMessage,
+                        hashtags
+                    })
+
+                    return {
+                        data: res
+                    }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            invalidatesTags: ['tweet']
+        }),
+        getTweets: builder.query<
+            Array<Omit<TUserTweetResponseItem, 'comments' | 'reaction'>>,
+            void
+        >({
+            queryFn: async () => {
+                try {
+                    const res = await db.tweet.getTweets()
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            providesTags: ['tweet']
+        }),
+        getLikeTweet: builder.mutation<TSuccessResponse, TCredentialLikeTweet>({
+            queryFn: async ({ userID, tweetID }) => {
+                try {
+                    const res = await db.tweet.getLikeTweet({ userID, tweetID })
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            invalidatesTags: ['tweet-reaction']
+        }),
+        getDislikeTweet: builder.mutation<
+            TSuccessResponse,
+            TCredentialLikeTweet
+        >({
+            queryFn: async ({ userID, tweetID }) => {
+                try {
+                    const res = await db.tweet.getDislikeTweet({
+                        userID,
+                        tweetID
+                    })
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            invalidatesTags: ['tweet-reaction']
+        }),
+        getReaction: builder.query<
+            Array<Pick<TUserTweetResponseItem, 'comments' | 'reaction' | 'id'>>,
+            void
+        >({
+            queryFn: async () => {
+                try {
+                    const res = await db.tweet.getReaction()
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            providesTags: ['tweet-reaction']
         })
     })
 })
+
+export const {
+    useClearSearchHistoryMutation,
+    useDeleteSearchHistoryItemMutation,
+    useGetAddReadedStatusMutation,
+    useGetAuthStateQuery,
+    useGetFavouritesQuery,
+    useGetPostTweetMutation,
+    useGetReadedQuery,
+    useGetSearchHistoryQuery,
+    useGetSearchQueryMutation,
+    useGetSignInQuery,
+    useGetSignOutQuery,
+    useGetSignUpQuery,
+    useGetToggledFavouriteMutation,
+    useGetTweetsQuery,
+    useLazyGetAuthStateQuery,
+    useLazyGetFavouritesQuery,
+    useLazyGetReadedQuery,
+    useLazyGetSearchHistoryQuery,
+    useLazyGetSignInQuery,
+    useLazyGetSignOutQuery,
+    useLazyGetSignUpQuery,
+    useLazyGetTweetsQuery,
+    useGetDislikeTweetMutation,
+    useGetLikeTweetMutation,
+    useGetReactionQuery,
+    useLazyGetReactionQuery,
+    useGetUpdateUserDataQuery,
+    useGetUserDataQuery,
+    useLazyGetUpdateUserDataQuery,
+    useLazyGetUserDataQuery
+} = dbApi

@@ -1,44 +1,47 @@
 import {
+    ClientRoutes,
     LinkUI,
     LoaderUI,
     ScrollbarWrapper,
-    TNews,
-    dbApi,
-    news,
-    useAppSelector
+    useAppSelector,
+    useGetAddReadedStatusMutation,
+    useGetArticlesByIdQuery
 } from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
+import { selectIsIframe } from '@/features/iframe-handler/model'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import { useParams } from 'react-router-dom'
+import { selectAccountID } from '@/features'
 import { useEffect, useState } from 'react'
-import { authSelectors } from '@/features'
 import s from './news-info.module.scss'
+import type { TNews } from '@/shared'
 import { Image } from 'antd'
 
 const NewsInfo = () => {
     const params = useParams()
-    const userID = useAppSelector(authSelectors.selectAccountID)
+    const isIFrameEnable = useAppSelector(selectIsIframe)
+    const userID = useAppSelector(selectAccountID)
     const [newsData, setNewsData] = useState<TNews>(null)
-    const { data: spaceFlightData } = news.useGetArticlesByIdQuery({
+    const { data: newsApiData } = useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
 
-    const [fetch] = dbApi.useGetAddReadedStatusMutation()
+    const [fetchReaded] = useGetAddReadedStatusMutation()
 
     useEffect(() => {
-        if (spaceFlightData) {
+        if (newsApiData) {
             setNewsData({
-                ...spaceFlightData,
-                date: converDateIsoToSince(spaceFlightData.date)
+                ...newsApiData,
+                date: converDateIsoToSince(newsApiData.date)
             })
         }
-    }, [spaceFlightData])
+    }, [newsApiData])
 
     useEffect(() => {
-        if (spaceFlightData && userID) {
-            fetch({ userID, data: spaceFlightData })
+        if (newsApiData && userID) {
+            fetchReaded({ userID, data: newsApiData })
         }
-    }, [spaceFlightData, userID])
+    }, [newsApiData, userID])
 
     return (
         <div className={s.container}>
@@ -88,8 +91,14 @@ const NewsInfo = () => {
                                     </span>
                                     <LinkUI
                                         className={s.card__link}
-                                        to={newsData.url}
-                                        target={'_blank'}
+                                        to={
+                                            isIFrameEnable
+                                                ? `${ClientRoutes.NEWS_FRAME_PATH}${newsData.id}`
+                                                : newsData.url
+                                        }
+                                        target={
+                                            isIFrameEnable ? '_self' : '_blank'
+                                        }
                                     >
                                         {'Read more...'}
                                     </LinkUI>

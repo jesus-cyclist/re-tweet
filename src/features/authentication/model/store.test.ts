@@ -5,7 +5,9 @@ describe('test account store', () => {
     const initialState: TInitialState = {
         uid: null,
         email: null,
-        isAuth: false
+        isAuth: false,
+        displayName: null,
+        photoURL: null
     }
 
     test('should return initial value', () => {

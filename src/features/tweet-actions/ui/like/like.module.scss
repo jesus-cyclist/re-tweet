@@ -1,0 +1,37 @@
+.reaction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--highlight-color);
+
+    .reaction__icon {
+        transform: scale(1);
+        transition: transform 0.3s ease;
+        svg {
+            color: var(--highlight-color);
+        }
+
+        svg:hover {
+            color: var(--link-color);
+        }
+    }
+
+    .reaction__iconActive {
+        svg {
+            color: var(--link-color);
+        }
+    }
+
+    .reaction__icon:active {
+        transform: scale(0.7);
+        transition: transform 0.3s ease;
+        svg {
+            color: var(--highlight-color);
+        }
+
+        svg:hover {
+            color: var(--link-color);
+        }
+    }
+}
