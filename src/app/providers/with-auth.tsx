@@ -7,16 +7,16 @@ import { Flex, Spin } from 'antd'
 export const WithAuth = () => {
     const dispatch = useAppDispatch()
     const [checkAuth, setCheckAuth] = useState(true)
-    const { data, isFetching } = useGetAuthStateQuery()
+    const { data, isLoading } = useGetAuthStateQuery()
 
     useEffect(() => {
-        if (!isFetching) {
+        if (!isLoading) {
             if (data) {
                 dispatch(accountAction.setAccount(data))
             }
             setCheckAuth(false)
         }
-    }, [isFetching])
+    }, [isLoading])
 
     if (checkAuth) {
         return (
