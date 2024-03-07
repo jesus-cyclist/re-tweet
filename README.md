@@ -43,14 +43,14 @@
 - [x] Feature Flags [1](https://github.com/jesus-cyclist/re-tweet/blob/main/server/index.mjs) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/news-control-panel/model/store.ts) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/api/api.ts)
 - [x] Тесты [1](https://github.com/jesus-cyclist/re-tweet/blob/main/cypress/e2e/favourite-action.cy.ts) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/cypress/e2e/search-information.cy.ts) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/lib/hooks/use-debounce.test.tsx) [4](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/space-flight/data-field-transformer.test.ts)
 - [x] Связь UI и бизнес-логики построена через события. [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/ui/signin-form/signin-form.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/search-list/ui/search-list/search-list.tsx)
-  -SigninForm:
-    -Обработчик onFinish вызывается при успешной отправке формы, что инициирует событие аутентификации пользователя.
-    -Никаких прямых вызовов API или инфраструктуры в UI компонентах нет.
-    -Взаимодействие с Redux через диспетчер dispatch позволяет обновлять состояние приложения после события.
-  -SearchList:
-    -Изменения значения поиска в поле ввода (handleSearchChange) порождают событие изменения, которое триггерит отправку запроса на сервер.
-    -Запрос на сервер происходит с задержкой (debouncing), что уменьшает количество запросов и повышает производительность.
-    -Загрузка следующей страницы результатов (loadNextPage) является результатом действия пользователя и не знает о последующих операциях.
+  - SigninForm:
+    - Обработчик onFinish вызывается при успешной отправке формы, что инициирует событие аутентификации пользователя.
+    - Никаких прямых вызовов API или инфраструктуры в UI компонентах нет.
+    - Взаимодействие с Redux через диспетчер dispatch позволяет обновлять состояние приложения после события.
+  - SearchList:
+    - Изменения значения поиска в поле ввода (handleSearchChange) порождают событие изменения, которое триггерит отправку запроса на сервер.
+    - Запрос на сервер происходит с задержкой (debouncing), что уменьшает количество запросов и повышает производительность.
+    - Загрузка следующей страницы результатов (loadNextPage) является результатом действия пользователя и не знает о последующих операциях.
 - [x] [Project Console API](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/console/middleware.ts)
 
 
