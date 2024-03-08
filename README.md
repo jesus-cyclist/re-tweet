@@ -13,7 +13,7 @@
 - [x] Реализованы Требования к функциональности
 - [x] Используются функциональные компоненты c хуками 
 - [x] Есть разделение на умные и глупые компоненты [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/enteties/news/ui/news-card/news-card.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/ui/main-page.tsx)
-- [x] [Есть рендеринг списков](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/news-list/ui/news-list.tsx)
+- [x] [Есть рендеринг списков](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/news-list/ui/news-list/news-list.tsx)
 - [x] [Реализована хотя бы одна форма](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/ui/signup-form/signup-form.tsx)
 - [x] [Есть применение Контекст API](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/providers/with-theme.tsx)
 - [x] [Есть применение предохранителя](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/providers/with-error-boundary.tsx)
