@@ -4,13 +4,13 @@ import {
     MailOutlined,
     UserOutlined
 } from '@ant-design/icons'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { ClientRoutes, useLazyGetSignUpQuery } from '@/shared'
+import { ClientRoutes, useGetSignUpMutation } from '@/shared'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { Avatar, Button, Form, Input } from 'antd'
-import { useAppDispatch } from '@/shared/lib'
 import { accountAction } from '../../model'
 import { NavLink } from 'react-router-dom'
 import s from './signup-form.module.scss'
+import { useDispatch } from 'react-redux'
 
 type TFieldType = {
     email: string
@@ -21,17 +21,8 @@ type TFieldType = {
 
 export const SignupForm = () => {
     const [photo, setPhoto] = useState<string | null>(null)
-    const [error, setError] = useState('')
-    const dispatch = useAppDispatch()
-    const [fetchOnSignUp] = useLazyGetSignUpQuery()
-
-    useEffect(() => {
-        if (error) {
-            setTimeout(() => {
-                setError(null)
-            }, 5000)
-        }
-    }, [error])
+    const [fetchOnSignUp] = useGetSignUpMutation()
+    const dispatch = useDispatch()
 
     const onFinish = useCallback((values: TFieldType) => {
         const { email, password, displayName } = values
@@ -40,12 +31,8 @@ export const SignupForm = () => {
         const isValidUrl = urlRegex.test(photo)
         const photoURL = isValidUrl ? photo : null
 
-        fetchOnSignUp({ email, password, displayName, photoURL }).then(
-            ({ data }) => {
-                if (data) {
-                    dispatch(accountAction.setAccount(data))
-                }
-            }
+        fetchOnSignUp({ email, password, displayName, photoURL }).then(() =>
+            dispatch(accountAction.setIsAuth())
         )
     }, [])
 

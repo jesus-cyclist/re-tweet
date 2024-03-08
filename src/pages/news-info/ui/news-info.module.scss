@@ -79,11 +79,14 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: nowrap;
-            opacity: 0.5;
-            .card__date,
-            .card__link {
-                display: block;
-                @include responsive-font-size(0.8rem);
+
+            .card__footerInfo {
+                opacity: 0.5;
+                .card__date,
+                .card__link {
+                    display: block;
+                    @include responsive-font-size(0.8rem);
+                }
             }
         }
     }

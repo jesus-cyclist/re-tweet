@@ -8,6 +8,14 @@
     position: relative;
     font-size: 14px;
     line-height: calc(0.8rem * 1.2);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.searchHidden {
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .search__dropdown {

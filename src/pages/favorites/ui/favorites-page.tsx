@@ -1,4 +1,4 @@
-import { FavouritesList } from '@/widgets/favourites-list'
+import { FavouritesList } from '@/widgets'
 
 const FavoritesPage = () => {
     return <FavouritesList />

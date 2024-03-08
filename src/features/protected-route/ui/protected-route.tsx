@@ -1,7 +1,6 @@
 import { selectAccountIsAuth } from '@/features/authentication'
 import { Navigate, useLocation } from 'react-router-dom'
-import { useAppSelector } from '@/shared/lib'
-import { ClientRoutes } from '@/shared'
+import { ClientRoutes, useAppSelector } from '@/shared'
 import { ReactNode } from 'react'
 
 type Props = {
@@ -9,9 +8,11 @@ type Props = {
     isAuthOnly: boolean
 }
 
-export const ProtectedRoute = (props: Props): JSX.Element => {
+export const ProtectedRoute = (props: Props) => {
     const { component, isAuthOnly } = props
+
     const isAuth = useAppSelector(selectAccountIsAuth)
+
     const location = useLocation()
 
     if (isAuthOnly && !isAuth) {
@@ -28,5 +29,5 @@ export const ProtectedRoute = (props: Props): JSX.Element => {
         return <Navigate to={ClientRoutes.MAIN_PATH} replace />
     }
 
-    return component as JSX.Element
+    return component
 }

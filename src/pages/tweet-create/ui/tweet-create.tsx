@@ -4,43 +4,33 @@ import {
     LoaderUI,
     ScrollbarWrapper,
     openNotification,
-    useAppSelector,
     useGetArticlesByIdQuery,
+    useGetAuthStateQuery,
     useGetPostTweetMutation
 } from '@/shared'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import NotAnonymous from '@/shared/assets/svg/not-anon.svg'
 import Anonymous from '@/shared/assets/svg/anonymous.svg'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ChangeEvent, useEffect, useState } from 'react'
 import TextArea from 'antd/es/input/TextArea'
+import { ChangeEvent, useState } from 'react'
 import s from './tweet-create.module.scss'
-import { selectAccount } from '@/features'
-import type { TNews } from '@/shared'
 import { Button, Image } from 'antd'
 
 const TweetCreatePage = () => {
     const navigate = useNavigate()
+    const location = useLocation()
+    const state = location.state
     const [textAreaValue, setTextAreaValue] = useState('')
     const [isAnon, setIsAnon] = useState(true)
     const params = useParams()
-    const userData = useAppSelector(selectAccount)
-    const [newsData, setNewsData] = useState<TNews>(null)
+    const { data: userData } = useGetAuthStateQuery()
     const { data: newsApiData } = useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
 
     const [fetchTweet] = useGetPostTweetMutation()
-
-    useEffect(() => {
-        if (newsApiData) {
-            setNewsData({
-                ...newsApiData,
-                date: converDateIsoToSince(newsApiData.date)
-            })
-        }
-    }, [newsApiData])
 
     const handleChangeTextAreaValue = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setTextAreaValue(e.target.value)
@@ -63,12 +53,12 @@ const TweetCreatePage = () => {
             tweetedPost: newsApiData,
             tweetMessage: textAreaValue,
             hashtags: []
-        }).then(() => navigate(-1))
+        }).then(() => navigate(state.from || -1))
     }
 
     return (
         <div className={s.container}>
-            {newsData ? (
+            {newsApiData ? (
                 <ScrollbarWrapper>
                     <div className={s.card}>
                         <TextArea
@@ -84,14 +74,14 @@ const TweetCreatePage = () => {
                                 <Image
                                     className={s.image}
                                     width={'100%'}
-                                    src={newsData.image}
+                                    src={newsApiData.image}
                                     fallback={ImageFallback}
                                     preview={false}
-                                    alt={`image for ${newsData.title}`}
+                                    alt={`image for ${newsApiData.title}`}
                                     placeholder={
                                         <Image
                                             preview={false}
-                                            src={newsData.image}
+                                            src={newsApiData.image}
                                             width={'100%'}
                                         />
                                     }
@@ -100,13 +90,13 @@ const TweetCreatePage = () => {
                             <div className={s.card__text}>
                                 <div>
                                     <h2 className={s.card__news}>
-                                        {newsData.news}
+                                        {newsApiData.news}
                                     </h2>
                                     <h3
                                         className={s.card__title}
                                         data-test-id={'post-search-title'}
                                     >
-                                        {newsData.title}
+                                        {newsApiData.title}
                                     </h3>
                                 </div>
 
@@ -115,11 +105,11 @@ const TweetCreatePage = () => {
                                         className={s.card__date}
                                         data-test-id={'post-search-date'}
                                     >
-                                        {newsData.date}
+                                        {converDateIsoToSince(newsApiData.date)}
                                     </span>
                                     <LinkUI
                                         className={s.card__link}
-                                        to={newsData.url}
+                                        to={newsApiData.url}
                                         target={'_blank'}
                                     >
                                         {'Read more...'}

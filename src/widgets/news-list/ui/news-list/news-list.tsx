@@ -1,5 +1,5 @@
 import React, { Key, useCallback, useEffect, useMemo, useState } from 'react'
-import { ScrollbarWrapper, useGetArticlesQuery } from '@/shared'
+import { LoaderUI, ScrollbarWrapper, useGetArticlesQuery } from '@/shared'
 import { NewsBlock } from '../news-block/news-block'
 import { sliceResponseIntoParts } from '../../lib'
 import s from './news-list.module.scss'
@@ -12,7 +12,7 @@ export const NewsList = React.memo(() => {
     const [page, setPage] = useState<number>(1)
     const [offset, setOffset] = useState(0)
     const [list, setList] = useState<Array<TNewList>>([])
-    const { data, isFetching, isSuccess } = useGetArticlesQuery({
+    const { data, isSuccess } = useGetArticlesQuery({
         limit: 9,
         offset
     })
@@ -45,12 +45,12 @@ export const NewsList = React.memo(() => {
 
     return (
         <div className={s.container}>
-            {isSuccess && (
+            {isSuccess ? (
                 <ScrollbarWrapper>
                     <div className={s.list}>
                         <div className={s.list__content}>
                             {list.map((listItem, i) => {
-                                const type = (i + 1) as 1 | 2 | 3
+                                const type = i === 0 ? 1 : i === 1 ? 2 : 3
                                 const key: Key = listItem.reduce(
                                     (acc, item) => (acc += item.id),
                                     ''
@@ -60,7 +60,7 @@ export const NewsList = React.memo(() => {
                                         key={key}
                                         type={type}
                                         data={listItem}
-                                        isLoading={isFetching}
+                                        isLoading={!isSuccess}
                                     />
                                 )
                             })}
@@ -76,6 +76,8 @@ export const NewsList = React.memo(() => {
                         </div>
                     </div>
                 </ScrollbarWrapper>
+            ) : (
+                <LoaderUI isLoading />
             )}
         </div>
     )

@@ -6,7 +6,7 @@ import React, {
     useState
 } from 'react'
 import { useDebounce, useLazyGetArticlesBySearchQuery } from '@/shared'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import s from './search-list.module.scss'
 import Search from 'antd/es/input/Search'
 import type { TNews } from '@/shared'
@@ -14,6 +14,7 @@ import { List } from '../list/list'
 import { Alert } from 'antd'
 
 export const SearchList = React.memo(() => {
+    const [searchParams, setSearchParams] = useSearchParams()
     const [isNextPageLoading, setIsNextPageLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [limit] = useState(40)
@@ -23,12 +24,12 @@ export const SearchList = React.memo(() => {
     const [searchValue, setSearchValue] = useState<string>('')
     const [searchList, setSearchList] = useState<Array<TNews>>([])
     const [fetch, { data, isFetching }] = useLazyGetArticlesBySearchQuery()
-    const location = useLocation()
 
     useEffect(() => {
-        if (location.state?.search) {
-            setSearchValue(location.state.search)
-            window.history.replaceState(null, '')
+        const isSearchParams = searchParams.get('q')
+
+        if (isSearchParams) {
+            setSearchValue(isSearchParams)
         }
     }, [])
 
@@ -52,6 +53,9 @@ export const SearchList = React.memo(() => {
         (e: ChangeEvent<HTMLInputElement>) => {
             setPage(1)
             setSearchValue(e.target.value)
+            const newSearchParams = new URLSearchParams(searchParams)
+            newSearchParams.set('q', e.target.value)
+            setSearchParams(newSearchParams)
         },
         [setPage, setSearchValue]
     )

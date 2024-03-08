@@ -23,7 +23,10 @@ export const spaceFlightApi = createApi({
                     offset
                 }
             }),
-            transformResponse: (response: TArticleResponse) => {
+            keepUnusedDataFor: 600,
+            transformResponse: (
+                response: TArticleResponse
+            ): TArticleNewsResponseTransformed => {
                 const transformedResults = response.results.map(item =>
                     SpaceFlightKeyConverter.news(item)
                 )
@@ -43,7 +46,9 @@ export const spaceFlightApi = createApi({
                     offset
                 }
             }),
-            transformResponse: (response: TArticleResponse) => {
+            transformResponse: (
+                response: TArticleResponse
+            ): TArticleNewsResponseTransformed => {
                 const transformedResults = response.results.map(item =>
                     SpaceFlightKeyConverter.news(item)
                 )
@@ -56,7 +61,7 @@ export const spaceFlightApi = createApi({
             query: ({ id }) => ({
                 url: `${SpaceFlightApiRoutes.ARTICLES_PATH}/${id}`
             }),
-            transformResponse: (response: TArticleItemResponse) => {
+            transformResponse: (response: TArticleItemResponse): TNews => {
                 const transformedResults =
                     SpaceFlightKeyConverter.news(response)
 

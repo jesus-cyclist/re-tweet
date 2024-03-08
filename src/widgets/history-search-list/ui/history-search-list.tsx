@@ -1,41 +1,27 @@
 import {
     ClientRoutes,
-    useAppSelector,
     useDeleteSearchHistoryItemMutation,
-    useLazyGetSearchHistoryQuery,
+    useGetAuthStateQuery,
+    useGetSearchHistoryQuery,
     useSortedByDate
 } from '@/shared'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import SortIcon from '@/shared/assets/svg/sort-az.svg'
-import { useEffect, useMemo, useState } from 'react'
-import type { TSearchResponseItem } from '@/shared'
 import s from './history-search-list.module.scss'
 import { CloseOutlined } from '@ant-design/icons'
-import { selectAccountID } from '@/features'
 import { NavLink } from 'react-router-dom'
+import { useMemo, useState } from 'react'
 import { FilterList } from '@/features'
 import { Alert } from 'antd'
 
 export const HistorySearchList = () => {
     const [isSortedByDate, setIsSortedByDate] = useState(true)
-    const userID = useAppSelector(selectAccountID)
-    const [searchHistoryList, setSearchHistoryList] = useState<
-        Array<TSearchResponseItem>
-    >([])
-    const [fetchSearchHistoryList, { data }] = useLazyGetSearchHistoryQuery()
+    const { data: userData } = useGetAuthStateQuery()
+    const userID = userData?.uid
+    const { data } = useGetSearchHistoryQuery(userID)
     const [fetchDeleteSearchHistoryItem] = useDeleteSearchHistoryItemMutation()
 
-    useEffect(() => {
-        if (data) {
-            setSearchHistoryList(data)
-        }
-    }, [data])
-
-    const sortedList = useSortedByDate(searchHistoryList, isSortedByDate)
-
-    useEffect(() => {
-        fetchSearchHistoryList(userID)
-    }, [])
+    const sortedList = useSortedByDate(data || [], isSortedByDate)
 
     const handleSort = () => {
         setIsSortedByDate(prev => !prev)
@@ -74,9 +60,8 @@ export const HistorySearchList = () => {
                                     key={`${timestamp}${query}`}
                                 >
                                     <NavLink
-                                        to={ClientRoutes.SEARCH_PATH}
+                                        to={`${ClientRoutes.SEARCH_PATH}?q=${query}`}
                                         className={s.list__itemLink}
-                                        state={{ search: query }}
                                     >
                                         <span className={s.list__itemQuery}>
                                             {query}

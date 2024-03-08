@@ -4,7 +4,6 @@ import {
     TUserCredentialID,
     TUserCredentialSearch
 } from '@/shared/api/db/types/arg'
-import { DocumentData } from 'firebase/firestore'
 import { openNotification } from '@/shared/lib'
 import { TUser } from '../types'
 
@@ -64,7 +63,7 @@ export const search = {
 
     getSearchHistory: async (
         userID: TUserCredentialID
-    ): Promise<DocumentData[string]> => {
+    ): Promise<Array<TSearchResponseItem>> => {
         try {
             const users: Array<TUser> = JSON.parse(
                 localStorage.getItem('users')

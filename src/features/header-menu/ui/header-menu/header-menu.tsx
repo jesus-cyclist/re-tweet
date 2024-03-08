@@ -1,17 +1,12 @@
-import {
-    ClientRoutes,
-    useAppDispatch,
-    useAppSelector,
-    useLazyGetSignOutQuery
-} from '@/shared'
 import { accountAction, selectAccountIsAuth } from '@/features/authentication'
-import { favouritesActions, tweetActions } from '@/widgets'
+import { ClientRoutes, useAppSelector, useGetSignOutMutation } from '@/shared'
 import { IFrameHandler } from '@/features/iframe-handler'
 import { ThemeHandler } from '@/features/theme-handler'
 import { memo, useMemo, useState } from 'react'
+import { statisticsActions } from '@/widgets'
 import { NavLink } from 'react-router-dom'
 import s from './header-menu.module.scss'
-import { readActions } from '@/enteties'
+import { useDispatch } from 'react-redux'
 import type { MenuProps } from 'antd'
 import { Logo } from '../logo'
 import { Menu } from 'antd'
@@ -19,19 +14,17 @@ import { Menu } from 'antd'
 export const HeaderMenu = memo(() => {
     const isAuth = useAppSelector(selectAccountIsAuth)
     const [current, setCurrent] = useState('mail')
-    const dispatch = useAppDispatch()
-    const [fetch] = useLazyGetSignOutQuery()
+    const [fetchSignOut] = useGetSignOutMutation()
+    const dispatch = useDispatch()
 
     const onClick: MenuProps['onClick'] = e => {
         setCurrent(e.key)
     }
 
     const handleSignOut = () => {
-        fetch().then(() => {
-            dispatch(readActions.resetRead())
-            dispatch(tweetActions.setReaction([]))
-            dispatch(favouritesActions.setFavourites([]))
-            dispatch(accountAction.unsetAccount())
+        fetchSignOut().then(() => {
+            dispatch(accountAction.setIsUnAuth())
+            dispatch(statisticsActions.clearRead())
         })
     }
 

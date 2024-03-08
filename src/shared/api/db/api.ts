@@ -1,6 +1,8 @@
 import {
+    TAuthUser,
     TFavouriteResponseItem,
     TReadStatusResponseItem,
+    TSearchResponseItem,
     TSuccessResponse,
     TUserCredential,
     TUserCredentialFavourites,
@@ -14,9 +16,7 @@ import {
     TUserTweetResponseItem
 } from '..'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { DocumentData } from 'firebase/firestore'
 import { openNotification } from '@/shared/lib'
-import { TAuthUser } from './types/arg'
 import { db } from './provider'
 
 export const dbApi = createApi({
@@ -31,7 +31,7 @@ export const dbApi = createApi({
         'tweet-reaction'
     ],
     endpoints: builder => ({
-        getSignUp: builder.query<TAuthUser, TUserCredential>({
+        getSignUp: builder.mutation<TAuthUser, TUserCredential>({
             queryFn: async ({ email, password, displayName, photoURL }) => {
                 try {
                     const res = await db.auth.signUp({
@@ -45,7 +45,7 @@ export const dbApi = createApi({
                     openNotification.error({ description: error.message })
                 }
             },
-            providesTags: ['auth']
+            invalidatesTags: ['auth']
         }),
         getUserData: builder.query<
             Pick<TUserCredential, 'photoURL' | 'displayName'>,
@@ -61,7 +61,7 @@ export const dbApi = createApi({
             },
             providesTags: ['auth']
         }),
-        getUpdateUserData: builder.query<
+        getUpdateUserData: builder.mutation<
             TAuthUser,
             Pick<TUserCredential, 'photoURL' | 'displayName'>
         >({
@@ -76,9 +76,9 @@ export const dbApi = createApi({
                     openNotification.error({ description: error.message })
                 }
             },
-            providesTags: ['auth']
+            invalidatesTags: ['auth']
         }),
-        getSignIn: builder.query<TAuthUser, TUserCredential>({
+        getSignIn: builder.mutation<TAuthUser, TUserCredential>({
             queryFn: async ({ email, password }) => {
                 try {
                     const res = await db.auth.signIn({ email, password })
@@ -87,9 +87,9 @@ export const dbApi = createApi({
                     openNotification.error({ description: error.message })
                 }
             },
-            providesTags: ['auth']
+            invalidatesTags: ['auth']
         }),
-        getSignOut: builder.query<TSuccessResponse, void>({
+        getSignOut: builder.mutation<TSuccessResponse, void>({
             queryFn: async () => {
                 try {
                     const res = await db.auth.signOut()
@@ -98,7 +98,7 @@ export const dbApi = createApi({
                     openNotification.error({ description: error.message })
                 }
             },
-            providesTags: ['auth']
+            invalidatesTags: ['auth']
         }),
         getAuthState: builder.query<TAuthUser, void>({
             queryFn: async () => {
@@ -170,7 +170,7 @@ export const dbApi = createApi({
             invalidatesTags: ['search']
         }),
         getSearchHistory: builder.query<
-            DocumentData[string],
+            Array<TSearchResponseItem>,
             TUserCredentialID
         >({
             queryFn: async (userID: TUserCredentialID) => {
@@ -349,25 +349,21 @@ export const {
     useGetReadedQuery,
     useGetSearchHistoryQuery,
     useGetSearchQueryMutation,
-    useGetSignInQuery,
-    useGetSignOutQuery,
-    useGetSignUpQuery,
     useGetToggledFavouriteMutation,
     useGetTweetsQuery,
     useLazyGetAuthStateQuery,
     useLazyGetFavouritesQuery,
     useLazyGetReadedQuery,
     useLazyGetSearchHistoryQuery,
-    useLazyGetSignInQuery,
-    useLazyGetSignOutQuery,
-    useLazyGetSignUpQuery,
     useLazyGetTweetsQuery,
     useGetDislikeTweetMutation,
     useGetLikeTweetMutation,
     useGetReactionQuery,
     useLazyGetReactionQuery,
-    useGetUpdateUserDataQuery,
     useGetUserDataQuery,
-    useLazyGetUpdateUserDataQuery,
-    useLazyGetUserDataQuery
+    useLazyGetUserDataQuery,
+    useGetSignInMutation,
+    useGetSignOutMutation,
+    useGetSignUpMutation,
+    useGetUpdateUserDataMutation
 } = dbApi
