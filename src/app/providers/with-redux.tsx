@@ -1,7 +1,6 @@
+import { TUserArgs, consoleAPI, help } from '@/shared'
 import { WithRouter } from './with-router'
-import type { TUserArgs } from '@/shared'
 import { Provider } from 'react-redux'
-import { consoleAPI } from '@/shared'
 import { store } from '../store'
 
 declare global {
@@ -12,9 +11,11 @@ declare global {
 
 function initConsoleAPI() {
     window.consoleAPI = consoleAPI(store.dispatch)
+
     if (!window.consoleAPI) {
         window.consoleAPI = consoleAPI(store.dispatch)
     }
+    help()
 }
 
 initConsoleAPI()

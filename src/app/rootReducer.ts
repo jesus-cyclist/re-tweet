@@ -1,17 +1,12 @@
-import { accountReducer, telegramShareReducer } from '@/features'
-import { IFrameReducer } from '@/features/iframe-handler/model'
-import { favouritesReducer, tweetReducer } from '@/widgets'
+import { IFrameReducer, accountReducer } from '@/features'
 import { dbApi, spaceFlightApi } from '@/shared'
-import { readReducer } from '@/enteties'
+import { statisticsReducer } from '@/widgets'
 import { combineReducers } from 'redux'
 import { telegramApi } from '@/pages'
 
 export const rootReducer = combineReducers({
     account: accountReducer,
-    favourites: favouritesReducer,
-    tweet: tweetReducer,
-    read: readReducer,
-    shareTg: telegramShareReducer,
+    statistics: statisticsReducer,
     IFrameReducer: IFrameReducer,
     [spaceFlightApi.reducerPath]: spaceFlightApi.reducer,
     [dbApi.reducerPath]: dbApi.reducer,

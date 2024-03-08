@@ -11,15 +11,13 @@ type Props = {
     data: TNews
     type: 'column' | 'background' | 'row'
     children?: ReactNode
-    readStatus?: boolean
 }
 
 export const NewsCard = (props: Props): JSX.Element => {
     const {
         children,
         data: { title, image, date, news, id },
-        type,
-        readStatus = false
+        type
     } = props
     const location = useLocation()
 
@@ -27,7 +25,7 @@ export const NewsCard = (props: Props): JSX.Element => {
         case 'background':
             return (
                 <div className={s.card} data-test-id={'news-card'}>
-                    <NewsReadStatus readed={readStatus} />
+                    <NewsReadStatus id={id} />
                     <NewsImage
                         image={image}
                         title={title}
@@ -59,7 +57,7 @@ export const NewsCard = (props: Props): JSX.Element => {
                     className={classNames(s.card, s.columnCard)}
                     data-test-id={'news-card'}
                 >
-                    <NewsReadStatus readed={readStatus} />
+                    <NewsReadStatus id={id} />
                     <NewsImage
                         image={image}
                         title={title}

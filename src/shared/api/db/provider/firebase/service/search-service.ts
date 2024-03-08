@@ -1,18 +1,10 @@
 import {
-    DocumentData,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc
-} from 'firebase/firestore'
-import {
+    TSearchResponseItem,
+    TSuccessResponse,
     TUserCredentialID,
     TUserCredentialSearch
 } from '@/shared/api/db/types/arg'
-import {
-    TSearchResponseItem,
-    TSuccessResponse
-} from '@/shared/api/db/types/arg'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { openNotification } from '@/shared/lib'
 import { firestoreDB } from '../config'
 
@@ -70,14 +62,15 @@ export const search = {
 
     getSearchHistory: async (
         userID: TUserCredentialID
-    ): Promise<DocumentData[string]> => {
+    ): Promise<Array<TSearchResponseItem>> => {
         try {
             const userRef = doc(firestoreDB, 'users', userID)
             const userDoc = await getDoc(userRef)
 
-            const searchHistory = userDoc.data()
+            const data = userDoc.data()
+            const searchHistory: Array<TSearchResponseItem> = await data.search
 
-            return searchHistory?.search || []
+            return searchHistory || []
         } catch (error) {
             openNotification.error({ description: error.message })
         }

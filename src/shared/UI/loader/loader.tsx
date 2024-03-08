@@ -6,7 +6,7 @@ export type TLoaderUIProps = {
     isLoading: boolean
 }
 
-export const LoaderUI = (props: TLoaderUIProps) => {
+export const LoaderUI = (props: TLoaderUIProps): JSX.Element => {
     const { isLoading } = props
 
     if (isLoading) {

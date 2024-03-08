@@ -1,6 +1,7 @@
 import type {
     TFavouriteResponseItem,
     TReadStatusResponseItem,
+    TSearchResponseItem,
     TUserCredential,
     TUserCredentialFavourites,
     TUserCredentialID,
@@ -12,9 +13,7 @@ import {
     TCredentialTweet,
     TUserTweetResponseItem
 } from '..'
-import { DocumentData } from 'firebase/firestore'
-import { TSuccessResponse } from '../types/arg'
-import { TAuthUser } from '../types/arg'
+import { TAuthUser, TSuccessResponse } from '../types/arg'
 
 type TAuthMethods = {
     signUp: (authData: TUserCredential) => Promise<TAuthUser>
@@ -45,7 +44,9 @@ type TSearchMethods = {
         userID,
         query
     }: TUserCredentialSearch) => Promise<TSuccessResponse>
-    getSearchHistory: (userID: TUserCredentialID) => Promise<DocumentData>
+    getSearchHistory: (
+        userID: TUserCredentialID
+    ) => Promise<Array<TSearchResponseItem>>
     deleteSearchHistoryItem: ({
         userID,
         query

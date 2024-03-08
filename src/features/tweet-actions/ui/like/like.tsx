@@ -1,12 +1,11 @@
 import {
     openNotification,
-    useAppSelector,
-    useGetLikeTweetMutation
+    useGetAuthStateQuery,
+    useGetLikeTweetMutation,
+    useGetReactionQuery
 } from '@/shared'
-import { selectAccountID } from '@/features/authentication'
 import { LikeOutlined } from '@ant-design/icons'
 import { useCallback, useMemo } from 'react'
-import { selectReaction } from '@/widgets'
 import classNames from 'classnames'
 import s from './like.module.scss'
 
@@ -16,32 +15,32 @@ type TProps = {
 
 export const Like = (props: TProps) => {
     const { tweetID } = props
-    const userID = useAppSelector(selectAccountID)
-    const reactionStats = useAppSelector(selectReaction)
+    const { data: userData } = useGetAuthStateQuery()
+    const { data: reactionStats = [] } = useGetReactionQuery()
     const [fetchLike] = useGetLikeTweetMutation()
 
     const handleGetLike = useCallback(() => {
-        if (!userID) {
+        if (!userData?.uid) {
             openNotification.error({
                 description: 'Only authorized users can leave reactions'
             })
             return
         }
-        fetchLike({ userID, tweetID })
-    }, [userID, fetchLike])
+        fetchLike({ userID: userData.uid, tweetID })
+    }, [userData, fetchLike])
 
     const stats = useMemo(() => {
         return reactionStats.find(i => i.id === tweetID)
     }, [reactionStats])
 
     const getClassName = useMemo(() => {
-        if (stats) {
-            return stats.reaction.likes.users.includes(userID)
+        if (stats && userData) {
+            return stats.reaction.likes.users.includes(userData.uid)
                 ? classNames(s.reaction__icon, s.reaction__iconActive)
                 : s.reaction__icon
         }
         return s.reaction__icon
-    }, [userID, reactionStats])
+    }, [userData, reactionStats])
 
     return (
         <div key={'like'} className={s.reaction} onClick={handleGetLike}>

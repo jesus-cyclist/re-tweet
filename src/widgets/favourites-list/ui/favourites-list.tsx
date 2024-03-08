@@ -1,18 +1,23 @@
-import { ScrollbarWrapper, useAppSelector, useSortedByDate } from '@/shared'
+import {
+    ScrollbarWrapper,
+    useGetAuthStateQuery,
+    useGetFavouritesQuery,
+    useSortedByDate
+} from '@/shared'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
+import { FilterList, NewsControlPanel } from '@/features'
 import SortIcon from '@/shared/assets/svg/sort-az.svg'
-import { selectFavouritesNews } from '../model'
 import { memo, useMemo, useState } from 'react'
-import { NewsControlPanel } from '@/features'
 import s from './favourite-list.module.scss'
-import { FilterList } from '@/features'
 import { NewsCard } from '@/enteties'
 import { Alert } from 'antd'
 
 export const FavouritesList = memo(() => {
     const [isSortedByDate, setIsSortedByDate] = useState(true)
-    const favourites = useAppSelector(selectFavouritesNews)
-    const sortedList = useSortedByDate(favourites, isSortedByDate)
+    const { data: userData } = useGetAuthStateQuery()
+    const userID = userData?.uid
+    const { data: favouriteData = [] } = useGetFavouritesQuery(userID)
+    const sortedList = useSortedByDate(favouriteData, isSortedByDate)
 
     const handleSort = () => {
         setIsSortedByDate(prev => !prev)

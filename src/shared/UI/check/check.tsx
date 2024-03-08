@@ -1,6 +1,6 @@
-import React, { ReactNode, useEffect, useState } from 'react'
 import { Checkbox, Tooltip } from 'antd'
 import s from './check.module.scss'
+import { ReactNode } from 'react'
 
 type Props = {
     tooltip?: string
@@ -12,34 +12,16 @@ type Props = {
 
 export const CheckUI = (props: Props): JSX.Element => {
     const { checked, checkedNode, unCheckedNode, change, tooltip = '' } = props
-    const [isTooltipVisible, setIsTooltipVisible] = useState(false)
-
-    useEffect(() => {
-        if (isTooltipVisible) {
-            setTimeout(() => {
-                setIsTooltipVisible(false)
-            }, 2000)
-        }
-    }, [isTooltipVisible])
-
-    const handleSetTooltipVisible = () => {
-        setIsTooltipVisible(true)
-    }
 
     return (
         <div className={s.check}>
             <Tooltip
-                open={isTooltipVisible}
                 placement='topRight'
                 title={tooltip}
                 arrow={false}
-                trigger={'click'}
+                trigger={'hover'}
             >
-                <Checkbox
-                    checked={checked}
-                    onChange={change}
-                    onClick={handleSetTooltipVisible}
-                >
+                <Checkbox checked={checked} onChange={change}>
                     {checked ? checkedNode : unCheckedNode}
                 </Checkbox>
             </Tooltip>

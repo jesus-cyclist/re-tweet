@@ -2,8 +2,10 @@ import {
     ClientRoutes,
     LinkUI,
     openNotification,
-    useAppSelector,
-    useGetToggledFavouriteMutation
+    useClickOutSide,
+    useGetAuthStateQuery,
+    useGetToggledFavouriteMutation,
+    useLazyGetFavouritesQuery
 } from '@/shared'
 import {
     BookOutlined,
@@ -11,15 +13,12 @@ import {
     RetweetOutlined,
     SettingOutlined
 } from '@ant-design/icons'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import TelegramIcon from '@/shared/assets/svg/telegram.svg'
-import { selectAccountID } from '@/features/authentication'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
-import { useEffect, useRef, useState } from 'react'
-import { selectIsTgShareEnabled } from '../model'
 import s from './news-control-panel.module.scss'
-import { selectFavouritesNews } from '@/widgets'
-import { useClickOutSide } from '@/shared'
+import { useLocation } from 'react-router-dom'
+import { useGetTgSharedQuery } from '@/pages'
 import type { TNews } from '@/shared'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
@@ -32,30 +31,32 @@ export const NewsControlPanel = (
     props: TNewsControlPanelProps
 ): JSX.Element => {
     const { newsData } = props
+    const { data: telegramFeature } = useGetTgSharedQuery()
+    const { data: userData } = useGetAuthStateQuery()
+    const [fetchFavourites, { data: favouriteData = [] }] =
+        useLazyGetFavouritesQuery()
+    const [fetchToggleFavourite] = useGetToggledFavouriteMutation()
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-    const userID = useAppSelector(selectAccountID)
-    const navigate = useNavigate()
-
-    const favourites = useAppSelector(selectFavouritesNews)
-    const [isFavourite, setIsFavourite] = useState(false)
-
-    const [isTooltipVisible, setIsTooltipVisible] = useState(false)
-
+    const location = useLocation()
     const panelRef = useRef<HTMLUListElement | null>(null)
     const buttonRef = useRef<HTMLDivElement | null>(null)
 
-    const isTelegramShareEnabled = useAppSelector(selectIsTgShareEnabled)
-
-    const location = useLocation()
-
-    const [fetch] = useGetToggledFavouriteMutation()
-
     useEffect(() => {
-        const favouriteCheck = favourites.some(
-            favourute => favourute.data.id === newsData.id
-        )
-        setIsFavourite(favouriteCheck)
-    }, [favourites, newsData])
+        if (userData) {
+            fetchFavourites(userData?.uid)
+        }
+    }, [userData])
+
+    const isFavourite = useMemo(() => {
+        if (userData?.uid) {
+            const favouriteCheck = favouriteData.some(
+                f => f.data.id === newsData.id
+            )
+            return favouriteCheck
+        }
+
+        return false
+    }, [favouriteData, newsData, userData])
 
     useClickOutSide({
         ref: panelRef,
@@ -67,29 +68,23 @@ export const NewsControlPanel = (
         }
     })
 
-    const favouriteToggled = async () => {
-        if (userID) {
-            await fetch({ userID, data: newsData })
+    const favouriteToggled = useCallback(async () => {
+        if (userData?.uid) {
+            await fetchToggleFavourite({ userID: userData.uid, data: newsData })
         } else {
             openNotification.error({
                 description: 'You must log in to add to favorites'
             })
-            navigate(ClientRoutes.SIGNIN_PATH)
         }
-    }
+    }, [userData])
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(newsData.url)
-        setIsTooltipVisible(true)
     }
 
-    useEffect(() => {
-        if (isTooltipVisible) {
-            setTimeout(() => {
-                setIsTooltipVisible(false)
-            }, 1000)
-        }
-    }, [isTooltipVisible])
+    const showTooltip = () => {
+        openNotification.success({ description: 'Copied' })
+    }
 
     return (
         <div className={s.container}>
@@ -115,7 +110,9 @@ export const NewsControlPanel = (
                     className={s.panel}
                     ref={panelRef}
                     style={{
-                        left: isTelegramShareEnabled ? '-6rem' : '-4.5rem'
+                        left: telegramFeature?.isTelegramShareEnabled
+                            ? '-6rem'
+                            : '-4.5rem'
                     }}
                 >
                     <li
@@ -129,13 +126,13 @@ export const NewsControlPanel = (
                             onClick={favouriteToggled}
                         />
                     </li>
-                    <li className={s.panel__icon}>
+                    <li className={s.panel__icon} onClick={showTooltip}>
                         <Tooltip
-                            open={isTooltipVisible}
                             placement='topRight'
-                            title={'Copied!'}
+                            title={'Copy url'}
                             arrow={false}
-                            trigger={'click'}
+                            trigger={'hover'}
+                            mouseLeaveDelay={0.1}
                         >
                             <CopyOutlined onClick={copyToClipboard} />
                         </Tooltip>
@@ -144,12 +141,15 @@ export const NewsControlPanel = (
                         <LinkUI
                             className={s.link__tweet}
                             to={`${ClientRoutes.TWEET_CREATE_PATH}:${newsData.id}`}
-                            state={{ tweet: location.pathname }}
+                            state={{
+                                tweet: location.pathname,
+                                from: location.pathname
+                            }}
                         >
                             <RetweetOutlined />
                         </LinkUI>
                     </li>
-                    {isTelegramShareEnabled && (
+                    {telegramFeature?.isTelegramShareEnabled && (
                         <li className={s.panel__icon}>
                             <LinkUI
                                 to={`https://t.me/share/url?url=${newsData.url}&text=${newsData.title}`}

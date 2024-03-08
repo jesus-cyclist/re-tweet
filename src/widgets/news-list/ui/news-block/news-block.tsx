@@ -1,10 +1,7 @@
 import { converDateIsoToSince } from '@/shared/lib/converDate'
+import { NewsCard, NewsSkeleton } from '@/enteties'
 import { NewsControlPanel } from '@/features'
-import { selectReaded } from '@/enteties'
-import { NewsSkeleton } from '@/enteties'
-import { useAppSelector } from '@/shared'
 import s from './news-block.module.scss'
-import { NewsCard } from '@/enteties'
 import type { TNews } from '@/shared'
 import classNames from 'classnames'
 import React from 'react'
@@ -17,7 +14,6 @@ type Props = {
 
 export const NewsBlock = React.memo((props: Props): JSX.Element => {
     const { type, data, isLoading } = props
-    const readed = useAppSelector(selectReaded)
 
     switch (type) {
         case 1:
@@ -37,7 +33,6 @@ export const NewsBlock = React.memo((props: Props): JSX.Element => {
                                     date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={'background'}
-                                readStatus={Boolean(readed[newsData.id])}
                             >
                                 <NewsControlPanel newsData={newsData} />
                             </NewsCard>
@@ -64,7 +59,6 @@ export const NewsBlock = React.memo((props: Props): JSX.Element => {
                                     date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={'background'}
-                                readStatus={Boolean(readed[newsData.id])}
                             >
                                 <NewsControlPanel newsData={newsData} />
                             </NewsCard>
@@ -92,7 +86,6 @@ export const NewsBlock = React.memo((props: Props): JSX.Element => {
                                     date: converDateIsoToSince(newsData.date)
                                 }}
                                 type={i === 0 ? 'column' : 'background'}
-                                readStatus={Boolean(readed[newsData.id])}
                             >
                                 <NewsControlPanel newsData={newsData} />
                             </NewsCard>

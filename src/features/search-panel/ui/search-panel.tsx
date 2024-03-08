@@ -1,8 +1,8 @@
 import {
     ClientRoutes,
-    useAppSelector,
     useClickOutSide,
     useDebounce,
+    useGetAuthStateQuery,
     useGetSearchQueryMutation,
     useLazyGetArticlesBySearchQuery
 } from '@/shared'
@@ -11,17 +11,20 @@ import {
     ReactNode,
     memo,
     useCallback,
+    useMemo,
     useRef,
     useState
 } from 'react'
-import { selectAccountID } from '@/features/authentication'
+import { NavLink, useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import s from './search-panel.module.scss'
-import { NavLink } from 'react-router-dom'
 import Search from 'antd/es/input/Search'
+import classNames from 'classnames'
 
 export const SearchPanel = memo(() => {
-    const userID = useAppSelector(selectAccountID)
+    const location = useLocation()
+    const { data: userData } = useGetAuthStateQuery()
+    const userID = userData?.uid
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [searchValue, setSearchValue] = useState('')
     const [searchListResult, setSearchListResult] =
@@ -92,13 +95,15 @@ export const SearchPanel = memo(() => {
                     }
 
                     const searchLink = (
-                        <li className={s.search__listItem} key={'search-link'}>
+                        <li
+                            className={s.search__listItem}
+                            key={'search-link'}
+                            onClick={handlerUpdatedSearch}
+                        >
                             <NavLink
                                 className={s.search__link}
                                 key={'search-link'}
-                                to={ClientRoutes.SEARCH_PATH}
-                                state={{ search: `${searchValue}` }}
-                                onClick={handlerUpdatedSearch}
+                                to={`${ClientRoutes.SEARCH_PATH}?q=${searchValue}`}
                             >
                                 {'Show all'}
                             </NavLink>
@@ -116,8 +121,14 @@ export const SearchPanel = memo(() => {
 
     const debouncedSearch = useDebounce({ callback: fetchSearch, delay: 1000 })
 
+    const getActiveClassName = useMemo(() => {
+        return location.pathname === ClientRoutes.SEARCH_PATH
+            ? classNames(s.search, s.searchHidden)
+            : s.search
+    }, [location])
+
     return (
-        <div className={s.search}>
+        <div className={getActiveClassName}>
             <Search
                 allowClear
                 value={searchValue}

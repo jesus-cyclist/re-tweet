@@ -12,7 +12,7 @@ export const WithAuth = () => {
     useEffect(() => {
         if (!isLoading) {
             if (data) {
-                dispatch(accountAction.setAccount(data))
+                dispatch(accountAction.setIsAuth())
             }
             setCheckAuth(false)
         }

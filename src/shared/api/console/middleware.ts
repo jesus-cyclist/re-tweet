@@ -23,46 +23,43 @@ startConsoleMiddleware({
         const { command, params } = action.payload
 
         switch (command) {
-            case commands.help:
-                help()
-                break
-            case commands.authState:
+            case commands.authState.command:
                 AuthService.authState()
                 break
-            case commands.signout:
+            case commands.signout.command:
                 AuthService.signOut()
                 break
-            case commands.signin:
+            case commands.signin.command:
                 AuthService.signIn(params)
                 break
-            case commands.signup:
+            case commands.signup.command:
                 AuthService.signUp(params)
                 break
 
-            case commands.updateReadStatus:
+            case commands.updateReadStatus.command:
                 ReadedService.addReadedStatus(params)
                 break
-            case commands.getReaded:
+            case commands.getReaded.command:
                 ReadedService.getReaded(params)
                 break
 
-            case commands.toggleFavourite:
+            case commands.toggleFavourite.command:
                 FavouriteService.toggleFavourite(params)
                 break
-            case commands.getFavourites:
+            case commands.getFavourites.command:
                 FavouriteService.getFavourites(params)
                 break
 
-            case commands.getSearchQuery:
+            case commands.getSearchQuery.command:
                 SearchService.getSearchQuery(params)
                 break
-            case commands.getSearchHistory:
+            case commands.getSearchHistory.command:
                 SearchService.getSearchHistory(params)
                 break
-            case commands.deleteSearchHistoryItem:
+            case commands.deleteSearchHistoryItem.command:
                 SearchService.deleteSearchHistoryItem(params)
                 break
-            case commands.clearSearchHistory:
+            case commands.clearSearchHistory.command:
                 SearchService.clearSearchHistory(params)
                 break
 
