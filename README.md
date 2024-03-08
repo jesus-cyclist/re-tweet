@@ -35,7 +35,7 @@
 - [x] [Настроен CI/CD](https://github.com/jesus-cyclist/re-tweet/blob/main/.github/workflows/actions.yml)
 - [x] [Реализована виртуализация списков](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/search-list/ui/list/list.tsx)
 - [x] [Используются мемоизированные селекторы](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/footer/model/store.ts)
-- [x] [Используется нормализованная структура стейта](https://github.com/jesus-cyclist/re-tweet/blob/main/src/enteties/news/model/store.ts) 
+- [x] [Используется нормализованная структура стейта](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/footer/model/store.ts) 
   - возможно, тут не самый лучший пример работы с entityadapter - мне по сути приходят данные с FB и entityAdapter ожидает что я их предоставлю в виде сущности с полем id, поэтому я их собираю вручную, добавил также метод который отработает только при клике на карточке(только ради примера) 
 - [x] Проведена оптимизация приложения
   - использование memo, useMemo, useCallback для мемоизации [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/ui/main-page.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/header-menu/ui/header-menu/header-menu.tsx) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/providers/with-theme.tsx)
