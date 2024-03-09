@@ -8,14 +8,14 @@ const accountSlice = createSlice({
     name: 'account',
     initialState,
     reducers: {
-        setIsAuth: state => {
+        onAuth: state => {
             state.isAuth = true
         },
-        setIsUnAuth: state => {
+        onUnAuth: state => {
             state.isAuth = false
         }
     }
 })
 
-export const accountAction = accountSlice.actions
+export const { onAuth, onUnAuth } = accountSlice.actions
 export const accountReducer = accountSlice.reducer

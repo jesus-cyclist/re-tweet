@@ -1,18 +1,10 @@
-import { LayoutUI, useAppDispatch, useIframeState } from '@/shared'
-import { IFrameAction } from '@/features/iframe-handler/model'
 import { Header } from '@/widgets/header/ui/header'
 import { Outlet } from 'react-router-dom'
-import { memo, useEffect } from 'react'
+import { LayoutUI } from '@/shared'
 import { Footer } from '@/widgets'
+import { memo } from 'react'
 
 const MainPage = memo(() => {
-    const { isIframeEnabled } = useIframeState()
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(IFrameAction.setIFrame(isIframeEnabled))
-    }, [])
-
     return (
         <LayoutUI
             header={<Header />}

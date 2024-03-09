@@ -10,6 +10,8 @@ import {
 import { createListenerMiddleware } from '@reduxjs/toolkit'
 import { actionCreator } from './actionCreator'
 import { AppDispatch, RootState } from '@/app'
+import { onAuth, onUnAuth } from '@/features'
+import { statisticsActions } from '@/widgets'
 
 export const consoleMiddleware = createListenerMiddleware()
 const startConsoleMiddleware = consoleMiddleware.startListening.withTypes<
@@ -19,28 +21,40 @@ const startConsoleMiddleware = consoleMiddleware.startListening.withTypes<
 
 startConsoleMiddleware({
     actionCreator: actionCreator,
-    effect: action => {
+    effect: async (action, listenerApi) => {
         const { command, params } = action.payload
 
         switch (command) {
             case commands.authState.command:
-                AuthService.authState()
+                AuthService.authState().then(() =>
+                    listenerApi.dispatch(onAuth())
+                )
                 break
             case commands.signout.command:
-                AuthService.signOut()
+                AuthService.signOut().then(() => {
+                    listenerApi.dispatch(statisticsActions.clearRead())
+                    listenerApi.dispatch(onUnAuth())
+                })
+
                 break
             case commands.signin.command:
-                AuthService.signIn(params)
+                AuthService.signIn(params).then(() =>
+                    listenerApi.dispatch(onAuth())
+                )
                 break
             case commands.signup.command:
-                AuthService.signUp(params)
+                AuthService.signUp(params).then(() =>
+                    listenerApi.dispatch(onAuth())
+                )
                 break
 
             case commands.updateReadStatus.command:
                 ReadedService.addReadedStatus(params)
                 break
             case commands.getReaded.command:
-                ReadedService.getReaded(params)
+                ReadedService.getReaded(params).then(res => {
+                    listenerApi.dispatch(statisticsActions.addReadBefore(res))
+                })
                 break
 
             case commands.toggleFavourite.command:
@@ -49,7 +63,6 @@ startConsoleMiddleware({
             case commands.getFavourites.command:
                 FavouriteService.getFavourites(params)
                 break
-
             case commands.getSearchQuery.command:
                 SearchService.getSearchQuery(params)
                 break

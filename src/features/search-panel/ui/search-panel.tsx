@@ -31,9 +31,10 @@ export const SearchPanel = memo(() => {
         useState<Array<ReactNode>>(null)
     const [fetchSearchList, { isFetching }] = useLazyGetArticlesBySearchQuery()
 
-    const [fetchSearchUpdate] = useGetSearchQueryMutation()
+    const [onSearchUpdate] = useGetSearchQueryMutation()
 
     const listRef = useRef<HTMLUListElement | null>(null)
+    const searchPanelRef = useRef<HTMLDivElement | null>(null)
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value)
@@ -42,7 +43,7 @@ export const SearchPanel = memo(() => {
     const handlerUpdatedSearch = () => {
         closeDropdown()
         if (userID) {
-            fetchSearchUpdate({ userID, query: searchValue })
+            onSearchUpdate({ userID, query: searchValue })
         }
     }
 
@@ -50,7 +51,7 @@ export const SearchPanel = memo(() => {
         setIsDropdownOpen(false)
     }
 
-    useClickOutSide({ ref: listRef, cb: closeDropdown })
+    useClickOutSide({ ref: searchPanelRef, cb: closeDropdown })
 
     const fetchSearch = useCallback(
         async (value: string) => {
@@ -127,8 +128,14 @@ export const SearchPanel = memo(() => {
             : s.search
     }, [location])
 
+    const handleOnFocus = useCallback(() => {
+        if (searchValue) {
+            setIsDropdownOpen(true)
+        }
+    }, [searchValue, setIsDropdownOpen])
+
     return (
-        <div className={getActiveClassName}>
+        <div className={getActiveClassName} ref={searchPanelRef}>
             <Search
                 allowClear
                 value={searchValue}
@@ -137,6 +144,7 @@ export const SearchPanel = memo(() => {
                 onChange={handleInputChange}
                 onSearch={(value: string) => debouncedSearch(value)}
                 data-test-id={'search-input'}
+                onFocus={handleOnFocus}
             />
             <CSSTransition
                 nodeRef={listRef}

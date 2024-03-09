@@ -1,10 +1,10 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { ClientRoutes, useGetSignInMutation } from '@/shared'
-import { accountAction } from '../../model'
 import { NavLink } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
 import s from './signin-form.module.scss'
 import { useDispatch } from 'react-redux'
+import { onAuth } from '../../model'
 import classNames from 'classnames'
 import { useCallback } from 'react'
 
@@ -14,14 +14,12 @@ type TFieldType = {
 }
 
 export const SigninForm = () => {
-    const [fetchOnSignIn] = useGetSignInMutation()
+    const [onSignIn] = useGetSignInMutation()
     const dispatch = useDispatch()
 
     const onFinish = useCallback((values: TFieldType) => {
         const { email, password } = values
-        fetchOnSignIn({ email, password }).then(() =>
-            dispatch(accountAction.setIsAuth())
-        )
+        onSignIn({ email, password }).then(() => dispatch(onAuth()))
     }, [])
 
     return (

@@ -3,8 +3,8 @@ import {
     useGetUpdateUserDataMutation,
     useGetUserDataQuery
 } from '@/shared'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { FileImageOutlined, UserOutlined } from '@ant-design/icons'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { Avatar, Button, Form, Input } from 'antd'
 import { openNotification } from '@/shared/lib'
 import s from './profile-edit.module.scss'
@@ -18,23 +18,13 @@ const ProfileEdit = () => {
     const [form] = Form.useForm()
     const [photo, setPhoto] = useState<string | null>(null)
     const [fetchOnUpdateUserData] = useGetUpdateUserDataMutation()
-    const { data } = useGetUserDataQuery()
-
-    useEffect(() => {
-        if (data) {
-            form.setFieldsValue({
-                displayName: data.displayName,
-                photoURL: data.photoURL
-            })
-            setPhoto(data.photoURL)
-        }
-    }, [data])
+    const { data: userData } = useGetUserDataQuery()
 
     const onFinish = useCallback(
         (values: TFieldType) => {
             if (
-                values.displayName === data.displayName &&
-                values.photoURL === data.photoURL
+                values.displayName === userData.displayName &&
+                values.photoURL === userData.photoURL
             ) {
                 openNotification.error({ description: 'Nothing has changed' })
                 return
@@ -46,7 +36,7 @@ const ProfileEdit = () => {
             const photoURL = isValidUrl ? photo : null
             fetchOnUpdateUserData({ displayName, photoURL })
         },
-        [data, photo]
+        [userData, photo]
     )
 
     const handleChangePhoto = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,11 +48,15 @@ const ProfileEdit = () => {
     return (
         <div className={s.container}>
             <div className={s.content}>
-                {data ? (
+                {userData ? (
                     <Form
                         name='sign-up'
                         className={s.form}
-                        initialValues={{ remember: true }}
+                        initialValues={{
+                            remember: true,
+                            displayName: userData.displayName,
+                            photoURL: userData.photoURL
+                        }}
                         onFinish={onFinish}
                         form={form}
                     >
@@ -102,13 +96,13 @@ const ProfileEdit = () => {
                                     <FileImageOutlined className='site-form-item-icon' />
                                 }
                                 placeholder='Photo URL'
-                                onBlur={handleChangePhoto}
+                                onChange={handleChangePhoto}
                             />
                         </Form.Item>
 
                         <div className={s.form__avatar}>
                             <Avatar
-                                src={photo}
+                                src={photo || userData.photoURL}
                                 shape='square'
                                 size={64}
                                 icon={<UserOutlined />}

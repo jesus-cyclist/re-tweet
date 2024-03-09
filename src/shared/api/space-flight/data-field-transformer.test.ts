@@ -9,7 +9,7 @@ describe('test data field converter function', () => {
     })
 
     test('test with valid response', () => {
-        const case_1 = {
+        const case_1: TArticleItemResponse = {
             id: 1,
             title: '2',
             url: '3',
@@ -21,7 +21,7 @@ describe('test data field converter function', () => {
             featured: false,
             launches: [],
             events: []
-        } as TArticleItemResponse
+        }
 
         const transformedData: TNews = SpaceFlightKeyConverter.news(case_1)
 

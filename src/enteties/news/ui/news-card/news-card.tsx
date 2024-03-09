@@ -1,6 +1,7 @@
+import { ClientRoutes, LinkUI, TNews, useAppSelector } from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
-import { ClientRoutes, LinkUI, TNews } from '@/shared'
 import { NewsReadStatus } from '../news-read-status'
+import { selectAccountIsAuth } from '@/features'
 import { useLocation } from 'react-router-dom'
 import { NewsImage } from '../news-image'
 import s from './news-card.module.scss'
@@ -19,13 +20,14 @@ export const NewsCard = (props: Props): JSX.Element => {
         data: { title, image, date, news, id },
         type
     } = props
+    const isAuth = useAppSelector(selectAccountIsAuth)
     const location = useLocation()
 
     switch (type) {
         case 'background':
             return (
                 <div className={s.card} data-test-id={'news-card'}>
-                    <NewsReadStatus id={id} />
+                    {isAuth && <NewsReadStatus id={id} />}
                     <NewsImage
                         image={image}
                         title={title}
@@ -57,7 +59,7 @@ export const NewsCard = (props: Props): JSX.Element => {
                     className={classNames(s.card, s.columnCard)}
                     data-test-id={'news-card'}
                 >
-                    <NewsReadStatus id={id} />
+                    {isAuth && <NewsReadStatus id={id} />}
                     <NewsImage
                         image={image}
                         title={title}

@@ -18,14 +18,12 @@ export const SearchList = React.memo(() => {
     const [isNextPageLoading, setIsNextPageLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [limit] = useState(40)
-    const [totalItemsCount, setTotalItemsCount] = useState(0)
-    const [hasNextPage, setHasNextPage] = useState(false)
-
     const [searchValue, setSearchValue] = useState<string>('')
     const [searchList, setSearchList] = useState<Array<TNews>>([])
     const [fetch, { data, isFetching }] = useLazyGetArticlesBySearchQuery()
 
     useEffect(() => {
+        //сайд еффект отрабатывающий при монтировании компонента
         const isSearchParams = searchParams.get('q')
 
         if (isSearchParams) {
@@ -60,15 +58,23 @@ export const SearchList = React.memo(() => {
         [setPage, setSearchValue]
     )
 
-    useEffect(() => {
+    const totalItemsCount = useMemo(() => {
         if (data) {
-            setTotalItemsCount(data.count)
+            return data.count
+        }
+        return 0
+    }, [data])
+
+    useEffect(() => {
+        //сайд эффект отрабатывающий при получении данных
+        if (data) {
             setSearchList(prev => [...prev, ...data.results])
             setIsNextPageLoading(false)
         }
     }, [data])
 
     useEffect(() => {
+        //используется здесь для синхронизации состояния компонента с внешней системой
         if (!searchValue) {
             setSearchList([])
         }
@@ -83,8 +89,8 @@ export const SearchList = React.memo(() => {
         setPage(prev => prev + 1)
     }, [setIsNextPageLoading, setPage])
 
-    useEffect(() => {
-        setHasNextPage(searchList.length < totalItemsCount)
+    const hasNextPage = useMemo(() => {
+        return searchList.length < totalItemsCount
     }, [searchList, totalItemsCount])
 
     const itemCount = hasNextPage ? searchList.length + 1 : searchList.length

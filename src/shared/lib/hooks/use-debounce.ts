@@ -9,6 +9,7 @@ export const useDebounce = <T>({ callback, delay }: TUseDebounce<T>) => {
     const timeoutRef = useRef(null)
 
     useEffect(() => {
+        //сайд эффект при монтировании
         return () => {
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current)

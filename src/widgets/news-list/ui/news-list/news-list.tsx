@@ -1,26 +1,22 @@
-import React, { Key, useCallback, useEffect, useMemo, useState } from 'react'
 import { LoaderUI, ScrollbarWrapper, useGetArticlesQuery } from '@/shared'
+import React, { Key, useCallback, useMemo, useState } from 'react'
 import { NewsBlock } from '../news-block/news-block'
 import { sliceResponseIntoParts } from '../../lib'
 import s from './news-list.module.scss'
-import type { TNews } from '@/shared'
 import { Pagination } from 'antd'
-
-type TNewList = Array<TNews>
 
 export const NewsList = React.memo(() => {
     const [page, setPage] = useState<number>(1)
     const [offset, setOffset] = useState(0)
-    const [list, setList] = useState<Array<TNewList>>([])
     const { data, isSuccess } = useGetArticlesQuery({
         limit: 9,
         offset
     })
 
-    useEffect(() => {
+    const list = useMemo(() => {
         if (data) {
             const flightApiResponseData = sliceResponseIntoParts(data.results)
-            setList(flightApiResponseData)
+            return flightApiResponseData
         }
     }, [data])
 

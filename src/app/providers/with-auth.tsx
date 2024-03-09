@@ -1,7 +1,7 @@
 import { useAppDispatch, useGetAuthStateQuery } from '@/shared'
 import { useEffect, useState } from 'react'
-import { accountAction } from '@/features'
 import { WithAntd } from './with-antd'
+import { onAuth } from '@/features'
 import { Flex, Spin } from 'antd'
 
 export const WithAuth = () => {
@@ -10,9 +10,10 @@ export const WithAuth = () => {
     const { data, isLoading } = useGetAuthStateQuery()
 
     useEffect(() => {
+        //жду завершения запроса на статус профиля, и синхронизирую будущий статус приложения с статусом из Firebase
         if (!isLoading) {
             if (data) {
-                dispatch(accountAction.setIsAuth())
+                dispatch(onAuth())
             }
             setCheckAuth(false)
         }
