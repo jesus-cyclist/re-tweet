@@ -6,7 +6,10 @@ import {
 import { TFavouriteResponseItem } from '@/shared'
 import { RootState } from '@/app'
 
-const statisticsAdapter = createEntityAdapter()
+const statisticsAdapter = createEntityAdapter({
+    selectId: (statistics: TFavouriteResponseItem) => statistics.data.id,
+    sortComparer: (a, b) => a.timestamp.localeCompare(b.timestamp)
+})
 
 const initialState = statisticsAdapter.getInitialState()
 
@@ -14,28 +17,11 @@ const statisticsSlice = createSlice({
     name: 'statistics',
     initialState,
     reducers: {
-        addRead: (state, action) => {
-            //добавляется при откыртии непрочитанной ранее новости. при инвалидации
-            //хэша метод setMany все равно добавит этот поставит, поставил его сюда для
-            //примера
-            statisticsAdapter.addOne(state, action.payload)
-        },
-
         addReadBefore: (
             state,
             action: PayloadAction<Array<TFavouriteResponseItem>>
         ) => {
-            //добавляется при получении ранее прочитанных новостей
-            const readed = action.payload
-            const normalizedRead = [
-                ...readed.map(item => {
-                    return {
-                        id: item.data.id,
-                        readed: { ...item }
-                    }
-                })
-            ]
-            statisticsAdapter.setMany(state, normalizedRead)
+            statisticsAdapter.setMany(state, action.payload)
         },
 
         clearRead: statisticsAdapter.removeAll

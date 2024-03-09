@@ -4,8 +4,8 @@ import {
     openNotification,
     useClickOutSide,
     useGetAuthStateQuery,
-    useGetToggledFavouriteMutation,
-    useLazyGetFavouritesQuery
+    useGetFavouritesQuery,
+    useGetToggledFavouriteMutation
 } from '@/shared'
 import {
     BookOutlined,
@@ -13,7 +13,7 @@ import {
     RetweetOutlined,
     SettingOutlined
 } from '@ant-design/icons'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import TelegramIcon from '@/shared/assets/svg/telegram.svg'
 import { CSSTransition } from 'react-transition-group'
 import s from './news-control-panel.module.scss'
@@ -33,19 +33,15 @@ export const NewsControlPanel = (
     const { newsData } = props
     const { data: telegramFeature } = useGetTgSharedQuery()
     const { data: userData } = useGetAuthStateQuery()
-    const [fetchFavourites, { data: favouriteData = [] }] =
-        useLazyGetFavouritesQuery()
+    const { data: favouriteData = [] } = useGetFavouritesQuery(userData?.uid, {
+        skip: !userData?.uid
+    })
+
     const [fetchToggleFavourite] = useGetToggledFavouriteMutation()
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
     const location = useLocation()
     const panelRef = useRef<HTMLUListElement | null>(null)
     const buttonRef = useRef<HTMLDivElement | null>(null)
-
-    useEffect(() => {
-        if (userData) {
-            fetchFavourites(userData?.uid)
-        }
-    }, [userData])
 
     const isFavourite = useMemo(() => {
         if (userData?.uid) {

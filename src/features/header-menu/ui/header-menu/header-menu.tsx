@@ -1,5 +1,5 @@
-import { accountAction, selectAccountIsAuth } from '@/features/authentication'
 import { ClientRoutes, useAppSelector, useGetSignOutMutation } from '@/shared'
+import { onUnAuth, selectAccountIsAuth } from '@/features/authentication'
 import { IFrameHandler } from '@/features/iframe-handler'
 import { ThemeHandler } from '@/features/theme-handler'
 import { memo, useMemo, useState } from 'react'
@@ -23,7 +23,7 @@ export const HeaderMenu = memo(() => {
 
     const handleSignOut = () => {
         fetchSignOut().then(() => {
-            dispatch(accountAction.setIsUnAuth())
+            dispatch(onUnAuth())
             dispatch(statisticsActions.clearRead())
         })
     }

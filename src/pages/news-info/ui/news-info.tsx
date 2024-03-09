@@ -3,7 +3,6 @@ import {
     LinkUI,
     LoaderUI,
     ScrollbarWrapper,
-    useAppDispatch,
     useAppSelector,
     useGetAddReadedStatusMutation,
     useGetArticlesByIdQuery,
@@ -13,7 +12,6 @@ import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { selectIsIframe } from '@/features/iframe-handler/model'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import { NewsControlPanel } from '@/features'
-import { statisticsActions } from '@/widgets'
 import { useParams } from 'react-router-dom'
 import s from './news-info.module.scss'
 import { useEffect } from 'react'
@@ -26,18 +24,11 @@ const NewsInfo = () => {
     const { data: newsApiData } = useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
-    const dispatch = useAppDispatch()
+
     const [fetchReaded] = useGetAddReadedStatusMutation()
 
     useEffect(() => {
-        if (newsApiData) {
-            dispatch(
-                statisticsActions.addRead({ id: newsApiData.id, newsApiData })
-            )
-        }
-    }, [newsApiData])
-
-    useEffect(() => {
+        //тут пост запрос,который мы ожидаем для выполнения действия после монтирования компонента на основе изменений newsApiData и userData
         if (newsApiData && userData) {
             fetchReaded({ userID: userData?.uid, data: newsApiData })
         }

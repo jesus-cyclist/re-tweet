@@ -12,5 +12,6 @@ export class ReadedService {
     static async getReaded(userID: TUserCredentialID) {
         const readed = await db.readed.getReaded(userID)
         console.log(readed)
+        return readed
     }
 }

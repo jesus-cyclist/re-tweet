@@ -12,11 +12,11 @@ const IFrameSlice = createSlice({
     name: 'iframe',
     initialState,
     reducers: {
-        setIFrame: (state, action) => {
+        onFrameToggled: (state, action) => {
             state.enable = action.payload
         }
     }
 })
 
-export const IFrameAction = IFrameSlice.actions
+export const { onFrameToggled } = IFrameSlice.actions
 export const IFrameReducer = IFrameSlice.reducer

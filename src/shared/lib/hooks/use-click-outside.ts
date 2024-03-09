@@ -13,6 +13,7 @@ export const useClickOutSide = ({ ref, cb }: TUseClickOutSide) => {
     }
 
     useEffect(() => {
+        //стандартная подписка на события и их размонтирование
         document.addEventListener('click', handleCLick)
 
         return () => {

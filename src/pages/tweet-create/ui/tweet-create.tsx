@@ -122,8 +122,8 @@ const TweetCreatePage = () => {
                                 tooltip={
                                     'Your post will be published anonymously...perhaps'
                                 }
-                                checked={isAnon}
-                                change={handleChangeCheck}
+                                isChecked={isAnon}
+                                onChange={handleChangeCheck}
                                 checkedNode={
                                     <div className={s.svg__check}>
                                         <Anonymous />

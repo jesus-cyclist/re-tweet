@@ -4,14 +4,20 @@ import { ReactNode } from 'react'
 
 type Props = {
     tooltip?: string
-    checked: boolean
-    change: () => void
+    isChecked: boolean
+    onChange: () => void
     checkedNode: ReactNode
     unCheckedNode: ReactNode
 }
 
 export const CheckUI = (props: Props): JSX.Element => {
-    const { checked, checkedNode, unCheckedNode, change, tooltip = '' } = props
+    const {
+        isChecked,
+        checkedNode,
+        unCheckedNode,
+        onChange,
+        tooltip = ''
+    } = props
 
     return (
         <div className={s.check}>
@@ -21,8 +27,8 @@ export const CheckUI = (props: Props): JSX.Element => {
                 arrow={false}
                 trigger={'hover'}
             >
-                <Checkbox checked={checked} onChange={change}>
-                    {checked ? checkedNode : unCheckedNode}
+                <Checkbox checked={isChecked} onChange={onChange}>
+                    {isChecked ? checkedNode : unCheckedNode}
                 </Checkbox>
             </Tooltip>
         </div>

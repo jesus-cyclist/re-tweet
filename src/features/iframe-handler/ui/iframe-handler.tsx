@@ -1,15 +1,11 @@
-import { useAppDispatch, useAppSelector, useIframeState } from '@/shared'
-import { IFrameAction, selectIsIframe } from '../model'
 import s from './iframe-handler.module.scss'
+import { useIframeState } from '../lib'
 
 export const IFrameHandler = () => {
-    const isIFrameEnabled = useAppSelector(selectIsIframe)
-    const { isIframeEnabled, toggleIframe } = useIframeState()
-    const dispatch = useAppDispatch()
+    const { isIframeEnabled, onToggleFrame } = useIframeState()
 
     const handleToggleIframe = () => {
-        dispatch(IFrameAction.setIFrame(!isIFrameEnabled))
-        toggleIframe()
+        onToggleFrame()
     }
 
     return (

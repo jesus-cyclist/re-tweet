@@ -1,7 +1,7 @@
 import {
     useAppDispatch,
     useGetAuthStateQuery,
-    useLazyGetReadedQuery
+    useGetReadedQuery
 } from '@/shared'
 import { FieldTimeOutlined } from '@ant-design/icons'
 import s from './news-read-status.module.scss'
@@ -16,16 +16,17 @@ type Props = {
 export const NewsReadStatus = (props: Props): JSX.Element => {
     const { id } = props
     const { data: userData } = useGetAuthStateQuery()
-    const [fetchReaded, { data: readedData = [] }] = useLazyGetReadedQuery()
+    const { data: readedData = [] } = useGetReadedQuery(userData?.uid, {
+        skip: !userData?.uid
+    })
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (userData) {
-            fetchReaded(userData?.uid).then(res =>
-                dispatch(statisticsActions.addReadBefore(res.data))
-            )
+        //используется, чтобы добавить данные о прочитанных записях в статистику, когда они становятся доступны
+        if (readedData) {
+            dispatch(statisticsActions.addReadBefore(readedData))
         }
-    }, [userData])
+    }, [readedData])
 
     const isReaded = useMemo(() => {
         return readedData.some(d => d.data.id === id)

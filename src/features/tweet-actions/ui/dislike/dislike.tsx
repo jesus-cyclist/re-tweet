@@ -18,6 +18,7 @@ export const Dislike = (props: TProps) => {
     const { data: userData } = useGetAuthStateQuery()
     const { data: reactionStats = [] } = useGetReactionQuery()
     const [fetchDislike] = useGetDislikeTweetMutation()
+
     const handleGetDislike = useCallback(() => {
         if (!userData?.uid) {
             openNotification.error({
