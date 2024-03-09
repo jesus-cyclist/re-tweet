@@ -43,15 +43,16 @@
   - test performance на unlighthouse
 - [x] Feature Flags [1](https://github.com/jesus-cyclist/re-tweet/blob/main/server/index.mjs) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/server/index.mjs)
 - [x] Тесты [1](https://github.com/jesus-cyclist/re-tweet/blob/main/cypress/e2e/favourite-action.cy.ts) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/cypress/e2e/search-information.cy.ts) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/lib/hooks/use-debounce.test.tsx) [4](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/space-flight/data-field-transformer.test.ts)
-- [x] Связь UI и бизнес-логики построена через события. [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/ui/signin-form/signin-form.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/search-list/ui/search-list/search-list.tsx)
+- [x] Связь UI и бизнес-логики построена через события. [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/ui/signin-form/signin-form.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/UI/check/check.tsx) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/iframe-handler/ui/iframe-handler.tsx)
   - SigninForm:
-    - Обработчик onFinish вызывается при успешной отправке формы, что инициирует событие аутентификации пользователя.
+    - Обработчик onFinish вызывается при успешной отправке формы, и инициирует событие onSignIn и dispatch onAuth, логику событий, а также какую либо информацию об этих событиях данный компонент не получает.
     - Никаких прямых вызовов API или инфраструктуры в UI компонентах нет.
-    - Взаимодействие с Redux через диспетчер dispatch позволяет обновлять состояние приложения после события.
-  - SearchList:
-    - Изменения значения поиска в поле ввода (handleSearchChange) порождают событие изменения, которое триггерит отправку запроса на сервер.
-    - Запрос на сервер происходит с задержкой (debouncing), что уменьшает количество запросов и повышает производительность.
-    - Загрузка следующей страницы результатов (loadNextPage) является результатом действия пользователя и не знает о последующих операциях.
+  - CheckUI:
+    - Изменения значения чекбокса порождают событие onChange и порождают вызов коллбэка о котором данный UI компонент не знает.
+    - Регирует на события извне псоредством передаваемых пропсов.
+  - IFrameHandler:
+    - Порождает событие onToggleFrame о котором данный UI компонент не знает.
+    - Регирует на isIframeEnabled который получает извне.
 - [x] [Project Console API](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/console/middleware.ts)
 
 
