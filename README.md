@@ -34,7 +34,7 @@
 - [x] [Низкая связанность клиентского кода](https://github.com/jesus-cyclist/re-tweet/blob/main/src/shared/api/db/provider/provider-switcher.ts)
 - [x] [Настроен CI/CD](https://github.com/jesus-cyclist/re-tweet/blob/main/.github/workflows/actions.yml)
 - [x] [Реализована виртуализация списков](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/search-list/ui/list/list.tsx)
-- [x] [Используются мемоизированные селекторы](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/footer/model/store.ts)
+- [x] [Используются мемоизированные селекторы](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/authentication/model/selectors.ts)
 - [x] [Используется нормализованная структура стейта](https://github.com/jesus-cyclist/re-tweet/blob/main/src/widgets/footer/model/store.ts) 
 - [x] Проведена оптимизация приложения
   - использование memo, useMemo, useCallback для мемоизации [1](https://github.com/jesus-cyclist/re-tweet/blob/main/src/pages/main/ui/main-page.tsx) [2](https://github.com/jesus-cyclist/re-tweet/blob/main/src/features/header-menu/ui/header-menu/header-menu.tsx) [3](https://github.com/jesus-cyclist/re-tweet/blob/main/src/app/providers/with-theme.tsx)
