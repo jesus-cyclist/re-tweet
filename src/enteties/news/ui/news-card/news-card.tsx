@@ -1,12 +1,19 @@
-import { ClientRoutes, LinkUI, TNews, useAppSelector } from '@/shared'
+import {
+    ClientRoutes,
+    LinkUI,
+    TNews,
+    useAppSelector,
+    useGetAddReadedStatusMutation,
+    useGetAuthStateQuery
+} from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { NewsReadStatus } from '../news-read-status'
 import { selectAccountIsAuth } from '@/features'
 import { useLocation } from 'react-router-dom'
+import { ReactNode, useCallback } from 'react'
 import { NewsImage } from '../news-image'
 import s from './news-card.module.scss'
 import classNames from 'classnames'
-import { ReactNode } from 'react'
 
 type Props = {
     data: TNews
@@ -22,6 +29,12 @@ export const NewsCard = (props: Props): JSX.Element => {
     } = props
     const isAuth = useAppSelector(selectAccountIsAuth)
     const location = useLocation()
+    const { data: userData } = useGetAuthStateQuery()
+    const [fetchReaded] = useGetAddReadedStatusMutation()
+
+    const handleOnOpenNews = useCallback(() => {
+        fetchReaded({ userID: userData?.uid, data: props.data })
+    }, [userData, props.data])
 
     switch (type) {
         case 'background':
@@ -38,6 +51,7 @@ export const NewsCard = (props: Props): JSX.Element => {
                             className={s.card__news}
                             to={`${ClientRoutes.NEWS_PATH}:${id}`}
                             state={{ news: location.pathname }}
+                            onClick={handleOnOpenNews}
                         >
                             {news}
                         </LinkUI>
@@ -70,6 +84,7 @@ export const NewsCard = (props: Props): JSX.Element => {
                             className={s.card__news}
                             to={`${ClientRoutes.NEWS_PATH}:${id}`}
                             state={{ news: location.pathname }}
+                            onClick={handleOnOpenNews}
                         >
                             {news}
                         </LinkUI>
@@ -101,6 +116,7 @@ export const NewsCard = (props: Props): JSX.Element => {
                             className={s.card__news}
                             to={`${ClientRoutes.NEWS_PATH}:${id}`}
                             state={{ news: location.pathname }}
+                            onClick={handleOnOpenNews}
                         >
                             {news}
                         </LinkUI>

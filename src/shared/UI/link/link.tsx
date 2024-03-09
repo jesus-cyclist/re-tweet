@@ -9,6 +9,7 @@ type Props = {
     stopDefault?: boolean
     target?: HTMLAttributeAnchorTarget | undefined
     state?: Record<string, string>
+    onClick?: () => void
 }
 
 export const LinkUI = (props: Props): JSX.Element => {
@@ -18,13 +19,15 @@ export const LinkUI = (props: Props): JSX.Element => {
         state,
         className,
         stopDefault = true,
-        target = undefined
+        target = undefined,
+        onClick
     } = props
 
     const handleLinkClick = useMemo(
         () => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
             if (stopDefault && window.location.pathname === to) {
                 e.preventDefault()
+                onClick()
             }
         },
         [to, stopDefault]
