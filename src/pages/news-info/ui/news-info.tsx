@@ -4,9 +4,7 @@ import {
     LoaderUI,
     ScrollbarWrapper,
     useAppSelector,
-    useGetAddReadedStatusMutation,
-    useGetArticlesByIdQuery,
-    useGetAuthStateQuery
+    useGetArticlesByIdQuery
 } from '@/shared'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { selectIsIframe } from '@/features/iframe-handler/model'
@@ -14,25 +12,14 @@ import { converDateIsoToSince } from '@/shared/lib/converDate'
 import { NewsControlPanel } from '@/features'
 import { useParams } from 'react-router-dom'
 import s from './news-info.module.scss'
-import { useEffect } from 'react'
 import { Image } from 'antd'
 
 const NewsInfo = () => {
     const params = useParams()
     const isIFrameEnable = useAppSelector(selectIsIframe)
-    const { data: userData } = useGetAuthStateQuery()
     const { data: newsApiData } = useGetArticlesByIdQuery({
         id: parseInt(params.id.slice(1))
     })
-
-    const [fetchReaded] = useGetAddReadedStatusMutation()
-
-    useEffect(() => {
-        //тут пост запрос,который мы ожидаем для выполнения действия после монтирования компонента на основе изменений newsApiData и userData
-        if (newsApiData && userData) {
-            fetchReaded({ userID: userData?.uid, data: newsApiData })
-        }
-    }, [newsApiData, userData])
 
     return (
         <div className={s.container}>
