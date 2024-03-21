@@ -218,5 +218,19 @@ export const tweet = {
         } catch (error) {
             openNotification.error({ description: error.message })
         }
+    },
+
+    getSendComment: async (): Promise<TSuccessResponse> => {
+        try {
+            return { success: true }
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
+    },
+
+    getComments: async (): Promise<
+        Array<Pick<TUserTweetResponseItem, 'comments' | 'id'>>
+    > => {
+        return []
     }
 }

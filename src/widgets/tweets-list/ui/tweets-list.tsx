@@ -4,11 +4,12 @@ import {
     useGetTweetsQuery,
     useSortedByDate
 } from '@/shared'
-import { Comments, Dislike, FilterList, Like } from '@/features'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import React, { useCallback, useMemo, useState } from 'react'
 import SortIcon from '@/shared/assets/svg/sort-az.svg'
+import { TweetComments } from '@/features'
 import s from './tweets-list.module.scss'
+import { FilterList } from '@/features'
 import { Tweet } from '@/enteties'
 
 export const TweetsList = React.memo(() => {
@@ -59,17 +60,10 @@ export const TweetsList = React.memo(() => {
                                         key={tweet.id}
                                         tweet={updatedTweet}
                                         loading={isFetching}
-                                        actions={[
-                                            <Like
-                                                key={tweet.id}
-                                                tweetID={tweet.id}
-                                            />,
-                                            <Dislike
-                                                key={tweet.id}
-                                                tweetID={tweet.id}
-                                            />,
-                                            <Comments key={tweet.id} />
-                                        ]}
+                                        tweetID={tweet.id}
+                                        comments={
+                                            <TweetComments tweetID={tweet.id} />
+                                        }
                                     />
                                 )
                             })}

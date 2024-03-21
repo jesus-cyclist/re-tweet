@@ -31,7 +31,12 @@ export const NewsControlPanel = (
     props: TNewsControlPanelProps
 ): JSX.Element => {
     const { newsData } = props
-    const { data: telegramFeature } = useGetTgSharedQuery()
+    //mock
+    const {
+        data: telegramFeature = {
+            isTelegramShareEnabled: true
+        }
+    } = useGetTgSharedQuery()
     const { data: userData } = useGetAuthStateQuery()
     const { data: favouriteData = [] } = useGetFavouritesQuery(userData?.uid, {
         skip: !userData?.uid

@@ -23,7 +23,6 @@ export const SearchList = React.memo(() => {
     const [fetch, { data, isFetching }] = useLazyGetArticlesBySearchQuery()
 
     useEffect(() => {
-        //сайд еффект отрабатывающий при монтировании компонента
         const isSearchParams = searchParams.get('q')
 
         if (isSearchParams) {
@@ -66,7 +65,6 @@ export const SearchList = React.memo(() => {
     }, [data])
 
     useEffect(() => {
-        //сайд эффект отрабатывающий при получении данных
         if (data) {
             setSearchList(prev => [...prev, ...data.results])
             setIsNextPageLoading(false)
@@ -74,7 +72,6 @@ export const SearchList = React.memo(() => {
     }, [data])
 
     useEffect(() => {
-        //используется здесь для синхронизации состояния компонента с внешней системой
         if (!searchValue) {
             setSearchList([])
         }

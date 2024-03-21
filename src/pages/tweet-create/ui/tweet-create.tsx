@@ -1,5 +1,6 @@
 import {
     CheckUI,
+    ClientRoutes,
     LinkUI,
     LoaderUI,
     ScrollbarWrapper,
@@ -8,11 +9,11 @@ import {
     useGetAuthStateQuery,
     useGetPostTweetMutation
 } from '@/shared'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ImageFallback from '@/shared/assets/image/image_fallback.png'
 import { converDateIsoToSince } from '@/shared/lib/converDate'
 import NotAnonymous from '@/shared/assets/svg/not-anon.svg'
 import Anonymous from '@/shared/assets/svg/anonymous.svg'
+import { useNavigate, useParams } from 'react-router-dom'
 import TextArea from 'antd/es/input/TextArea'
 import { ChangeEvent, useState } from 'react'
 import s from './tweet-create.module.scss'
@@ -20,8 +21,6 @@ import { Button, Image } from 'antd'
 
 const TweetCreatePage = () => {
     const navigate = useNavigate()
-    const location = useLocation()
-    const state = location.state
     const [textAreaValue, setTextAreaValue] = useState('')
     const [isAnon, setIsAnon] = useState(true)
     const params = useParams()
@@ -53,7 +52,7 @@ const TweetCreatePage = () => {
             tweetedPost: newsApiData,
             tweetMessage: textAreaValue,
             hashtags: []
-        }).then(() => navigate(state.from || -1))
+        }).then(() => navigate(ClientRoutes.TWEETS_PATH))
     }
 
     return (

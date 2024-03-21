@@ -1,6 +1,5 @@
 import { HTMLAttributeAnchorTarget, ReactNode, useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 type Props = {
     className?: string
@@ -20,14 +19,14 @@ export const LinkUI = (props: Props): JSX.Element => {
         className,
         stopDefault = true,
         target = undefined,
-        onClick
+        onClick = () => {}
     } = props
 
     const handleLinkClick = useMemo(
         () => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+            onClick()
             if (stopDefault && window.location.pathname === to) {
                 e.preventDefault()
-                onClick()
             }
         },
         [to, stopDefault]
@@ -44,16 +43,4 @@ export const LinkUI = (props: Props): JSX.Element => {
             {children}
         </NavLink>
     )
-}
-
-LinkUI.propsTypes = {
-    className: PropTypes.string,
-    to: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired,
-    stopDefault: PropTypes.bool,
-    target: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.oneOf([undefined])
-    ]),
-    state: PropTypes.object
 }

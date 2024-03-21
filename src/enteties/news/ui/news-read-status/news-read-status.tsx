@@ -22,7 +22,6 @@ export const NewsReadStatus = (props: Props): JSX.Element => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        //используется, чтобы добавить данные о прочитанных записях в статистику, когда они становятся доступны
         if (readedData) {
             dispatch(statisticsActions.addReadBefore(readedData))
         }
