@@ -16,6 +16,7 @@ import {
     TUserTweetResponseItem
 } from '..'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
+import { TCredentialCommentTweet } from './types/tweet'
 import { openNotification } from '@/shared/lib'
 import { db } from './provider'
 
@@ -28,7 +29,8 @@ export const dbApi = createApi({
         'auth',
         'read',
         'tweet',
-        'tweet-reaction'
+        'tweet-reaction',
+        'tweet-comments'
     ],
     endpoints: builder => ({
         getSignUp: builder.mutation<TAuthUser, TUserCredential>({
@@ -323,7 +325,7 @@ export const dbApi = createApi({
             invalidatesTags: ['tweet-reaction']
         }),
         getReaction: builder.query<
-            Array<Pick<TUserTweetResponseItem, 'comments' | 'reaction' | 'id'>>,
+            Array<Pick<TUserTweetResponseItem, 'reaction' | 'id'>>,
             void
         >({
             queryFn: async () => {
@@ -335,6 +337,39 @@ export const dbApi = createApi({
                 }
             },
             providesTags: ['tweet-reaction']
+        }),
+
+        getComments: builder.query<
+            Array<Pick<TUserTweetResponseItem, 'comments' | 'id'>>,
+            void
+        >({
+            queryFn: async () => {
+                try {
+                    const res = await db.tweet.getComments()
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            providesTags: ['tweet-comments']
+        }),
+
+        getSendComment: builder.mutation<
+            TSuccessResponse,
+            TCredentialCommentTweet
+        >({
+            queryFn: async ({ tweetID, data }) => {
+                try {
+                    const res = await db.tweet.getSendComment({
+                        tweetID,
+                        data
+                    })
+                    return { data: res }
+                } catch (error) {
+                    openNotification.error({ description: error.message })
+                }
+            },
+            invalidatesTags: ['tweet-comments']
         })
     })
 })
@@ -365,5 +400,8 @@ export const {
     useGetSignInMutation,
     useGetSignOutMutation,
     useGetSignUpMutation,
-    useGetUpdateUserDataMutation
+    useGetUpdateUserDataMutation,
+    useGetCommentsQuery,
+    useLazyGetCommentsQuery,
+    useGetSendCommentMutation
 } = dbApi

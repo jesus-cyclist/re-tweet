@@ -14,6 +14,7 @@ import {
     TUserTweetResponseItem
 } from '..'
 import { TAuthUser, TSuccessResponse } from '../types/arg'
+import { TCredentialCommentTweet } from './tweet'
 
 type TAuthMethods = {
     signUp: (authData: TUserCredential) => Promise<TAuthUser>
@@ -83,8 +84,15 @@ type TTweetMethods = {
         Array<Omit<TUserTweetResponseItem, 'comments' | 'reaction'>>
     >
     getReaction: () => Promise<
-        Array<Pick<TUserTweetResponseItem, 'comments' | 'reaction' | 'id'>>
+        Array<Pick<TUserTweetResponseItem, 'reaction' | 'id'>>
     >
+    getComments: () => Promise<
+        Array<Pick<TUserTweetResponseItem, 'comments' | 'id'>>
+    >
+    getSendComment: ({
+        tweetID,
+        data
+    }: TCredentialCommentTweet) => Promise<TSuccessResponse>
 }
 
 export type TDBMethods = {

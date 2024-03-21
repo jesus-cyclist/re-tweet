@@ -4,6 +4,9 @@
     height: 500px;
     min-height: 500px;
     max-height: 500px;
+    position: relative;
+    overflow: hidden;
+
     .card__reaction {
         display: flex;
         justify-content: center;
@@ -52,7 +55,7 @@
         grid-gap: 0.5rem;
 
         @include tablet {
-            grid-template-columns: 60% 40%;
+            grid-template-columns: calc(60% - 0.5rem) 40%;
             grid-template-rows: auto;
         }
 

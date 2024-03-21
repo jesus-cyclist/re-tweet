@@ -14,6 +14,11 @@ export type TCredentialLikeTweet = {
     tweetID: TTweetCredentialID
 }
 
+export type TCredentialCommentTweet = {
+    tweetID: TTweetCredentialID
+    data: Omit<TTweetComment, 'timestamp'>
+}
+
 export type TLikes = {
     count: number
     users: Array<TUserCredentialID>

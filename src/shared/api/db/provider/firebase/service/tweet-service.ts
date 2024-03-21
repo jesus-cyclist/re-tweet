@@ -15,6 +15,7 @@ import {
     getDocs,
     updateDoc
 } from 'firebase/firestore'
+import { TCredentialCommentTweet } from '../../../types/tweet'
 
 export const tweet = {
     postTweet: async function ({
@@ -187,7 +188,7 @@ export const tweet = {
     },
 
     getReaction: async (): Promise<
-        Array<Pick<TUserTweetResponseItem, 'comments' | 'reaction' | 'id'>>
+        Array<Pick<TUserTweetResponseItem, 'reaction' | 'id'>>
     > => {
         try {
             const collectionRef = collection(firestoreDB, 'tweets')
@@ -201,6 +202,57 @@ export const tweet = {
             })
 
             return reaction || []
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
+    },
+
+    getSendComment: async ({
+        tweetID,
+        data
+    }: TCredentialCommentTweet): Promise<TSuccessResponse> => {
+        try {
+            const tweetRef = doc(firestoreDB, 'tweets', tweetID)
+            const tweetDoc = await getDoc(tweetRef)
+
+            if (!tweetDoc.exists()) {
+                openNotification.error({
+                    description: 'Something get wrong, comment broken'
+                })
+                return
+            }
+
+            const comments = (await getDoc(tweetRef)).data().comments
+
+            const timestamp = new Date().toISOString()
+
+            const updatedComments = [...comments, { ...data, timestamp }]
+
+            await updateDoc(tweetRef, {
+                comments: updatedComments
+            })
+
+            return { success: true }
+        } catch (error) {
+            openNotification.error({ description: error.message })
+        }
+    },
+
+    getComments: async (): Promise<
+        Array<Pick<TUserTweetResponseItem, 'comments' | 'id'>>
+    > => {
+        try {
+            const collectionRef = collection(firestoreDB, 'tweets')
+            const tweetsDoc = (await getDocs(collectionRef)).docs
+            const comments = tweetsDoc.map(doc => {
+                const data = doc.data()
+                return {
+                    id: doc.id,
+                    comments: data.comments
+                }
+            })
+
+            return comments || []
         } catch (error) {
             openNotification.error({ description: error.message })
         }
