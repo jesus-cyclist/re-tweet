@@ -33,7 +33,9 @@ export const NewsCard = (props: Props): JSX.Element => {
     const [fetchReaded] = useGetAddReadedStatusMutation()
 
     const handleOnOpenNews = useCallback(() => {
-        fetchReaded({ userID: userData?.uid, data: props.data })
+        if (userData) {
+            fetchReaded({ userID: userData?.uid, data: props.data })
+        }
     }, [userData, props.data])
 
     switch (type) {
